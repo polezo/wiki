@@ -4,6 +4,7 @@ These lists are composed of projects that publicly announced their interest in u
 
 + [Augur](https://augur.stackexchange.com/questions/313/connection-between-0x-and-augur)
 + [Aragon](https://blog.aragon.one/aragon-partners-with-0x-3c8d0c9dcd84?gi=b168d6992669)
++ [Blocknet](https://blocknet.co/)
 + [ChronoBank](https://blog.chronobank.io/chronobank-partner-with-0x-decentralised-exchange-protocol-80bfd4db6101)
 + [District0x](https://blog.district0x.io/payments-powered-by-0x-project-d291bb2e1ba0)
 + [Ethix](http://ethix.network/)
