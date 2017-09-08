@@ -2,6 +2,8 @@ When instantiating a [new instance of the 0x.js library](https://0xproject.com/d
 
 A provider can be any module or class instance that implements the `sendAsync` method (simply `send` in web3 V1.0 Beta). That's it. What this `sendAsync` method does is take JSON RPC payload requests and handles them properly.
 
+**Note:** 0x.js V0.12.0 and below do not support Web3 V1.0-Beta providers.
+
 The simplest example of a provider is:
 
 ```ts
