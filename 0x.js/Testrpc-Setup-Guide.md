@@ -9,7 +9,7 @@ npm install -g ethereumjs-testrpc
 In order to run TestRPC with all the latest 0x protocol smart contracts available, you must first download [this TestRPC snapshot](https://s3.amazonaws.com/testrpc-shapshots/35053f9.zip) and save it. Next unzip it's contents with:
 
 ```bash
-unzip 35053f9.zip -d 0x_testrpc_snapshot
+unzip ./35053f9.zip -d ./0x_testrpc_snapshot
 ```
 
 You can now start TestRPC as follows:
@@ -18,9 +18,11 @@ You can now start TestRPC as follows:
 testrpc \
 --networkId 50 \
 -p 8545 \
---db 0x_testrpc_snapshot \
+--db ./0x_testrpc_snapshot \
 -m "concert load couple harbor equip island argue ramp clarify fence smart topic"
 ```
+
+**Note:** The `--db` flag expects the filepath to where the DB snapshot folder is located on your machine.
 
 Since we started TestRPC on port 8545, we can pass ZeroEx the following provider during instantiation:
 
