@@ -1,4 +1,3 @@
-### Open Orderbook
 This is the simplest and most obvious strategy a relayer can use. The relayer accepts and broadcasts orders where the `taker` field is equal to `0x0000000000000000000000000000000000000000`. Any trader with access to all of an order's parameters is able to fill the order by signing a transaction locally and sending it to an Ethereum node.
 
 ##### Example

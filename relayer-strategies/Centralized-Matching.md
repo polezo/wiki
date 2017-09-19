@@ -1,4 +1,3 @@
-### Centralized Matching
 A relayer may chose to accept and broadcast orders where the `taker` field is equal to an address controlled by the relayer. When the relayer receives two orders on opposite sides of the market with overlapping prices, the relayer can call `batchFillOrders` or `batchFillOrKillOrders` to atomically match both orders.
 
 ##### Example

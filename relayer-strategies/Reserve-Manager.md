@@ -1,5 +1,4 @@
-### Reserve Manager
-A relayer can provide its own liquidity by frequently posting large orders with short expiration times where the `taker` field is equal to `0x0000000000000000000000000000000000000000`. This can be used separately from or in conjunction with the [open orderbook](./Open-Orderbook.md) strategy.
+A relayer can provide its own liquidity by frequently posting large orders with short expiration times where the `taker` field is equal to `0x0000000000000000000000000000000000000000`. This can be used separately from or in conjunction with the [open orderbook](https://github.com/0xProject/wiki/blob/master/relayer-strategies/Open-Orderbook.md) strategy.
 
 ##### Example
 Relayer Alice broadcasts orderA to sell 100 WETH in exchange for 100000 ZRX that expires in 45 seconds. Bob calls `fillOrder(orderA, 1000)`, exchanging his 1000 ZRX for Alice's 1 WETH. Charlie calls `fillOrder(orderA, 2000)`, exchanging his 2000 ZRX for Alice's 2 WETH.
