@@ -7,6 +7,7 @@ These lists are composed of projects that publicly announced their interest in u
 + [Blocknet](https://blocknet.co/)
 + [ChronoBank](https://blog.chronobank.io/chronobank-partner-with-0x-decentralised-exchange-protocol-80bfd4db6101)
 + [District0x](https://blog.district0x.io/payments-powered-by-0x-project-d291bb2e1ba0)
++ [dxdy](https://medium.com/dydxderivatives/introducing-dydx-2d0f0f326fd)
 + [Dharma](https://dharma.io/whitepaper/#future-work)
 + [Ethix](http://ethix.network/)
 + [Lendroid](https://blog.lendroid.com/lendroid-%C3%B8x-decentralized-lending-and-margin-trading-for-erc20-tokens-6145a6116dd6?gi=764b35ca3c69)
