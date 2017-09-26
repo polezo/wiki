@@ -3,6 +3,7 @@ These lists are composed of projects that publicly announced their interest in u
 ### List of dApps that will be (or are) using the 0x protocol
 
 + [Aragon](https://blog.aragon.one/aragon-partners-with-0x-3c8d0c9dcd84?gi=b168d6992669)
++ [Auctus](https://medium.com/auctus/auctus-announces-0x-protocol-integration-e0f842e247d6)
 + [Augur](https://augur.stackexchange.com/questions/313/connection-between-0x-and-augur)
 + [Blocknet](https://blocknet.co/)
 + [ChronoBank](https://blog.chronobank.io/chronobank-partner-with-0x-decentralised-exchange-protocol-80bfd4db6101)
