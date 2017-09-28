@@ -7,7 +7,7 @@ In order to avoid having unfillable orders on their orderbooks, relayers must co
 
 0x.js provides the method [validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0xjs#validateOrderFillableOrThrowAsync) for validating if an order is still fillable.
 
-```ts
+```javascript
 await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 ```
 
@@ -19,7 +19,7 @@ Alice create a valid 0x order to sell 10 WETH tokens. Later in the day, she uses
 
 If a relayer wanted to keep Alice's order on their order book, they would need to pass an optional param to the above call:
 
-```ts
+```javascript
 const remainingAliceBalance = ZeroEx.toBaseUnitAmount(new BigNumber(8), 18);
 const opts = {
     expectedFillTakerTokenAmount: remainingAliceBalance,
