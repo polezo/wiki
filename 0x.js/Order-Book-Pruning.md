@@ -3,7 +3,7 @@ The most important function of any relayer is the effective maintenance of their
 - The order becoming expired/cancelled/filled
 - The order maker changing their allowance/balance associated with the order.
 
-In order to avoid having unfillable orders on their orderbooks, relayers must continually monitor their orderbooks and remove orders if they become unfillable.
+In order to avoid having unfillable orders on their orderbooks, relayers must continually monitor their orderbooks and remove orders if they become unfillable. This is especially important for relayers using the [open orderbook strategy](https://0xproject.com/wiki#Open-Orderbook) but applies to all relayers.
 
 0x.js provides the method [validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0xjs#validateOrderFillableOrThrowAsync) for validating if an order is still fillable.
 
