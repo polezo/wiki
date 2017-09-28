@@ -15,7 +15,7 @@ This method throws if the entirety of the remaining fillAmount of the order is n
 
 ##### Example of partially fillable order
 
-Alice create a valid 0x order to sell 10 WETH tokens. Later in the day, she uses the same account specified as the order maker to send a friend 2 WETH. She now only have 8 WETH remaining in her account. If the relayer validates her order, it will throw as it is no longer possible for someone to buy 10 WETH from her order. Someone could still fill it for up to 8 WETH however.
+Alice create a valid 0x order to sell 10 WETH tokens. Later in the day, she uses the same account specified as the order maker to send a friend 2 WETH. She now only has 8 WETH remaining in her account. If the relayer validates her order, it will throw as it is no longer possible for someone to buy 10 WETH using her order. Someone could still fill it for up to 8 WETH however.
 
 If a relayer wanted to keep Alice's order on their order book, they would need to pass an optional param to the above call:
 
@@ -29,4 +29,4 @@ await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder, opts);
 
 The relayer could fetch the makers balance & allowance and pass the amount still available to the validation method. This way, as long as the order could be filled up to 8 WETH, it will still be considered valid.
 
-Handling these types of edge-cases however requires additional UI/UX work for the relayer since they will need to show traders the fillable amount of an order and should only let them attempt to fill up to the remaining fillable amount. The easiest solution is to simply remove orders that are not fillable in their entirety from the orderbook. It is up to each relayer to decide how they wish to prune their orderbook.
+Handling these types of edge-cases however requires additional UI/UX work on behalf of the relayer since they will need to show traders the fillable amount of an order and should only let them attempt to fill up to the remaining fillable amount. The easiest solution is to simply remove orders that are not fillable in their entirety from the orderbook. It is up to each relayer to decide how they wish to prune their orderbook!
