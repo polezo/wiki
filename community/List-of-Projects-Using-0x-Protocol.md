@@ -24,3 +24,4 @@ These lists are composed of projects that publicly announced their interest in u
 + [KinAlpha](https://medium.com/@KinAlpha/5b40f8b52589)
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
++ [Paradex](https://paradex.io/)
