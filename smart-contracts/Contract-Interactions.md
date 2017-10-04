@@ -2,7 +2,9 @@ The diagrams provided below demonstrate the interactions that occur between the 
 
 ### Trade Execution (excl. fees)
 
-<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" height="350" />
+<div align="center">
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" height="330" />
+</div>
 
 Transaction #1
 1. `Exchange.fillOrder(order, value)`
@@ -18,7 +20,9 @@ Transaction #1
 
 ### Upgrading the Exchange Contract
 
-<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_exchange.png" height="350" style="padding-bottom: 20px; padding-top: 20px" />
+<div align="center">
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_exchange.png" height="350" style="padding-bottom: 20px; padding-top: 20px" />
+</div>
 
 Transaction #1
 
@@ -43,7 +47,8 @@ Transaction #5
 
 ### Upgrading the Governance Contract
 
-<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_governance.png" height="350" style="padding-bottom: 20px; padding-top: 20px;" />
+<div align="center">
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_governance.png" height="350" style="padding-bottom: 20px; padding-top: 20px;" />
 </div>
 
 Transaction #1
