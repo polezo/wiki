@@ -1,6 +1,6 @@
 The diagrams provided below demonstrate the interactions that occur between the various 0x smart contracts when executing trades or when upgrading exchange or governance logic. Arrows represent external function calls between Ethereum accounts (circles) or smart contracts (rectangles): arrows are directed from the caller to the callee.
 
-#### Trade Execution (excl. fees)
+### Trade Execution (excl. fees)
 
 <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" height="350" />
 
@@ -16,7 +16,7 @@ Transaction #1
 9. TokenTransferProxy: (bool response)
 10. Exchange: (bool response)
 
-#### Upgrading the Exchange Contract
+### Upgrading the Exchange Contract
 
 <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_exchange.png" height="350" style="padding-bottom: 20px; padding-top: 20px" />
 
@@ -41,7 +41,7 @@ Transaction #5
 
 6. `TokenTransferProxy.transferFrom(token, from, to, value)` ✅
 
-#### Upgrading the Governance Contract
+### Upgrading the Governance Contract
 
 <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_governance.png" height="350" style="padding-bottom: 20px; padding-top: 20px;" />
 </div>
