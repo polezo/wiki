@@ -2,7 +2,7 @@ The diagrams provided below demonstrate the interactions that occur between the 
 
 #### Trade Execution (excl. fees)
 
-<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" />
+<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" height="350" />
 
 Transaction #1
 1. `Exchange.fillOrder(order, value)`
