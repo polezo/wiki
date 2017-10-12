@@ -96,7 +96,7 @@ const txHashWETH = await zeroEx.etherToken.depositAsync(ethToConvert, takerAddre
 await zeroEx.awaitTransactionMinedAsync(txHashWETH)
 ```
 
-At this point, it might be worth mentionning why we are using the `await` identifier so often. Well, considering that outside of testrpc, transactions take time to be confirmed and have to be included in a block. Using `async` and `await ` becomes critical when dealing with long delays and this is the case with Ethereum, especially on the mainnet. This is also why we use the `awaitTransactionMinedAsync()` function.
+At this point, it might be worth mentionning why we need to await all those transactions. Calling an 0x.js function returns immidiately after submitting a transaction with a transaction hash, so the user interfact (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immidiately on testrpc. It is nevertheless a good habbit to interact with the blockchain with these async/await calls. 
 
 ## Creating an Order
 ---
