@@ -105,19 +105,19 @@ Users that create an order are called **Makers** and they need to specify some i
 ```javascript
 // Generate order
 const order = { 
-	  maker: makerAddress, 
-	  taker: NULL_ADDRESS,
-	  feeRecipient: NULL_ADDRESS,
-	  makerTokenAddress: ZRX_ADDRESS,
-	  takerTokenAddress: WETH_ADDRESS,
-	  exchangeContractAddress: EXCHANGE_ADDRESS,
-	  salt: ZeroEx.generatePseudoRandomSalt(),
-	  makerFee: new BigNumber(0),
-	  takerFee: new BigNumber(0),
-	  makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.2), DECIMALS); 
-	  takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.3), DECIMALS); 
-	  expirationUnixTimestampSec: new BigNumber(Date.now() + 3600000),          
-	 };
+	  	maker: makerAddress, 
+	  	taker: NULL_ADDRESS,
+	 	 feeRecipient: NULL_ADDRESS,
+	 	 makerTokenAddress: ZRX_ADDRESS,
+	 	 takerTokenAddress: WETH_ADDRESS,
+	 	 exchangeContractAddress: EXCHANGE_ADDRESS,
+	 	 salt: ZeroEx.generatePseudoRandomSalt(),
+	 	 makerFee: new BigNumber(0),
+	 	 takerFee: new BigNumber(0),
+	 	 makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.2), DECIMALS); 
+	 	 takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.3), DECIMALS); 
+	 	 expirationUnixTimestampSec: new BigNumber(Date.now() + 3600000),          
+	      };
 ```
 where the fields are
 
