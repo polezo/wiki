@@ -175,7 +175,7 @@ Finally, now that we have a valid order, we can try to fill it while acting as a
 const shouldThrowOnInsufficientBalanceOrAllowance = true;
 const fillTakerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);;
 ```
-When set to `false`, `shouldThrowOnInsufficientBalanceOrAllowance` will lead to the smart contract to verify if the balances or allowances are sufficient and if that's not the case, it will log an error and return the remaining gas to the sender. If set to `true` the transfer will skip this verification step and will throw subsequently (consuming all the gas) if balances or allowances are not sufficient. The former cost slitghly more gas for valid orders since it involes an extra verification step, but will save the remaining gas that would be thrown if set to `true` and if allowances or balances aren't sufficient. `fillTakerTokenAmount` is simply the amount of token (in our case WETH) the **Taker** wants to fill. 
+When set to `false`, `shouldThrowOnInsufficientBalanceOrAllowance` will cause the smart contract to verify if the balances or allowances are sufficient and if that's not the case, it will log an error and return the remaining gas to the sender. If set to `true` the fill call will skip this verification step and will throw subsequently (consuming all the gas) if balances or allowances are not sufficient. The former cost slightly more gas for valid orders since it involves an extra verification step, but will save the remaining gas in cases where the fill fails. `fillTakerTokenAmount` is simply the amount of token (in our case WETH) the **Taker** wants to fill. 
 
 Now let's try to fill the order : 
 ```javascript
