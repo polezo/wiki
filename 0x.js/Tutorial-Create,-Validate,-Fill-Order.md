@@ -46,7 +46,7 @@ const WETH_ADDRESS = await zeroEx.etherToken.getContractAddressAsync();
 const ZRX_ADDRESS  = await zeroEx.exchange.getZRXTokenAddressAsync();    	 
 const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync(); 
 ```
-Above, **`NULL_ADDRESS`** is the 0x00000... address that is used by default when creating a list. **`EXCHANGE_ADDRESS`** is the [**Exchange.sol**](https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol) contract address, which is the 0x exchange smart contract allowing us to perform atomic swaps between ERC20 compliant tokens. **`WETH_ADDRESS`** and **`ZRX_ADDRESS`** are the address of the tokens we will use in this tutorial. Learn more about what the [ERC20 standard](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) is and what [WETHs](https://weth.io/) are. 
+Above, **`NULL_ADDRESS`** is the 0x00000... address that acts as a NULL value in the Ethereum's address space. **`EXCHANGE_ADDRESS`** is the [**Exchange.sol**](https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol) contract address, which is the 0x exchange smart contract allowing us to perform atomic swaps between ERC20 compliant tokens. **`WETH_ADDRESS`** and **`ZRX_ADDRESS`** are the address of the tokens we will use in this tutorial. Learn more about what the [ERC20 standard](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) is and what [WETHs](https://weth.io/) are. 
 
 ## Setting up Accounts
 ---
@@ -105,8 +105,8 @@ Users that create an order are called **Makers** and they need to specify some i
 ```javascript
 // Generate order
 const order = { 
-	  	maker: makerAddress, 
-	  	taker: NULL_ADDRESS,
+	  	 maker: makerAddress, 
+	  	 taker: NULL_ADDRESS,
 	 	 feeRecipient: NULL_ADDRESS,
 	 	 makerTokenAddress: ZRX_ADDRESS,
 	 	 takerTokenAddress: WETH_ADDRESS,
@@ -126,7 +126,7 @@ where the fields are
  - **feeRecipient** : Ethereum address of our **Relayer** (none for now).
  - **makerTokenAddress**: The token address the **Maker** is offering. 
  - **takerTokenAddress**: The token address the **Maker** is requesting from the **Taker**.
- -  **exchangeContractAddress** : The exchange.sol address.
+ - **exchangeContractAddress** : The exchange.sol address.
  - **salt**: Random number to make the order (and therefore its hash) unique.
  - **makerFee**: How many ZRX the **Maker** will pay as a fee to the **Relayer**.
  - **takerFee** : How many ZRX the **Taker** will pay as a fee to the **Relayer**.
