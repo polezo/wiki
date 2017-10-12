@@ -13,7 +13,7 @@ The rest of the procedure on how to setup testRPC properly for interacting with 
 ## Importing Packages
 ---
 The first step to interact with `0x.js` is to import the relevant packages as follow 
-```
+```javascript
 var Web3      = require('web3');
 var ZeroEx    = require('0x.js').ZeroEx;
 var BigNumber = require('bignumber.js');
@@ -25,7 +25,7 @@ var BigNumber = require('bignumber.js');
 ---
 Now we need to instantiate a zeroEx and HttpProvider instance while specifying our provider. In our case, since we are using our local node, we will use we will use **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
 
-```
+```javascript
 // Default provider for TestRPC
 const provider = new Web3.providers.HttpProvider('http://localhost:8545')
 
@@ -56,7 +56,7 @@ const accounts =  await zeroEx.getAvailableAddressesAsync();
 console.log(accounts)
 ```
 giving us
-```
+```javascript
 [ '0x5409ed021d9299bf6814279a6a1411a7e866a631',
   '0x6ecbe1db9ef729cbe972c83fb886247691fb6beb',
   '0xe36ea790bc9d7ab70c55260c66d52b1eca985f84',
@@ -72,7 +72,7 @@ giving us
 
 Let's now specify our **Maker** and **Taker** accounts, where the **Maker** is the one creating (or making) the order and the **Taker** is the one filling (or taking) the order. 
 
-```
+```javascript
 const makerAddress = accounts[0];
 const takerAddress = accounts[1];
 ```
@@ -80,16 +80,16 @@ const takerAddress = accounts[1];
 Another step we need to do is to allow the exchange.sol smart contract to interact with our funds. Indeed, 0x allows users to trade their tokens directly from their accounts without the need to send their tokens anywhere. This is possible thanks to the `approve()` and `transferFrom()` functions that are part of the ERC20 token standard. In order to give the exchange.sol contract access to funds, we need to set *allowances* (you can read about allowances [here](https://tokenallowance.io/)). 
 
 ``` javascript
-	// Unlimited allowances to 0x contract for maker and taker
-	zeroEx.token.setUnlimitedProxyAllowanceAsync(ZRX_ADDRESS,  makerAddress);
-	zeroEx.token.setUnlimitedProxyAllowanceAsync(WETH_ADDRESS, takerAddress);
+// Unlimited allowances to 0x contract for maker and taker
+zeroEx.token.setUnlimitedProxyAllowanceAsync(ZRX_ADDRESS,  makerAddress);
+zeroEx.token.setUnlimitedProxyAllowanceAsync(WETH_ADDRESS, takerAddress);
 ```
 
 Now the exchange.sol smart contract will be able to allow ZRX/WETH trades between our **Maker** and **Taker**. Another thing we need to do is "convert" ETH to WETH, since ETH is unfortunately not ERC20 compliant. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time.
 
 ```javascript
-	const ETHtoConvert = ZeroEx.toBaseUnitAmount(new BigNumber(1), DECIMALS); // Number of ETH to convert to WETH
-	zeroEx.etherToken.depositAsync(ETHtoConvert, takerAddress);
+const ETHtoConvert = ZeroEx.toBaseUnitAmount(new BigNumber(1), DECIMALS); // Number of ETH to convert to WETH
+zeroEx.etherToken.depositAsync(ETHtoConvert, takerAddress);
 ```
 
 ## Creating an Order
@@ -134,7 +134,7 @@ The `NULL_ADDRESS` is used for the `taker` field since we don't know who the tak
 ---
 Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try to pretend to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
 
-```
+```javascript
 // Signing orderHash -> ecSignature
 const ecSignature = await zeroEx.signOrderHashAsync(orderHash, makerAddress);
 
@@ -173,7 +173,7 @@ txHash = await zeroEx.exchange.fillOrderAsync( signedOrder, fillTakerTokenAmount
 
 This function broadcast the transaction and returns its hash that we can use to get information about the transaction itself, such as when it is successfully mined. 
 
-```
+```javascript
 txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash)
 console.log(txReceipt);
 ```
