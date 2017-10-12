@@ -56,7 +56,7 @@ const accounts =  await zeroEx.getAvailableAddressesAsync();
 console.log(accounts)
 ```
 giving us
-```javascript
+```
 [ '0x5409ed021d9299bf6814279a6a1411a7e866a631',
   '0x6ecbe1db9ef729cbe972c83fb886247691fb6beb',
   '0xe36ea790bc9d7ab70c55260c66d52b1eca985f84',
