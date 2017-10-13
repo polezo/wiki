@@ -53,8 +53,8 @@ const zeroEx = new ZeroEx(provider);
 	              	 salt: ZeroEx.generatePseudoRandomSalt(),
 	           	 makerFee: new BigNumber(0),
 	              	 takerFee: new BigNumber(0),
-	            	 makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.2), DECIMALS),   // Base 18 decimals
-	           	 takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.3), DECIMALS),   // Base 18 decimals
+	            	 makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.2), DECIMALS),  // Base 18 decimals
+	           	 takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.3), DECIMALS),  // Base 18 decimals
 	           	 expirationUnixTimestampSec: new BigNumber(Date.now() + 3600000),          // Valid up to an hour
 	              };
 
@@ -79,7 +79,7 @@ const zeroEx = new ZeroEx(provider);
 
 	// Try filling order
 	const txHash = await zeroEx.exchange.fillOrderAsync(signedOrder, fillTakerTokenAmount, 
-                                                      shouldThrowOnInsufficientBalanceOrAllowance, takerAddress,);
+                                                            shouldThrowOnInsufficientBalanceOrAllowance, takerAddress,);
                                                       
 	// Transaction Receipt
 	const txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash);
