@@ -1,16 +1,14 @@
-# **0x Tutorial 101 :** Create, Verify and Fill an Order Using 0x.js
-
 In this tutorial, I will show you how you can use the [`0x.js`](https://github.com/0xProject/0x.js) library to create, validate and fill buy and sell orders via the 0x protocol. You can find all the `0x.js` documentation [here](https://0xproject.com/docs/). Before diving into the code, let's make sure you have your environment ready. 
 
-## Setup
+### Setup
 ---
 First of all, we will install TestRPC, which allows us to simulate a network of Ethereum nodes locally. Currently, `0x.js` was built while using testrpc 4.0.1 and some breaking changes were introduced with 4.1 with respect to gas estimations. Hence, for simplicity, let's install testRPC 4.0.1 as follow ; 
 
 `npm install ethereumjs-testrpc@4.0.1 -g`
 
-The rest of the procedure on how to setup testRPC properly for interacting with 0x can be found [here](https://0xproject.com/wiki#Testrpc-Setup-Guide). Make sure you are using the right snapshot! Now you can install `0x.js` with the following command ;  `npm install 0x.js --save`. In addition let's install the web3 bigNumber packages with `npm install web3` and `npm install bignumber`. That's it! You should now be ready to start coding.
+The rest of the procedure on how to setup testRPC properly for interacting with 0x can be found [here](https://0xproject.com/wiki#Testrpc-Setup-Guide). Make sure you are using the right snapshot! Now you can install `0x.js` with the following command ;  `npm install 0x.js --save`. In addition let's install the web3 bigNumber packages with `npm install web3 --save` and `npm install bignumber.js --save`. That's it! You should now be ready to start coding.
 
-## Importing Packages
+### Importing packages
 ---
 The first step to interact with `0x.js` is to import the relevant packages as follow 
 ```javascript
@@ -21,9 +19,9 @@ const BigNumber = require('bignumber.js');
 
 **Web3** is the package allowing us to interact with our node and the Ethereum world. **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. 
 
-## Provider and Constructor
+### Provider and constructor
 ---
-Now we need to instantiate a zeroEx and HttpProvider instance while specifying our provider. In our case, since we are using our local node, we will use we will use **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
+Now we need to instantiate a zeroEx and HttpProvider. In our case, since we are using our local node, we will use we will use **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
 
 ```javascript
 // Default provider for TestRPC
@@ -32,9 +30,9 @@ const provider = new Web3.providers.HttpProvider('http://localhost:8545')
 // Calling constructor
 const zeroEx = new ZeroEx(provider);
 ```
-## Declaring Decimals and Addresses
+### Declaring decimals and addresses
 ---
-Since we are dealing with a few contracts, we will specify them now to reduce the syntax load. Fortunately for us, `0x.js` library comes with a bunch of contract addresses that can be useful to have at hand. It also comes with a way to interact with the 0x token registry, which act as a storage for vetted tokens and their address. One thing that is important to remember is that there are no decimals in the Ethereum Virtual Machine, which means you always need to keep track of how many "decimals" each token possess. Since we will sell some ZRX for some ETH and since they both have 18 decimals, we can use a shared constant.
+Since we are dealing with a few contracts, we will specify them now to reduce the syntax load. Fortunately for us, `0x.js` library comes with a bunch of contract addresses that can be useful to have at hand. It also comes with a way to interact with the 0x token registry, which act as a store of vetted tokens and their addresses. One thing that is important to remember is that there are no decimals in the Ethereum virtual machine (EVM), which means you always need to keep track of how many "decimals" each token possesses. Since we will sell some ZRX for some ETH and since they both have 18 decimals, we can use a shared constant.
 
 ```javascript
 //Number of decimals to use (for ETH and ZRX)
@@ -46,9 +44,9 @@ const WETH_ADDRESS = await zeroEx.etherToken.getContractAddressAsync();
 const ZRX_ADDRESS  = await zeroEx.exchange.getZRXTokenAddressAsync();    	 
 const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync(); 
 ```
-Above, **`NULL_ADDRESS`** is the 0x00000... address that acts as a NULL value in the Ethereum's address space. **`EXCHANGE_ADDRESS`** is the [**Exchange.sol**](https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol) contract address, which is the 0x exchange smart contract allowing us to perform atomic swaps between ERC20 compliant tokens. **`WETH_ADDRESS`** and **`ZRX_ADDRESS`** are the address of the tokens we will use in this tutorial. Learn more about what the [ERC20 standard](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) is and what [WETHs](https://weth.io/) are. 
+Above, **`NULL_ADDRESS`** is the 0x00000... address that acts as a NULL value in Ethereum's address space. **`EXCHANGE_ADDRESS`** is the [**Exchange.sol**](https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol) contract address, which is the 0x exchange smart contract which allows the maker to exchange ZRX for WETH with the taker. **`WETH_ADDRESS`** and **`ZRX_ADDRESS`** are the addresses of the tokens we will use in this tutorial. Learn more about what the [ERC20 standard](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) and [WETH](https://weth.io/) are. 
 
-## Setting up Accounts
+### Setting up accounts
 ---
 TestRPC comes with a few test accounts and tokens, which is quite convenient when prototyping. We can get the list of our account addresses as follow ; 
 ``` javascript 
@@ -70,7 +68,7 @@ giving us
  
 ```
 
-Note that only the first address (**Maker**) possesses ZRX tokens. Let's now specify our **Maker** and **Taker** accounts, where the **Maker** is the one creating (or making) the order and the **Taker** is the one filling (or taking) the order. 
+Note that by default only the first address (**Maker**) possesses ZRX tokens. Let's now specify our **Maker** and **Taker** accounts, where the **Maker** is the one creating (or making) the order and the **Taker** is the one filling (or taking) the order. 
 
 ```javascript
 const [makerAddress, takerAddress] = accounts;
@@ -96,9 +94,9 @@ const txHashWETH = await zeroEx.etherToken.depositAsync(ethToConvert, takerAddre
 await zeroEx.awaitTransactionMinedAsync(txHashWETH)
 ```
 
-At this point, it might be worth mentionning why we need to await all those transactions. Calling an 0x.js function returns immidiately after submitting a transaction with a transaction hash, so the user interfact (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immidiately on testrpc. It is nevertheless a good habbit to interact with the blockchain with these async/await calls. 
+At this point, it might be worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immidiately after submitting a transaction with a transaction hash, so the user interfact (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immidiately on testrpc. It is nevertheless a good habbit to interact with the blockchain with these async/await calls. 
 
-## Creating an Order
+### Creating an order
 ---
 Users that create an order are called **Makers** and they need to specify some information in their order so the exchange.sol smart contract knows what to do with them.
 
@@ -134,11 +132,11 @@ where the fields are
  - **takerTokenAmount**: The amount of token the **Maker** is requesting from the **Taker**.
  - **expirationUnixTimestampSec**: When will the order expire (in unix time). 
 
-The `NULL_ADDRESS` is used for the `taker` field since we don't know who the taker will be and will allow anyone to fill our order.
+The `NULL_ADDRESS` is used for the `taker` field since in our case we do not case who the taker will be and using `NULLADDRESS` will allow anyone to fill our order.
 
-## Signing the Order
+### Signing the order
 ---
-Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try to pretend to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
+Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try pretending to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
 
 You can first obtain the order hash with the following command ; 
 
@@ -152,28 +150,28 @@ Now that we have the order hash, we can sign it and append the signature to the 
 // Signing orderHash -> ecSignature
 const ecSignature = await zeroEx.signOrderHashAsync(orderHash, makerAddress);
 
-//Appending signature to order
+// Append signature to order
 const signedOrder = { 
 			...order, 
 			ecSignature, 
 		     };
 ```
-With this, anyone can verify if the signature is authentic and this will prevent any change to the order by a third party. If the order is changed even by a single bit, then the hash of the order will be different and therefore invalid when compared to the signed hash. 
+With this, anyone can verify if the signature is authentic and this will prevent any change to the order by a third party. If the order is changed by even a single bit, then the hash of the order will be different and therefore invalid when compared to the signed hash. 
 
-Now let's actually verify whether the order we created is valid ; 
+Now let's actually verify whether the order we created is valid 
 
 ```javascript
 await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 ```
 If something was wrong with our order, this function would throw an informative error. If it passes, then the order is fillable. 
 
-## Filling the Order
+### Filling the order
 ---
-Finally, now that we have a valid order, we can try to fill it while acting as a **Taker**. To do so, we first specify a few arguments ; 
+Finally, now that we have a valid order, we can try to fill it while acting as a **Taker**. To do so, we first specify a few arguments  
 
 ```javascript
 const shouldThrowOnInsufficientBalanceOrAllowance = true;
-const fillTakerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);;
+const fillTakerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);
 ```
 When set to `false`, `shouldThrowOnInsufficientBalanceOrAllowance` will cause the smart contract to verify if the balances or allowances are sufficient and if that's not the case, it will log an error and return the remaining gas to the sender. If set to `true` the fill call will skip this verification step and will throw subsequently (consuming all the gas) if balances or allowances are not sufficient. The former cost slightly more gas for valid orders since it involves an extra verification step, but will save the remaining gas in cases where the fill fails. `fillTakerTokenAmount` is simply the amount of token (in our case WETH) the **Taker** wants to fill. 
 
@@ -182,7 +180,7 @@ Now let's try to fill the order :
 const txHash = await zeroEx.exchange.fillOrderAsync(signedOrder, fillTakerTokenAmount, shouldThrowOnInsufficientBalanceOrAllowance, takerAddress);
 ```
 
-This function broadcast the transaction and returns its hash that we can use to get information about the transaction itself, such as when it is successfully mined. 
+This function broadcasts the transaction and returns its hash that we can use to get information about the transaction itself, such as when it is successfully mined. 
 
 ```javascript
 const txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash)
@@ -262,7 +260,7 @@ giving us the following successful transaction ;
 ```
 Congratulation! You now successfully created, validated and filled an order using 0x.js and the 0x protocol!
 
-## Conclusion
+### Conclusion
 ---
 This was a simple tutorial on what you can do with `0x.js` and the 0x protocol, but there is obviously more. In the future, we will make some tutorials on how to maintain a orderbook efficiently, since many orders become invalid over time, be it because they were filled, expired or certain conditions changed (balance, allowance, etc.), how to use various relayer strategies and more. The goal of 0x is to provide tools easy to use so that anyone can set-up their own relayer. As a matter of fact, this was my first javascript script ever and the ride was smoother than I expected! 
 
