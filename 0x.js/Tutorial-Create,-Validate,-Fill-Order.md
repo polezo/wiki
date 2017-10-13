@@ -266,6 +266,6 @@ Congratulation! You now successfully created, validated and filled an order usin
 ---
 This was a simple tutorial on what you can do with `0x.js` and the 0x protocol, but there is obviously more. In the future, we will make some tutorials on how to maintain a orderbook efficiently, since many orders become invalid over time, be it because they were filled, expired or certain conditions changed (balance, allowance, etc.), how to use various relayer strategies and more. The goal of 0x is to provide tools easy to use so that anyone can set-up their own relayer. As a matter of fact, this was my first javascript script ever and the ride was smoother than I expected! 
 
-Here's the full tutorial : <script src="https://gist.github.com/PhABC/05dc653fa483f5bb3421ef0cb1949845"></script>. 
+You can find the the full tutorial script [here](https://gist.github.com/PhABC/05dc653fa483f5bb3421ef0cb1949845). 
 
 *Note that I am using nodejs v8.7.0 and npm v5.5.1*.
