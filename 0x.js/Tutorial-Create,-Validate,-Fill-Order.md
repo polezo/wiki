@@ -354,7 +354,7 @@ const zeroEx = new ZeroEx(provider);
 	const fillTakerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);
 
 	//Try filling order
-	const txHash = await zeroEx.exchange.fillOrderAsync(signedOrder, fillTakerTokenAmount, 		 								            shouldThrowOnInsufficientBalanceOrAllowance, takerAddress,);
+	const txHash = await zeroEx.exchange.fillOrderAsync(signedOrder, fillTakerTokenAmount, shouldThrowOnInsufficientBalanceOrAllowance, takerAddress,);
 
 	//Transaction Receipt
 	const txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash);
