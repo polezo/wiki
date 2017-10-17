@@ -22,6 +22,6 @@ These lists are composed of projects that publicly announced their interest in u
 
 + [Ethfinex](https://blog.ethfinex.com/the-ethfinex-roadmap-7c7cd82c835c)
 + [KinAlpha](https://medium.com/@KinAlpha/5b40f8b52589)
++ [Paradex](https://paradex.io/)
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
-+ [Paradex](https://paradex.io/)
