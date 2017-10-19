@@ -1,4 +1,4 @@
-These lists are composed of projects that publicly announced their interest in using the 0x protocol. Some projects are in stealth mode and will only be added to this wiki when ready. If your project is intending to use the 0x protocol, please submit a pull request so that we can add you to the list. 
+These lists are composed of projects that publicly announced their interest in using the 0x protocol. Some projects are in stealth mode and will only be added to this wiki when ready. If your project is intending to use the 0x protocol, please submit a pull request so that we can add you to the list.
 
 ### List of dApps that will be (or are) using the 0x protocol
 
@@ -25,3 +25,8 @@ These lists are composed of projects that publicly announced their interest in u
 + [Paradex](https://paradex.io/)
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
+
+### List of 0x trade explorers
+
++ [0xtrades.info](http://0xtrades.info)
++ [0xtracker.com](http://0xtracker.com)
