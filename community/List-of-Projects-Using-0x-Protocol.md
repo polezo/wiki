@@ -25,6 +25,8 @@ These lists are composed of projects that publicly announced their interest in u
 + [Paradex](https://paradex.io/)
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
++ [OpenRelay](https://openrelay.xyz)
++ [ERC dEX](http://ercdex.com)
 
 ### List of 0x trade explorers
 
