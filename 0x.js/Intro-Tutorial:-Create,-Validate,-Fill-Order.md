@@ -28,7 +28,7 @@ In a separate terminal, navigate to the project directory and start TestRPC:
 npm run testrpc
 ```
 
-You can now run the code we are going to walk through in the rest of this tutorial:
+You can now run the code we are going to walk you through in the rest of this tutorial:
 
 ```
 npm run dev
@@ -36,7 +36,7 @@ npm run dev
 
 ### Importing packages
 ---
-The first step to interact with `0x.js` is to import the relevant packages as follow
+The first step to interact with `0x.js` is to import the following relevant packages:
 
 ```javascript
 import * as Web3 = from 'web3';
