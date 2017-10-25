@@ -10,23 +10,27 @@ These lists are composed of projects that publicly announced their interest in u
 + [District0x](https://blog.district0x.io/payments-powered-by-0x-project-d291bb2e1ba0)
 + [dXdY](https://medium.com/dydxderivatives/introducing-dydx-2d0f0f326fd)
 + [Dharma](https://dharma.io/whitepaper/#future-work)
++ [Etherparty](https://medium.com/etherparty/etherparty-collaborates-with-radar-relay-6dd5f584e305)
 + [Ethix](http://ethix.network/)
 + [Lendroid](https://blog.lendroid.com/lendroid-%C3%B8x-decentralized-lending-and-margin-trading-for-erc20-tokens-6145a6116dd6?gi=764b35ca3c69)
 + [Maker](https://makerdao.com/)
 + [MelonPort](https://melon.network/)
 + [OpenANX](https://www.openanx.org/en)
 + [Request Network](https://blog.request.network/blockchain-bricks-request-is-built-upon-0x-civic-and-aragon-3aaf68390221)
-+ [Status](https://status.im/)
++ [Privatix](https://medium.com/privatix/the-unused-resources-of-millions-of-users-the-new-gold-of-blockchain-projects-316d3d7ddf2b)
++ [Toshi](https://devpost.com/software/t0x)
 
 ### List of relayers that will be (or are) using the 0x protocol
 
++ [Dextroid](https://www.dextroid.io/)
++ [ERC dEX](http://ercdex.com)
 + [Ethfinex](https://blog.ethfinex.com/the-ethfinex-roadmap-7c7cd82c835c)
 + [KinAlpha](https://medium.com/@KinAlpha/5b40f8b52589)
++ [OpenRelay](https://openrelay.xyz)
 + [Paradex](https://paradex.io/)
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
-+ [OpenRelay](https://openrelay.xyz)
-+ [ERC dEX](http://ercdex.com)
+
 
 ### List of 0x trade explorers
 
