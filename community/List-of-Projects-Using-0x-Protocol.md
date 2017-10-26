@@ -8,17 +8,14 @@ These lists are composed of projects that publicly announced their interest in u
 + [Blocknet](https://blocknet.co/)
 + [ChronoBank](https://blog.chronobank.io/chronobank-partner-with-0x-decentralised-exchange-protocol-80bfd4db6101)
 + [District0x](https://blog.district0x.io/payments-powered-by-0x-project-d291bb2e1ba0)
-+ [dXdY](https://medium.com/dydxderivatives/introducing-dydx-2d0f0f326fd)
++ [dYdX](https://medium.com/dydxderivatives/introducing-dydx-2d0f0f326fd)
 + [Dharma](https://dharma.io/whitepaper/#future-work)
-+ [Etherparty](https://medium.com/etherparty/etherparty-collaborates-with-radar-relay-6dd5f584e305)
 + [Ethix](http://ethix.network/)
 + [Lendroid](https://blog.lendroid.com/lendroid-%C3%B8x-decentralized-lending-and-margin-trading-for-erc20-tokens-6145a6116dd6?gi=764b35ca3c69)
 + [Maker](https://makerdao.com/)
 + [MelonPort](https://melon.network/)
 + [OpenANX](https://www.openanx.org/en)
 + [Request Network](https://blog.request.network/blockchain-bricks-request-is-built-upon-0x-civic-and-aragon-3aaf68390221)
-+ [Privatix](https://medium.com/privatix/the-unused-resources-of-millions-of-users-the-new-gold-of-blockchain-projects-316d3d7ddf2b)
-+ [Toshi](https://devpost.com/software/t0x)
 
 ### List of relayers that will be (or are) using the 0x protocol
 
