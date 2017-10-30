@@ -4,7 +4,7 @@ One interesting feature enabled by the 0x protocol is the ability to remove the 
 
 Let's start with describing how a relayer can allow order **takers** to pay trading fees in WETH instead of ZRX. The way this is done is by enabling users to batch fill two orders in a single Ethereum transaction. The first will convert a sufficient amount of WETH to ZRX to cover the `takerFee` for the order they want to fill. The second order is the one the user is actually interested in filling.
 
-Once the user has selected an order they want to fill, the relayer will supply the user with a second order exchanging WETH for ZRX at the current market price, without fees. The maker then submits both orders to the blockchain. Since the [batchFillOrders](https://0xproject.com/docs/contracts#batchFillOrders) 0x smart contract method fills orders synchronously, by the time the second order is filled, the user has acquired enough ZRX to pay the transaction fee of the second order.
+Once the user has selected an order they want to fill, the relayer will supply the user with a second order exchanging WETH for ZRX at the current market price, without fees. The maker then submits both orders to the blockchain. Since the [batchFillOrders](https://0xproject.com/docs/contracts#batchFillOrders) 0x smart contract method fills orders synchronously, by the time the second order is filled, the user has acquired enough ZRX to pay the transaction fee of that order.
 
 ##### Limitations
 
@@ -24,11 +24,10 @@ Let's say someone writes a token abstraction wrapper for the Golem network so th
 
 The smart contract would then do the following:
 
-1. Make sure the user sent sufficient ETH when calling the wrapper smart contract.
-2. Wrap the ETH into WETH ERC20-compliant tokens.
-3. Call `fillOrKillOrder` on the 0x smart contract passing in the supplied order.
-4. Send the GNT to the user
-5. Call the Golem smart contract on behalf of the user, spending the newly acquired GNT.
+1. Wrap the ETH into WETH ERC20-compliant tokens.
+2. Call `fillOrKillOrder` on the 0x smart contract passing in the supplied order.
+3. Send the GNT to the user.
+4. Call the Golem smart contract on behalf of the user, spending the newly acquired GNT.
 
 In this way, the user owns GNT just in time for the transaction, and in the exact amount required for payment.
 
