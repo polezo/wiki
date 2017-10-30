@@ -26,12 +26,86 @@ The smart contract would then do the following:
 
 1. Make sure the user sent sufficient ETH when calling the wrapper smart contract.
 2. Wrap the ETH into WETH ERC20-compliant tokens.
-3. Call `fillOrder` on the 0x smart contract passing in the supplied order.
-4. Call the Golem smart contract on behalf of the user, spending the newly acquired GNT.
+3. Call `fillOrKillOrder` on the 0x smart contract passing in the supplied order.
+4. Send the GNT to the user
+5. Call the Golem smart contract on behalf of the user, spending the newly acquired GNT.
 
 In this way, the user owns GNT just in time for the transaction, and in the exact amount required for payment.
+
+##### Example code
+
+```
+import "./Exchange.sol";
+import "./tokens/EtherToken.sol";
+
+contract GolemWrapper {
+    struct Order {
+        address maker;
+        address taker;
+        address makerToken;
+        address takerToken;
+        address feeRecipient;
+        uint makerTokenAmount;
+        uint takerTokenAmount;
+        uint makerFee;
+        uint takerFee;
+        uint expirationTimestampInSec;
+        uint salt;
+        uint8 v;
+        bytes32 r;
+        bytes32 s;
+        bytes32 orderHash;
+    }
+
+    function useGolemWithEth(
+        address[5] orderAddresses,
+        uint[6] orderValues,
+        uint8 v,
+        bytes32 r,
+        bytes32 s,
+    ) {
+            // Marshal args into order instance
+            order = Order({
+                maker: orderAddresses[0],
+                taker: orderAddresses[1],
+                makerToken: orderAddresses[2],
+                takerToken: orderAddresses[3],
+                feeRecipient: orderAddresses[4],
+                makerTokenAmount: orderValues[0],
+                takerTokenAmount: orderValues[1],
+                makerFee: orderValues[2],
+                takerFee: orderValues[3],
+                expirationTimestampInSec: orderValues[4],
+                salt: orderValues[5],
+                v: v,
+                r: r,
+                s: s,
+                orderHash: exchange.getOrderHash(orderAddresses, orderValues)
+            });
+
+            // Convert the sent ETH into WETH
+            uint fillAmount = msg.value;
+            ethToken.deposit.value(fillAmount)();
+
+            // Fill the passed-in order or throw if unsuccessful
+            exchange.fillOrKillOrder(
+                [order.maker, order.taker, order.makerToken, order.takerToken, order.feeRecipient],
+                [order.makerTokenAmount, order.takerTokenAmount, order.makerFee, order.takerFee, order.expirationTimestampInSec, order.salt],
+                fillAmount,
+                order.v,
+                order.r,
+                order.s
+            );
+
+            // Send GNT to user
+            Token(order.takerToken).transferFrom(Address(this), msg.sender, order.makerTokenAmount);
+
+            // Call the Golem smart contract using a DELEGATECALL here
+    }
+}
+
+```
 
 ##### Limitations
 
 - This again is more expensive in terms of gas then calling the Golem network directly. As such, it is great for on-boarding new users but frequent users would still prefer to hold a balance of GNT.
-- In order for someone other then the authors of the dApp/protocol to add token abstraction, we need to use the `DELEGATECALL` opcode, and users must trust the wrapper smart contract to act honestly on their behalf.
