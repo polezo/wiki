@@ -31,5 +31,6 @@ These lists are composed of projects that publicly announced their interest in u
 
 ### List of 0x trade explorers
 
++ [0x.remote.hr](http://0x.remote.hr)
 + [0xtrades.info](http://0xtrades.info)
 + [0xtracker.com](http://0xtracker.com)
