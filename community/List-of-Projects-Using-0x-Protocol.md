@@ -27,6 +27,7 @@ These lists are composed of projects that publicly announced their interest in u
 + [Paradex](https://paradex.io/)
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
++ [Amadeus](http://amadeusrelay.org)
 
 
 ### List of 0x trade explorers
