@@ -163,7 +163,7 @@ where the fields are:
  - **takerTokenAmount**: The amount of token the **Maker** is requesting from the **Taker**.
  - **expirationUnixTimestampSec**: When will the order expire (in unix time).
 
-The `NULL_ADDRESS` is used for the `taker` field since in our case we do not case who the taker will be and using `NULL_ADDRESS` will allow anyone to fill our order.
+The `NULL_ADDRESS` is used for the `taker` field since in our case we do not care who the taker will be and using `NULL_ADDRESS` will allow anyone to fill our order.
 
 ### Signing the order
 ---------------------
