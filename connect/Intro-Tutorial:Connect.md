@@ -93,7 +93,7 @@ const relayerClient = new HttpClient(relayerApiUrl);
 
 ### Declaring decimals and contract addresses
 ---
-Because there are no decimals in the Ethereum virtual machine (EVM), we need to keep track of how many "decimals" each token possesses. Because we are only interacting with ZRX and ETH in this turorial we can use a shared constant `DECIMALS`. Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` member of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+Because there are no decimals in the Ethereum virtual machine (EVM), we need to keep track of how many "decimals" each token possesses. Because we are only interacting with ZRX and ETH in this tutorial we can use a shared constant `DECIMALS`. Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` member of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
 
 ```javascript
 // The number of decimals ZRX and WETH have
@@ -234,7 +234,7 @@ const orderbookResponse: OrderbookResponse = await relayerClient.getOrderbookAsy
 
 ### Finding the best orders
 ---
-`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a `SignedOrder` array where for each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` provided by the `OrderbookRequest` and the `takerTokenAddress` field is euqal to `baseTokenAdress`. `Asks` is also a `SignedOrder` array but it is the opposite of `bids`. For each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` and the `takerTokenAddress` field is equal to `baseTokenAdress`.
+`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a `SignedOrder` array where for each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` provided by the `OrderbookRequest` and the `takerTokenAddress` field is equal to `baseTokenAddress`. `Asks` is also a `SignedOrder` array but it is the opposite of `bids`. For each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` and the `takerTokenAddress` field is equal to `baseTokenAddress`.
 
 ``` javascript
 // Because we are looking to exchange our ZRX for WETH, we get the bids side of the order book and sort the orders with the best rate first
@@ -284,3 +284,15 @@ const wethBalanceAfterFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, zr
 console.log('ZRX After: ' + ZeroEx.toUnitAmount(zrxBalanceAfterFill, DECIMALS).toString());
 console.log('WETH After: ' + ZeroEx.toUnitAmount(wethBalanceAfterFill, DECIMALS).toString());
 ```
+
+### Wrapping up
+---
+Through this tutorial we learned how to:
+
+* ask a relayer for fee information
+* submit signed orders to a relayer with appropriate fees
+* ask a relayer for a ZRX/WETH orderbook
+* find the best orders in the orderbook
+* fill orders from the orderbook using `0x.js`
+
+While all of these tasks were performed using TestRPC and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/ for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
