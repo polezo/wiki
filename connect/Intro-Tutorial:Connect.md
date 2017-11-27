@@ -49,7 +49,7 @@ npm run dev
 
 ### Importing packages
 ---
-The first step to interact with `@0xproject/connect` is to import the following relevant packages:
+The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
 
 ```javascript
 import * as Web3 from 'web3';
@@ -83,7 +83,7 @@ const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 const zeroEx = new ZeroEx(provider);
 ```
 
-Next, we create a `HttpRelayerClient` instance with a url pointing to a local standard relayer api http server running at **http://localhost:3000**. The `HttpRelayerClient` is our progrommatic gateway to any relayer that conforms to the standard relayer api. 
+Next, we create an `HttpRelayerClient` instance with a url pointing to a local standard relayer api http server running at **http://localhost:3000**. The `HttpRelayerClient` is our programmatic gateway to any relayer that conforms to the standard relayer api.
 
 ```javascript
 // Instantiate relayer client pointing to a local server on port 3000
@@ -93,7 +93,7 @@ const relayerClient = new HttpClient(relayerApiUrl);
 
 ### Declaring decimals and contract addresses
 ---
-Because there are no decimals in Ethereum virtual machine (EVM), we need to keep track of how many "decimals" each token possesses. Because we are only interacting with ZRX and ETH in this turorial we can use a shared constant `DECIMALS`. Next, we use `0x.js` to get the addresses of the contracts we care about on the current network.
+Because there are no decimals in the Ethereum virtual machine (EVM), we need to keep track of how many "decimals" each token possesses. Because we are only interacting with ZRX and ETH in this turorial we can use a shared constant `DECIMALS`. Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` member of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
 
 ```javascript
 // The number of decimals ZRX and WETH have
@@ -107,7 +107,7 @@ const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync();
 
 ### Setting up accounts
 ---
-Now, we can use `0x.js` to grab available addresses. We assign the first address to a variable `zrxOwnerAddress` because it has a balance of 100000000 ZRX in the snapshot. We assign the rest of the addresses to a variable called `wethOwnerAddresses`.
+Now, we can use `0x.js` to grab available addresses. We assign the first address to a variable `zrxOwnerAddress` because it has a balance of 100000000 ZRX in the snapshot. We assign the rest of the addresses to a variable called `wethOwnerAddresses` because we will generate WETH for these addresses.
 
 ``` javascript
 // Get all available addresses
@@ -156,18 +156,24 @@ await Promise.all(depositTxHashes.map(tx => {
 ---
 Now we are ready to start interacting with the relayer! For each address in `wethOwnerAddresses`, we will be getting fee information from the relayer, generating a complete order, signing the order, and submitting the order to the relayer.
 
+```javascript
+await Promise.all(wethOwnerAddresses.map(async (address, index) => {
+    // Steps for the "Getting fee information from the relayer" and "Signing and submitting an order the the relayer" sections go here
+}
+```
 
 ### Getting fee information from the relayer
 ---
 Different relayers in the 0x ecosystem will implement specific fee structures depending on various factors including orderbook depth, time of day, promotions, etc. The standard relayer api gives relayers the ability to provide fine-grained fee information specific to their service on a per-order basis. Below, we compile an object that conforms to the `FeesRequest` interface. This interface defines a set of information that a relayer needs in order to provide accurate fee information. We then submit this request to the `getFeesAsync()` function of the `relayerClient` and receive a `FeesResponse` instance in response. The `FeesRequest` and `FeesResponse` can be combined to create a complete order with appropriate fees for this relayer.
 
 ```javascript
-// Progrommatically determine the exchange rate based on the index of address in wethOwnerAddresses
+// Programmatically determine the exchange rate based on the index of address in wethOwnerAddresses
 const exchangeRate = (index + 1) * 10; // ZRX/WETH
 const makerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(5), DECIMALS);
 const takerTokenAmount = makerTokenAmount.mul(exchangeRate);
 
 // Generate fees request for the order
+const ONE_HOUR_IN_MS = 3600000;
 const feesRequest: FeesRequest = {
     exchangeContractAddress: EXCHANGE_ADDRESS,
     maker: address,
@@ -176,14 +182,14 @@ const feesRequest: FeesRequest = {
     takerTokenAddress: ZRX_ADDRESS,
     makerTokenAmount,
     takerTokenAmount,
-    expirationUnixTimestampSec: new BigNumber(Date.now() + 3600000),
+    expirationUnixTimestampSec: new BigNumber(Date.now() + ONE_HOUR_IN_MS),
     salt: ZeroEx.generatePseudoRandomSalt(),
 };
 
 // Send fees request to relayer and receive a FeesResponse instance
 const feesResponse: FeesResponse = await relayerClient.getFeesAsync(feesRequest);
 
-// Combine the fees request and response to from a complete order
+// Combine the fees request and response to form a complete order
 const order: Order = {
     ...feesRequest,
     ...feesResponse,
@@ -192,7 +198,7 @@ const order: Order = {
 
 ### Signing and submitting an order the the relayer
 ---
-Now that we created an order, we need to prove that we actually own the address specified in the `maker` field of `order`. To do so, we will sign the order with the corresponding private key and append the signature to our order to form a complete `SignedOrder`. We then submit this order to the `submitOrderAsync()` function of the `relayerClient`.
+Now that we created an order, we need to prove that we actually own the address specified in the `maker` field of `order`. To do so, we will sign the order with the corresponding private key and append the signature to our order to form a complete `SignedOrder`. We then submit this order to the `submitOrderAsync()` function of the `relayerClient`. If you are not using TestRPC as your Web3 Provider, you will need to pass a provider to `0x.js` that sends message signing requests to your signing service.
 
 ```javascript
 // Create orderHash
@@ -228,18 +234,28 @@ const orderbookResponse: OrderbookResponse = await relayerClient.getOrderbookAsy
 
 ### Finding the best orders
 ---
-`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a `SignedOrder` array where for each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` provided by the `OrderbookRequest` and the `takerTokenAddress` field is euqal to `baseTokenAdress`. `Asks` is also a `SignedOrder` array but it is the opposite of `bids`. For each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` and the `takerTokenAddress` field is euqal to `baseTokenAdress`.
+`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a `SignedOrder` array where for each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` provided by the `OrderbookRequest` and the `takerTokenAddress` field is euqal to `baseTokenAdress`. `Asks` is also a `SignedOrder` array but it is the opposite of `bids`. For each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` and the `takerTokenAddress` field is equal to `baseTokenAdress`.
 
 ``` javascript
 // Because we are looking to exchange our ZRX for WETH, we get the bids side of the order book and sort the orders with the best rate first
-const bestOrders = orderbookResponse.bids.sort((orderA, orderB) => {
+const sortedBids = orderbookResponse.bids.sort((orderA, orderB) => {
     const orderRateA = (new BigNumber(orderA.makerTokenAmount)).div(new BigNumber(orderA.takerTokenAmount));
     const orderRateB = (new BigNumber(orderB.makerTokenAmount)).div(new BigNumber(orderB.takerTokenAmount));
     return orderRateB.comparedTo(orderRateA);
 });
 
+// Find the orders we need in order to fill 300 ZRX
+const bidsToBeFilled: SignedOrder[] = [];
+let zrxToBeFilled =  ZeroEx.toBaseUnitAmount(new BigNumber(300), DECIMALS);
+sortedBids.forEach(bid => {
+    if (zrxToBeFilled.greaterThan(0)) {
+        bidsToBeFilled.push(bid);
+        zrxToBeFilled = zrxToBeFilled.minus(bid.takerTokenAmount);
+    }
+});
+
 // Calculate and print out the WETH/ZRX exchange rate for each order
-const rates = bestOrders.map(order => {
+const rates = sortedBids.map(order => {
     const rate = (new BigNumber(order.makerTokenAmount)).div(new BigNumber(order.takerTokenAmount));
     return (rate.toString() + ' WETH/ZRX');
 });
@@ -248,7 +264,7 @@ console.log(rates);
 
 ### Filling the orders
 ---
-Now that we have the best WETH/ZRX orders that the relayer has to offer, we can use them to exchange some of the ZRX balance of `zrxOwnerAddress` into WETH from the `wethOwnerAddresses`. In this example, we wish to convert 300 ZRX into WETH at the best rate the relayer has to offer. We can do this using `bestOrders`, the sorted `SignedOrder` array we generated above, and `fillOrdersUpToAsync()` function of the exchange wrapper provided by our instance of `ZeroEx`. When we print our balances, we can see that we succesffuly exchanged 300 ZRX for 15 WETH.
+Now that we have the best WETH/ZRX orders that the relayer has to offer, we can use them to exchange some of the ZRX balance of `zrxOwnerAddress` into WETH from the `wethOwnerAddresses`. In this example, we wish to convert 300 ZRX into WETH at the best rate the relayer has to offer. We can do this using the `bidsToBeFilled` array we generated above, and the `fillOrdersUpToAsync()` function of the exchange wrapper provided by our instance of `ZeroEx`. When we print our balances, we can see that we successfully exchanged 300 ZRX for 15 WETH.
 
 ``` javascript
 // Get balances before the fill
@@ -257,9 +273,9 @@ const wethBalanceBeforeFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, z
 console.log('ZRX Before: ' + ZeroEx.toUnitAmount(zrxBalanceBeforeFill, DECIMALS).toString());
 console.log('WETH Before: ' + ZeroEx.toUnitAmount(wethBalanceBeforeFill, DECIMALS).toString());
 
-// Fill up to 300 ZRX worth of orders from the relayer, starting with the orders with the best rates
+// Fill up to 300 ZRX worth of orders from the relayer
 const zrxAmount = ZeroEx.toBaseUnitAmount(new BigNumber(300), DECIMALS);
-const fillOrderTxHash = await zeroEx.exchange.fillOrdersUpToAsync(bestOrders, zrxAmount, true, zrxOwnerAddress);
+const fillOrderTxHash = await zeroEx.exchange.fillOrdersUpToAsync(bidsToBeFilled, zrxAmount, true, zrxOwnerAddress);
 await zeroEx.awaitTransactionMinedAsync(fillOrderTxHash);
 
 // Get balances after the fill
