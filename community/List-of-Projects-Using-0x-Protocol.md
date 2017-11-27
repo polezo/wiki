@@ -28,6 +28,7 @@ These lists are composed of projects that publicly announced their interest in u
 + [RadarRelay](https://t.co/NIuOBGMF2l)
 + [The 0cean](https://the0cean.com)
 + [Amadeus](http://amadeusrelay.org)
++ [Decent Ex](https://decent.exchange)
 
 
 ### List of 0x trade explorers
