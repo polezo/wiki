@@ -91,20 +91,30 @@ const relayerApiUrl = 'http://localhost:3000';
 const relayerClient = new HttpClient(relayerApiUrl);
 ```
 
-### Declaring decimals and contract addresses
+### Getting contract addresses
 ---
-Because there are no decimals in the Ethereum virtual machine (EVM), we need to keep track of how many "decimals" each token possesses. Because we are only interacting with ZRX and ETH in this tutorial we can use a shared constant `DECIMALS`. Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` member of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` field of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
 
 ```javascript
-// The number of decimals ZRX and WETH have
-const DECIMALS = 18;
-
 // Get contract addresses
 const WETH_ADDRESS = await zeroEx.etherToken.getContractAddressAsync();
 const ZRX_ADDRESS = await zeroEx.exchange.getZRXTokenAddressAsync();
 const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync();
 ```
 
+### Getting token information
+---
+Now that we have the addresses of the tokens we care about, we can use the `tokenRegistry` field of our `ZeroEx` instance to get extra information related to the WETH and ZRX tokens. This information will be useful later for converting token amounts into base unit amounts. Because the `getTokenIfExistsAsync()` method may return `undefined` for inputs that don't represent registered token addresses, we must check for `undefined` results before proceeding.
+```javascript
+// Get token information
+const wethTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(WETH_ADDRESS);
+const zrxTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(ZRX_ADDRESS);
+
+// Check if either getTokenIfExistsAsync query resulted in undefined
+if (wethTokenInfo === undefined || zrxTokenInfo === undefined) {
+    throw new Error('could not find token info');
+}
+```
 ### Setting up accounts
 ---
 Now, we can use `0x.js` to grab available addresses. We assign the first address to a variable `zrxOwnerAddress` because it has a balance of 100000000 ZRX in the snapshot. We assign the rest of the addresses to a variable called `wethOwnerAddresses` because we will generate WETH for these addresses.
@@ -143,7 +153,7 @@ await Promise.all(setZrxAllowanceTxHashes.concat(setWethAllowanceTxHashes).map(t
 
 ```javascript
 // Deposit ETH and generate WETH tokens for each address in wethOwnerAddresses
-const ethToConvert = ZeroEx.toBaseUnitAmount(new BigNumber(5), DECIMALS); // Number of ETH to convert to WETH
+const ethToConvert = ZeroEx.toBaseUnitAmount(new BigNumber(5), wethTokenInfo.decimals);
 const depositTxHashes = await Promise.all(wethOwnerAddresses.map(address => {
     return zeroEx.etherToken.depositAsync(ethToConvert, address);
 }));
@@ -169,7 +179,7 @@ Different relayers in the 0x ecosystem will implement specific fee structures de
 ```javascript
 // Programmatically determine the exchange rate based on the index of address in wethOwnerAddresses
 const exchangeRate = (index + 1) * 10; // ZRX/WETH
-const makerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(5), DECIMALS);
+const makerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(5), wethTokenInfo.decimals);
 const takerTokenAmount = makerTokenAmount.mul(exchangeRate);
 
 // Generate fees request for the order
@@ -246,7 +256,7 @@ const sortedBids = orderbookResponse.bids.sort((orderA, orderB) => {
 
 // Find the orders we need in order to fill 300 ZRX
 const bidsToBeFilled: SignedOrder[] = [];
-let zrxToBeFilled =  ZeroEx.toBaseUnitAmount(new BigNumber(300), DECIMALS);
+let zrxToBeFilled =  ZeroEx.toBaseUnitAmount(new BigNumber(300), zrxTokenInfo.decimals);
 sortedBids.forEach(bid => {
     if (zrxToBeFilled.greaterThan(0)) {
         bidsToBeFilled.push(bid);
@@ -270,19 +280,19 @@ Now that we have the best WETH/ZRX orders that the relayer has to offer, we can 
 // Get balances before the fill
 const zrxBalanceBeforeFill = await zeroEx.token.getBalanceAsync(ZRX_ADDRESS, zrxOwnerAddress);
 const wethBalanceBeforeFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, zrxOwnerAddress);
-console.log('ZRX Before: ' + ZeroEx.toUnitAmount(zrxBalanceBeforeFill, DECIMALS).toString());
-console.log('WETH Before: ' + ZeroEx.toUnitAmount(wethBalanceBeforeFill, DECIMALS).toString());
+console.log('ZRX Before: ' + ZeroEx.toUnitAmount(zrxBalanceBeforeFill, zrxTokenInfo.decimals).toString());
+console.log('WETH Before: ' + ZeroEx.toUnitAmount(wethBalanceBeforeFill, wethTokenInfo.decimals).toString());
 
 // Fill up to 300 ZRX worth of orders from the relayer
-const zrxAmount = ZeroEx.toBaseUnitAmount(new BigNumber(300), DECIMALS);
+const zrxAmount = ZeroEx.toBaseUnitAmount(new BigNumber(300), zrxTokenInfo.decimals);
 const fillOrderTxHash = await zeroEx.exchange.fillOrdersUpToAsync(bidsToBeFilled, zrxAmount, true, zrxOwnerAddress);
 await zeroEx.awaitTransactionMinedAsync(fillOrderTxHash);
 
 // Get balances after the fill
 const zrxBalanceAfterFill = await zeroEx.token.getBalanceAsync(ZRX_ADDRESS, zrxOwnerAddress);
 const wethBalanceAfterFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, zrxOwnerAddress);
-console.log('ZRX After: ' + ZeroEx.toUnitAmount(zrxBalanceAfterFill, DECIMALS).toString());
-console.log('WETH After: ' + ZeroEx.toUnitAmount(wethBalanceAfterFill, DECIMALS).toString());
+console.log('ZRX After: ' + ZeroEx.toUnitAmount(zrxBalanceAfterFill, zrxTokenInfo.decimals).toString());
+console.log('WETH After: ' + ZeroEx.toUnitAmount(wethBalanceAfterFill, wethTokenInfo.decimals).toString());
 ```
 
 ### Wrapping up
