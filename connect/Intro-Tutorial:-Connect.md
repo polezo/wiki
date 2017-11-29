@@ -6,7 +6,7 @@ In this tutorial, we will show you how you can use the [@0xproject/connect](http
 * find the best orders in the orderbook
 * fill orders from the orderbook using `0x.js`
 
-You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/0xjs).
+You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/connect).
 
 ### Setup
 ---
