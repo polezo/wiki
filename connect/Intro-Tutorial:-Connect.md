@@ -42,9 +42,9 @@ In another terminal, navigate to the project directory and start a local http se
 npm run api
 ```
 
-You can now run the tutorial script
+You can now run the tutorial script. This command will build and run the `src/tutorials/intro/index.ts` script which we will take a closer look at below:
 ```
-npm run dev
+npm run tutorial1
 ```
 
 ### Importing packages
@@ -58,19 +58,17 @@ import {
     FeesRequest,
     FeesResponse,
     HttpClient,
+    Order,
     OrderbookRequest,
     OrderbookResponse,
-} from '@0xproject/connect';
-import {
-    Order,
     SignedOrder,
-    ZeroEx,
-} from '0x.js';
+} from '@0xproject/connect';
+import {ZeroEx} from '0x.js';
 ```
 
 **Web3** is the package allowing us to interact with our node and the Ethereum world. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment.
 
-### Instantiating ZeroEx and HttpRelayerClient
+### Instantiating ZeroEx and HttpClient
 ---
 
 First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
@@ -83,7 +81,7 @@ const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 const zeroEx = new ZeroEx(provider);
 ```
 
-Next, we create an `HttpRelayerClient` instance with a url pointing to a local standard relayer api http server running at **http://localhost:3000**. The `HttpRelayerClient` is our programmatic gateway to any relayer that conforms to the standard relayer api.
+Next, we create an `HttpClient` instance with a url pointing to a local standard relayer api http server running at **http://localhost:3000**. The `HttpClient` is our programmatic gateway to any relayer that conforms to the standard relayer api http standard.
 
 ```javascript
 // Instantiate relayer client pointing to a local server on port 3000
@@ -229,7 +227,7 @@ await relayerClient.submitOrderAsync(signedOrder);
 
 ### Requesting an orderbook
 ---
-If in an application we need exchange functionality between two tokens, we can find a suitable order for our needs using the `getOrderbookAsync()` method of `HttpRelayerClient`. In this example, we use the addresses of the ZRX and WETH tokens we retrieved earlier and use them to generate an `OrderbookRequest` to send to the relayerClient. In response, we get an `OrderbookResponse` containing orders that correspond with the provided `quoteTokenAddress` and `baseTokenAddress` (learn more about the quote/base token terminology [here](https://en.wikipedia.org/wiki/Currency_pair)).
+If in an application we need exchange functionality between two tokens, we can find a suitable order for our needs using the `getOrderbookAsync()` method of `HttpClient`. In this example, we use the addresses of the ZRX and WETH tokens we retrieved earlier and use them to generate an `OrderbookRequest` to send to the relayerClient. In response, we get an `OrderbookResponse` containing orders that correspond with the provided `quoteTokenAddress` and `baseTokenAddress` (learn more about the quote/base token terminology [here](https://en.wikipedia.org/wiki/Currency_pair)).
 
 ``` javascript
 // Generate orderbook request for ZRX/WETH pair
