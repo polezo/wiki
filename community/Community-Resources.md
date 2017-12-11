@@ -11,4 +11,5 @@ These external resources have been created by community members and/or projects 
 * [0x, The 0cean, and the High Performance Funnel](https://medium.com/@the0cean/0x-the-0cean-and-the-high-performance-funnel-80f0eb459f46)
 
 ### Videos
+* [0x Protocol Presentation @ Devcon 3 (Nov 3, 2017)](https://www.youtube.com/watch?v=9d019RycObk)
 * [0x Protocol - Deep Dive @ SF Ethereum Developer Meetup (July 9, 2017)](https://www.youtube.com/watch?v=h8daWRgzg9w)
