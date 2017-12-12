@@ -219,4 +219,4 @@ Through this tutorial we learned how to:
 * receive orderbook updates from a relayer in real time
 * take action on the updates
 
-While all of these tasks were performed using TestRPC and a local standard relayer api compliant WebSocket server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api WebSocket url: wss://api.radarrelay.com/0x/v0/ws for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
+For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
