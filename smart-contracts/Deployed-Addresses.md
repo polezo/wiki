@@ -4,7 +4,7 @@
 * TokenTransferProxy: [0x087Eed4Bc1ee3DE49BeFbd66C662B434B15d49d4](https://kovan.etherscan.io/address/0x087Eed4Bc1ee3DE49BeFbd66C662B434B15d49d4)
 * ZRXToken: [0x6ff6c0ff1d68b964901f986d4c9fa3ac68346570](https://kovan.etherscan.io/address/0x6ff6c0ff1d68b964901f986d4c9fa3ac68346570)
 * EtherToken [DEPRECATED]: [0x05d090b51c40b020eab3bfcb6a2dff130df22e9c](https://kovan.etherscan.io/address/0x05d090b51c40b020eab3bfcb6a2dff130df22e9c)
-* EtherToken: [0x653e49e301e508a13237c0ddc98ae7d4cd2667a1](https://kovan.etherscan.io/address/0x653e49e301e508a13237c0ddc98ae7d4cd2667a1)
+* EtherToken: [0xd0a1e359811322d97991e03f863a0c30c2cf029c](https://kovan.etherscan.io/address/0xd0a1e359811322d97991e03f863a0c30c2cf029c)
 * MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress: [0x9301A2B0dCA791Ba27B1A074Aba3Bf47bcd80Cb9](https://kovan.etherscan.io/address/0x9301A2B0dCA791Ba27B1A074Aba3Bf47bcd80Cb9)
 * TokenRegistry: [0xf18e504561f4347bea557f3d4558f559dddbae7f](https://kovan.etherscan.io/address/0xf18e504561f4347bea557f3d4558f559dddbae7f)
 
