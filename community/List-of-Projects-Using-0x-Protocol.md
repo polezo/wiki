@@ -22,13 +22,14 @@ These lists are composed of projects that publicly announced their interest in u
 + [Dextroid](https://www.dextroid.io/)
 + [ERC dEX](http://ercdex.com)
 + [Ethfinex](https://www.ethfinex.com/)
-+ [KinAlpha](https://kinalpha.com/)
++ [IDT Exchange](https://www.idtexchange.com/)
 + [OpenRelay](https://openrelay.xyz)
 + [Paradex](https://paradex.io/)
 + [RadarRelay](https://radarrelay.com/)
 + [The 0cean](https://the0cean.com)
 + [Amadeus](http://amadeusrelay.org)
 + [Decent Ex](https://decent.exchange)
++ [DDEX](https://ddex.io/)
 
 
 ### List of 0x trade explorers
