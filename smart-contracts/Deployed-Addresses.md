@@ -17,6 +17,14 @@
 * MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress: [0x4f7a0ca862448c6457076cf3c86fa7a1f17988e0](https://ropsten.etherscan.io/address/0x4f7a0ca862448c6457076cf3c86fa7a1f17988e0)
 * TokenRegistry: [0x6b1a50f0bb5a7995444bd3877b22dc89c62843ed](https://ropsten.etherscan.io/address/0x6b1a50f0bb5a7995444bd3877b22dc89c62843ed)
 
+#### Rinkeby
+
+* Exchange: [0x1d16ef40fac01cec8adac2ac49427b9384192c05](https://rinkeby.etherscan.io/address/0x1d16ef40fac01cec8adac2ac49427b9384192c05)
+* TokenTransferProxy: [0xa8e9fa8f91e5ae138c74648c9c304f1c75003a8d](https://rinkeby.etherscan.io/address/0xa8e9fa8f91e5ae138c74648c9c304f1c75003a8d)
+* ZRXToken: [0x00f58d6d585f84b2d7267940cede30ce2fe6eae8](https://rinkeby.etherscan.io/address/0x00f58d6d585f84b2d7267940cede30ce2fe6eae8)
+* EtherToken: [0xc778417e063141139fce010982780140aa0cd5ab](https://rinkeby.etherscan.io/address/0xc778417e063141139fce010982780140aa0cd5ab)
+* TokenRegistry: [0x4e9aad8184de8833365fea970cd9149372fdf1e6](https://rinkeby.etherscan.io/address/0x4e9aad8184de8833365fea970cd9149372fdf1e6)
+
 #### Mainnet
 
 * Exchange: [0x12459c951127e0c374ff9105dda097662a027093](https://etherscan.io/address/0x12459C951127e0c374FF9105DdA097662A027093)
