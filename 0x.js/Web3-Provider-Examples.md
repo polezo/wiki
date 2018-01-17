@@ -1,4 +1,4 @@
-As described in the Web3 Provider Explained section in the wiki, we at 0x have created a number of useful subproviders, but they aren't only useful for 0x.js. They can be added to any dApp to provide resiliency, usability and to offer hardware support.
+As described in the Web3 Provider Explained section on the wiki, we at 0x have created a number of useful subproviders, but they aren't only useful for 0x.js. They can be added to any dApp to provide resiliency, usability and to offer hardware support.
 
 You can install the 0x providers package as follows:
 ```
@@ -14,7 +14,7 @@ npm install web3 web3-provider-engine --save
 In the first example, we will make use of a browser extension wallet (e.g [Metamask](https://metamask.io/)) composed with a Ethereum node we control. This set up allows all of the account based activity (signing of messages and transactions) to route to the browser extension wallet, while allowing the actual submission of the transaction to flow through to a different Ethereum node. 
 
 
-```
+```typescript
 import * as Web3 from 'web3';
 import Web3ProviderEngine = require('web3-provider-engine');
 import {promisify} from '@0xproject/utils';
@@ -43,7 +43,7 @@ In the above example, all account based requests, such as signing a transaction,
 
 Within the 0x Subprovider package, we also have added a Ledger Nano S subprovider. By adding this subprovider into the Provider Engine, we are able to route all account based requests (signing etc) to the Ledger Nano S. The subprovider can then be used either directly, or through the Web3 Provider API.
 
-```
+```typescript
 import * as Web3 from 'web3';
 import Web3ProviderEngine = require('web3-provider-engine');
 import {promisify} from '@0xproject/utils';
