@@ -1,6 +1,8 @@
-When instantiating a [new instance of the 0x.js library](https://0xproject.com/docs/0xjs#zeroEx), we require that you pass in a Web3 provider. Since there doesn't seem to be great documentation on what exactly a Web3 Provider is, we thought we'd fill the gap.
+When instantiating a [new instance of the 0x.js library](https://0xproject.com/docs/0xjs#zeroEx), we require that you pass in a Web3 provider. This Web3 provider allows your application to communicate to an Ethereum Node. Since there doesn't seem to be great documentation on what exactly a Web3 Provider is, we thought we'd fill the gap.
 
-A provider can be any module or class instance that implements the `sendAsync` method (simply `send` in web3 V1.0 Beta). That's it. What this `sendAsync` method does is take JSON RPC payload requests and handles them.
+A provider can be any module or class instance that implements the `sendAsync` method (simply `send` in web3 V1.0 Beta). That's it. What this `sendAsync` method does is take JSON RPC payload requests and handles them. [Web3.js](https://github.com/ethereum/web3.js/) is an example of a Web3 Provider.
+
+Using a configured Web3 Provider, the application can request signatures, estimate gas and gas price, and submit the transactions to a Ethereum node.
 
 **Note:** 0x.js V0.12.0 and below do not support Web3 V1.0-Beta providers.
 
@@ -26,7 +28,7 @@ We describe each of our subproviders below.
 
 #### RedundantRPCSubprovider
 
-In 0x Portal we use a custom built provider called [RedundantRPCSubprovider](https://github.com/0xProject/0x.js/blob/development/packages/subproviders/src/subproviders/redundant_rpc.ts) that sends an RPC payload to several Ethereum nodes sequentially until one successfully handles it. During our token sale, the huge amount of traffic caused some of our Ethereum nodes to fail. Using this subproviders we were able to have requests sent to backup nodes when this happened, greatly improving our apps resilience to outages.
+In 0x Portal we use a custom built provider called [RedundantRPCSubprovider](https://github.com/0xProject/0x.js/blob/development/packages/subproviders/src/subproviders/redundant_rpc.ts) that sends an RPC payload to several Ethereum nodes sequentially until one successfully handles it. During our token sale, the huge amount of traffic caused some of our Ethereum nodes to fail. Using this subprovider we were able to have requests sent to backup nodes when this happened, greatly improving the applications resilience to outages.
 
 #### LedgerSubprovider
 
