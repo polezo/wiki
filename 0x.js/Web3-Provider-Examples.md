@@ -100,6 +100,6 @@ These methods can be used outside of a Web3 Provider if the application prefers 
 
 
 ### Notes on Ledger Subprovider
-It is important to remember that UI/UX components need to be considered when using the Ledger provider. A user may have multiple accounts on the ledger and simply the first one may not be correct. Also the user may want to set the gas price, to either a high number or low number. These UI compnents must be considered.
+It is important to remember that UI/UX components need to be considered when using the Ledger provider. A user may have multiple accounts on the ledger and assuming the first account may not be correct. The user may want to set the gas price, to either a high number or low number. These UI compnents must be considered.
 
-Unlike a Browser wallet, the ledger display is limited and can only show a fraction of a transaction hash or signed message. To provide a good experience a dApp should consider displaying a confirmation window in the dApp at the same time as the ledger request is made. Only send one request at a time to a hardware device, unlike a Browser wallet they may not queue up and the experience could be confusing.
+Unlike a Browser wallet, the hardware displays are limited and can only show a subset of a transaction or signed message. To provide a good experience a dApp should consider displaying a confirmation window in the dApp at the same time as the ledger request is made. Only send one request at a time to a hardware device, unlike a Browser wallet they may not queue up and the experience could be confusing.
