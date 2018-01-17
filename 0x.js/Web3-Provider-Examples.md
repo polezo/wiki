@@ -1,4 +1,4 @@
-As previously described in the Web3 Provider Explained section on the wiki, we at 0x have created a number of useful subproviders. These subproviders aren't only useful for 0x.js, they can be added to any dApp to provide resiliency, usability and to offer hardware support.
+As previously described in the Web3 Provider Explained section on the wiki, we at 0x have created a number of useful subproviders. These subproviders aren't only useful for 0x.js, they can be added to any application to provide resiliency, usability and to offer hardware functionality.
 
 You can install the 0x providers package as follows:
 ```
