@@ -75,7 +75,8 @@ console.log(accounts);
 
 This above example works for Browser based applications, if you want to use the Ledger Nano S directly in a Node.js application, you must use a different `ledgerEthereumClientFactoryAsync`, for example:
 
-```
+
+```typescript
 // Import the NodeJS Client Factory, rather than the Browser Client Factory
 import {
     ledgerEthereumNodeJsClientFactoryAsync as ledgerEthereumClientFactoryAsync,
@@ -84,8 +85,9 @@ import {
 } from '@0xproject/subproviders';
 ```
 
-The Ledger Subprovider has a public API to set various options. For example, the derivation path cam be changed, and the account index can be changed. 
-```
+The Ledger Subprovider has a public API to set various options. For example, the derivation path and the account index can be changed.
+
+```typescript
 public getPath(): string
 public setPath(derivationPath: string)
 public setPathIndex(pathIndex: number)
@@ -97,4 +99,7 @@ public async signPersonalMessageAsync(data: string): Promise<string>
 These methods can be used outside of a Web3 Provider if the application prefers to call them directly, rather than through the Web3 Provider Engine.
 
 
-**Note:** It is important to remember that UI/UX components need to be considered when using the Ledger provider. A user may have multiple accounts on the ledger and simply the first one may not be correct. Also the user may want to set the gas price, to either a high number or low number. These UI compnents must be considered.
+### Notes on Ledger Subprovider
+It is important to remember that UI/UX components need to be considered when using the Ledger provider. A user may have multiple accounts on the ledger and simply the first one may not be correct. Also the user may want to set the gas price, to either a high number or low number. These UI compnents must be considered.
+
+Unlike a Browser wallet, the ledger display is limited and can only show a fraction of a transaction hash or signed message. To provide a good experience a dApp should consider displaying a confirmation window in the dApp at the same time as the ledger request is made. Only send one request at a time to a hardware device, unlike a Browser wallet they may not queue up and the experience could be confusing.
