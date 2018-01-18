@@ -1,7 +1,7 @@
 0x uses a modular system of Ethereum smart contracts, allowing each component of the system to be upgraded without effecting the other components or causing active markets to be disrupted. The business logic that is responsible for executing trades is separated from governance logic and trading balance access controls. Not only can the trade execution module be swapped out, so can the governance module.
 
 <div style="text-align: center;">
-<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/architecture_diagram.png" style="padding-bottom: 20px; padding-top: 20px;" height="450" width="80%" />
+<img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/architecture_diagram.png" style="padding-bottom: 20px; padding-top: 20px;" width="80%" />
 </div>
 
 ### Contract Descriptions
