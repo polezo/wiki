@@ -1,4 +1,4 @@
-As previously described in the Web3 Provider Explained section of the wiki, we at 0x have created a number of useful subproviders. These subproviders aren't only useful for 0x.js, they can be added to any application to provide resiliency, usability and to support hardware wallet functionality.
+As previously described in the [Web3 Provider Explained](https://0xproject.com/wiki#Web3-Provider-Explained) section of the wiki, we at 0x have created a number of useful Web3 subproviders. These subproviders aren't only useful for 0x.js, they can be added to any application to provide resiliency, usability and to support hardware wallet functionality.
 
 You can install the 0x subproviders package as follows:
 ```
@@ -19,20 +19,21 @@ import * as Web3 from 'web3';
 import Web3ProviderEngine = require('web3-provider-engine');
 import { promisify } from '@0xproject/utils';
 import { InjectedWeb3Subprovider } from '@0xproject/subproviders';
+import { ZeroEx } from '0x.js';
 
-const networkId = 42;
+const KOVAN_NETWORK_ID = 42;
 // Create a Web3 Provider Engine
-const engine = new Web3ProviderEngine();
+const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the InjectedWeb3Subprovider to wrap the browser extension wallet
-engine.addProvider(new InjectedWeb3Subprovider(window.web3));
+providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3));
 // Use an RPC provider to route all other requests
-engine.addProvider(new window.web3.providers.HttpProvider('http://localhost:8545'));
-engine.start();
+providerEngine.addProvider(new Web3.providers.HttpProvider('http://localhost:8545'));
+providerEngine.start();
 
-const web3 = new Web3(engine);
+const web3 = new Web3(providerEngine);
 // Optional, use with 0x.js
-const zeroEx = new ZeroEx(web3, { networkId });
+const zeroEx = new ZeroEx(providerEngine, { networkId: KOVAN_NETWORK_ID });
 const accounts = await promisify<string>(web3.eth.getAccounts)();
 console.log(accounts);
 ```
@@ -49,24 +50,25 @@ import {
     ledgerEthereumBrowserClientFactoryAsync as ledgerEthereumClientFactoryAsync,
     LedgerSubprovider,
 } from '@0xproject/subproviders';
+import { ZeroEx } from '0x.js';
 
-const networkId = 42;
+const KOVAN_NETWORK_ID = 42;
 // Create a Web3 Provider Engine
-const engine = new Web3ProviderEngine();
+const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the Ledger Subprovider to intercept all account based requests
-const ledgerSubprovider = new LedgerSubprovider(
-    networkId,
+const ledgerSubprovider = new LedgerSubprovider({
+    networkId: KOVAN_NETWORK_ID,
     ledgerEthereumClientFactoryAsync,
-);
-engine.addProvider(ledgerSubprovider);
+});
+providerEngine.addProvider(ledgerSubprovider);
 // Use an RPC provider to route all other requests
-engine.addProvider(new window.web3.providers.HttpProvider('http://localhost:8545');
-engine.start();
+providerEngine.addProvider(new Web3.providers.HttpProvider('http://localhost:8545'));
+providerEngine.start();
 
-const web3 = new Web3(engine);
+const web3 = new Web3(providerEngine);
 // Optional, use with 0x.js
-const zeroEx = new ZeroEx(web3, { networkId });
+const zeroEx = new ZeroEx(providerEngine, { networkId: KOVAN_NETWORK_ID });
 const accounts = await promisify<string>(web3.eth.getAccounts)();
 console.log(accounts);
 ```
@@ -95,12 +97,12 @@ public async signPersonalMessageAsync(data: string): Promise<string>
 
 ### Notes on Ledger Subprovider
 It is important to remember that UI components and UX need to be considered when adding the hardware wallet support to your application. A few examples that require additional thought:
-  * The user may have multiple accounts on the hardware wallet. Assuming the first account may not be correct
-  * The user may want to set the gas price so the transaction has a higher probability of being mined
+  * The user may have multiple accounts on the hardware wallet. The first account may not be the desired one
+  * The user may want to set the a higher gas price so the transaction has a higher probability of being mined
   * The hardware device is limited to handling one request at a time 
   * The hardware device is not capable of showing the message entirely on screen. An application [should confirm](https://github.com/ethfinex/0x-order-verify) what is displayed on the device
 
-In our last example we will add redundancy to the application by making use of the RedundantRPCSubprovider. The RedundantRPCSubprovider helps your application stay up when underlying Ethereum nodes experience network issues. To use this subprovider, simply provide it a list of Ethereum node RPC endpoints and it will attempt each one in sequence until a successful response is returned.
+In our last example we will add redundancy to the application by making use of the RedundantRPCSubprovider. The RedundantRPCSubprovider helps your application stay up when underlying Ethereum nodes experience network issues. To use this subprovider, simply provide it with a list of Ethereum node RPC endpoints and it will attempt each one in sequence until a successful response is returned.
 
 ```typescript
 import * as Web3 from 'web3';
@@ -111,19 +113,17 @@ import {
     RedundantRPCSubprovider
 } from '@0xproject/subproviders';
 
-const networkId = 42;
+const KOVAN_NETWORK_ID = 42;
 // Create a Web3 Provider Engine
-const engine = new Web3ProviderEngine();
+const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the InjectedWeb3Subprovider to wrap the browser extension wallet
-engine.addProvider(new InjectedWeb3Subprovider(window.web3));
+providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3));
 // Use the RedundantRPCSubprovider to route all other requests
-engine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/'));
-engine.start();
+providerEngine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/'));
+providerEngine.start();
 
-const web3 = new Web3(engine);
-// Optional, use with 0x.js
-const zeroEx = new ZeroEx(web3, { networkId });
+const web3 = new Web3(providerEngine);
 const gasPriceEstimate = await promisify<string>(web3.eth.getGasPrice)();
 console.log(gasPriceEstimate);
 ```
