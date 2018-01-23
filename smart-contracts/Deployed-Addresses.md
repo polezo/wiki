@@ -1,3 +1,13 @@
+#### Mainnet
+
+* Exchange: [0x12459c951127e0c374ff9105dda097662a027093](https://etherscan.io/address/0x12459C951127e0c374FF9105DdA097662A027093)
+* TokenTransferProxy: [0x8da0d80f5007ef1e431dd2127178d224e32c2ef4](https://etherscan.io/address/0x8da0D80f5007ef1e431DD2127178d224E32C2eF4)
+* ZRXToken: [0xe41d2489571d322189246dafa5ebde1f4699f498](https://etherscan.io/address/0xE41d2489571d322189246DaFA5ebDe1F4699F498)
+* EtherToken [DEPRECATED]: [0x2956356cd2a2bf3202f771f50d3d14a367b48070](https://etherscan.io/address/0x2956356cd2a2bf3202f771f50d3d14a367b48070)
+* EtherToken: [0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+* MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress: [0x01d9f4d104668cdc0b6d13c45dff5e15d58d8f28](https://etherscan.io/address/0x01d9f4d104668cdc0b6d13c45dff5e15d58d8f28)
+* TokenRegistry: [0x926a74c5c36adf004c87399e65f75628b0f98d2c](https://etherscan.io/address/0x926a74c5c36adf004c87399e65f75628b0f98d2c)
+
 #### Kovan
 
 * Exchange: [0x90fe2af704b34e0224bf2299c838e04d4dcf1364](https://kovan.etherscan.io/address/0x90fe2af704b34e0224bf2299c838e04d4dcf1364)
@@ -25,13 +35,3 @@
 * ZRXToken: [0x00f58d6d585f84b2d7267940cede30ce2fe6eae8](https://rinkeby.etherscan.io/address/0x00f58d6d585f84b2d7267940cede30ce2fe6eae8)
 * EtherToken: [0xc778417e063141139fce010982780140aa0cd5ab](https://rinkeby.etherscan.io/address/0xc778417e063141139fce010982780140aa0cd5ab)
 * TokenRegistry: [0x4e9aad8184de8833365fea970cd9149372fdf1e6](https://rinkeby.etherscan.io/address/0x4e9aad8184de8833365fea970cd9149372fdf1e6)
-
-#### Mainnet
-
-* Exchange: [0x12459c951127e0c374ff9105dda097662a027093](https://etherscan.io/address/0x12459C951127e0c374FF9105DdA097662A027093)
-* TokenTransferProxy: [0x8da0d80f5007ef1e431dd2127178d224e32c2ef4](https://etherscan.io/address/0x8da0D80f5007ef1e431DD2127178d224E32C2eF4)
-* ZRXToken: [0xe41d2489571d322189246dafa5ebde1f4699f498](https://etherscan.io/address/0xE41d2489571d322189246DaFA5ebDe1F4699F498)
-* EtherToken [DEPRECATED]: [0x2956356cd2a2bf3202f771f50d3d14a367b48070](https://etherscan.io/address/0x2956356cd2a2bf3202f771f50d3d14a367b48070)
-* EtherToken: [0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
-* MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress: [0x01d9f4d104668cdc0b6d13c45dff5e15d58d8f28](https://etherscan.io/address/0x01d9f4d104668cdc0b6d13c45dff5e15d58d8f28)
-* TokenRegistry: [0x926a74c5c36adf004c87399e65f75628b0f98d2c](https://etherscan.io/address/0x926a74c5c36adf004c87399e65f75628b0f98d2c)
