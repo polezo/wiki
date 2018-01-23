@@ -14,6 +14,7 @@
 * TokenTransferProxy: [0x4e9aad8184de8833365fea970cd9149372fdf1e6](https://ropsten.etherscan.io/address/0x4e9aad8184de8833365fea970cd9149372fdf1e6)
 * ZRXToken: [0xa8e9fa8f91e5ae138c74648c9c304f1c75003a8d](https://ropsten.etherscan.io/address/0xa8e9fa8f91e5ae138c74648c9c304f1c75003a8d)
 * EtherToken [DEPRECATED]: [0xc00fd9820cd2898cc4c054b7bf142de637ad129a](https://ropsten.etherscan.io/address/0xc00fd9820cd2898cc4c054b7bf142de637ad129a)
+* EtherToken: [0xc778417e063141139fce010982780140aa0cd5ab](https://ropsten.etherscan.io/address/0xc778417e063141139fce010982780140aa0cd5ab)
 * MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress: [0x4f7a0ca862448c6457076cf3c86fa7a1f17988e0](https://ropsten.etherscan.io/address/0x4f7a0ca862448c6457076cf3c86fa7a1f17988e0)
 * TokenRegistry: [0x6b1a50f0bb5a7995444bd3877b22dc89c62843ed](https://ropsten.etherscan.io/address/0x6b1a50f0bb5a7995444bd3877b22dc89c62843ed)
 
