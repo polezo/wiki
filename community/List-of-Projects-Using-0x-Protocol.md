@@ -30,6 +30,7 @@ These lists are composed of projects that publicly announced their interest in u
 + [Amadeus](http://amadeusrelay.org)
 + [Decent Ex](https://decent.exchange)
 + [DDEX](https://ddex.io/)
++ [MobiDex](http://mobidex.io)
 
 
 ### List of 0x trade explorers
