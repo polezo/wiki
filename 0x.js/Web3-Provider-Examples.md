@@ -8,7 +8,7 @@ npm install @0xproject/subproviders --save
 The subproviders work best when they are composed together using the [Web3 Provider Engine](https://github.com/MetaMask/provider-engine). This can be installed as follows:
 
 ```
-npm install web3 web3-provider-engine --save
+npm install web3@0.20.4 web3-provider-engine --save
 ```
 
 In the first example, we will make use of a browser extension wallet (e.g [Metamask](https://metamask.io/)) composed with an Ethereum node we control. This set up allows all of the account based activity (signing of messages and sending transactions) to route to the browser extension wallet, while allowing the data fetching requests to flow through to a specific Ethereum node of our choosing. 
