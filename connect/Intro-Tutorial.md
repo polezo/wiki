@@ -63,7 +63,10 @@ import {
     OrderbookResponse,
     SignedOrder,
 } from '@0xproject/connect';
-import {ZeroEx} from '0x.js';
+import {
+    ZeroEx,
+    ZeroExConfig,
+} from '0x.js';
 ```
 
 **Web3** is the package allowing us to interact with our node and the Ethereum world. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment.
@@ -71,38 +74,42 @@ import {ZeroEx} from '0x.js';
 ### Instantiating ZeroEx and HttpClient
 ---
 
-First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
+First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained). We also pass in a `ZeroExConfig` instance specifying the default testrpc networkId. This allows our `ZeroEx` instance to use the correct addresses of the contracts deployed on that network.
 
 ```javascript
 // Provider pointing to local TestRPC on default port 8545
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 
 // Instantiate 0x.js instance
-const zeroEx = new ZeroEx(provider);
+const zeroExConfig: ZeroExConfig = {
+    networkId: 50, // testrpc
+};
+
+// Instantiate 0x.js instance
+const zeroEx = new ZeroEx(provider, zeroExConfig);
 ```
 
 Next, we create an `HttpClient` instance with a url pointing to a local standard relayer api http server running at **http://localhost:3000**. The `HttpClient` is our programmatic gateway to any relayer that conforms to the standard relayer api http standard.
 
 ```javascript
 // Instantiate relayer client pointing to a local server on port 3000
-const relayerApiUrl = 'http://localhost:3000';
+const relayerApiUrl = 'http://localhost:3000/v0';
 const relayerClient = new HttpClient(relayerApiUrl);
 ```
 
-### Getting contract addresses
+### Getting the exchange contract addresses
 ---
-Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` field of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+Next, we use `0x.js` to get the address of the exchange contract on the current network.
 
 ```javascript
-// Get contract addresses
-const WETH_ADDRESS = await zeroEx.etherToken.getContractAddressAsync();
-const ZRX_ADDRESS = await zeroEx.exchange.getZRXTokenAddressAsync();
+// Get exchange contract address
 const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync();
 ```
 
 ### Getting token information
 ---
-Now that we have the addresses of the tokens we care about, we can use the `tokenRegistry` field of our `ZeroEx` instance to get extra information related to the WETH and ZRX tokens. This information will be useful later for converting token amounts into base unit amounts. Because the `getTokenIfExistsAsync()` method may return `undefined` for inputs that don't represent registered token addresses, we must check for `undefined` results before proceeding.
+We can use the `tokenRegistry` field of our `ZeroEx` instance to get information related to the WETH and ZRX tokens on the current network. This information is required for interacting with token balances and allowances and for converting token amounts into base unit amounts. Because the `getTokenIfExistsAsync()` method may return `undefined` for inputs that don't represent registered token addresses, we must check for `undefined` results before proceeding. Addresses of other tokens can be acquired though the `tokenRegistry` field of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+
 ```javascript
 // Get token information
 const wethTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(WETH_ADDRESS);
@@ -112,7 +119,12 @@ const zrxTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(ZRX_ADDRES
 if (wethTokenInfo === undefined || zrxTokenInfo === undefined) {
     throw new Error('could not find token info');
 }
+
+// Get token contract addresses
+const WETH_ADDRESS = wethTokenInfo.address;
+const ZRX_ADDRESS = zrxTokenInfo.address;
 ```
+
 ### Setting up accounts
 ---
 Now, we can use `0x.js` to grab available addresses. We assign the first address to a variable `zrxOwnerAddress` because it has a balance of 100000000 ZRX in the snapshot. We assign the rest of the addresses to a variable called `wethOwnerAddresses` because we will generate WETH for these addresses.
@@ -252,16 +264,6 @@ const sortedBids = orderbookResponse.bids.sort((orderA, orderB) => {
     return orderRateB.comparedTo(orderRateA);
 });
 
-// Find the orders we need in order to fill 300 ZRX
-const bidsToBeFilled: SignedOrder[] = [];
-let zrxToBeFilled =  ZeroEx.toBaseUnitAmount(new BigNumber(300), zrxTokenInfo.decimals);
-sortedBids.forEach(bid => {
-    if (zrxToBeFilled.greaterThan(0)) {
-        bidsToBeFilled.push(bid);
-        zrxToBeFilled = zrxToBeFilled.minus(bid.takerTokenAmount);
-    }
-});
-
 // Calculate and print out the WETH/ZRX exchange rate for each order
 const rates = sortedBids.map(order => {
     const rate = (new BigNumber(order.makerTokenAmount)).div(new BigNumber(order.takerTokenAmount));
@@ -272,7 +274,7 @@ console.log(rates);
 
 ### Filling the orders
 ---
-Now that we have the best WETH/ZRX orders that the relayer has to offer, we can use them to exchange some of the ZRX balance of `zrxOwnerAddress` into WETH from the `wethOwnerAddresses`. In this example, we wish to convert 300 ZRX into WETH at the best rate the relayer has to offer. We can do this using the `bidsToBeFilled` array we generated above, and the `fillOrdersUpToAsync()` function of the exchange wrapper provided by our instance of `ZeroEx`. When we print our balances, we can see that we successfully exchanged 300 ZRX for 15 WETH.
+Now that we have the best WETH/ZRX orders that the relayer has to offer, we can use them to exchange some of the ZRX balance of `zrxOwnerAddress` into WETH from the `wethOwnerAddresses`. In this example, we wish to completely fill the best bid the relayer has to offer. We can do this using the `sortedBids` array we generated above, and the `fillOrderAsync()` function of the exchange wrapper provided by our instance of `ZeroEx`. When we print our balances, we can see that we successfully performed the exchange
 
 ``` javascript
 // Get balances before the fill
@@ -281,10 +283,10 @@ const wethBalanceBeforeFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, z
 console.log('ZRX Before: ' + ZeroEx.toUnitAmount(zrxBalanceBeforeFill, zrxTokenInfo.decimals).toString());
 console.log('WETH Before: ' + ZeroEx.toUnitAmount(wethBalanceBeforeFill, wethTokenInfo.decimals).toString());
 
-// Fill up to 300 ZRX worth of orders from the relayer
-const zrxAmount = ZeroEx.toBaseUnitAmount(new BigNumber(300), zrxTokenInfo.decimals);
-const fillOrderTxHash = await zeroEx.exchange.fillOrdersUpToAsync(bidsToBeFilled, zrxAmount, true, zrxOwnerAddress);
-await zeroEx.awaitTransactionMinedAsync(fillOrderTxHash);
+// Completely fill the best bid
+const bidToFill = sortedBids[0];
+const fillTxHash = await zeroEx.exchange.fillOrderAsync(bidToFill, bidToFill.takerTokenAmount, true, zrxOwnerAddress);
+await zeroEx.awaitTransactionMinedAsync(fillTxHash);
 
 // Get balances after the fill
 const zrxBalanceAfterFill = await zeroEx.token.getBalanceAsync(ZRX_ADDRESS, zrxOwnerAddress);

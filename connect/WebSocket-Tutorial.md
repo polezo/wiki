@@ -64,7 +64,10 @@ import {
     OrderbookChannelSubscriptionOpts,
     WebSocketOrderbookChannel,
 } from '@0xproject/connect';
-import {ZeroEx} from '0x.js';
+import {
+    ZeroEx,
+    ZeroExConfig,
+} from '0x.js';
 import {CustomOrderbookChannelHandler} from './custom_orderbook_channel_handler';
 ```
 
@@ -73,33 +76,54 @@ import {CustomOrderbookChannelHandler} from './custom_orderbook_channel_handler'
 ### Instantiating ZeroEx and WebSocketOrderbookChannel
 ---
 
-First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
+First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained). We also pass in a `ZeroExConfig` instance specifying the default testrpc networkId. This allows our `ZeroEx` instance to use the correct addresses of the contracts deployed on that network.
 
 ```javascript
 // Provider pointing to local TestRPC on default port 8545
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 
 // Instantiate 0x.js instance
-const zeroEx = new ZeroEx(provider);
+const zeroExConfig: ZeroExConfig = {
+    networkId: 50, // testrpc
+};
+// Instantiate 0x.js instance
+const zeroEx = new ZeroEx(provider, zeroExConfig);
 ```
 
 Next, we create a `WebSocketOrderbookChannel` instance with a url pointing to a local standard relayer api WebSocket server running at **http://localhost:3001**. The `WebSocketOrderbookChannel` is our programmatic gateway to any relayer that conforms to the standard relayer api WebSocket standard.
 
 ```javascript
 // Instantiate an orderbook channel pointing to a local server on port 3001
-const relayerWsApiUrl = 'http://localhost:3001';
+const relayerWsApiUrl = 'http://localhost:3001/v0';
 const orderbookChannel: OrderbookChannel = new WebSocketOrderbookChannel(relayerWsApiUrl);
 ```
 
-### Getting contract addresses
+### Getting the exchange contract addresses
 ---
-Next, we use `0x.js` to get the addresses of the contracts we care about on the current network. Addresses of other tokens can be acquired though the `tokenRegistry` property of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+Next, we use `0x.js` to get the address of the exchange contract on the current network.
 
 ```javascript
-// Get contract addresses
-const WETH_ADDRESS = await zeroEx.etherToken.getContractAddressAsync();
-const ZRX_ADDRESS = await zeroEx.exchange.getZRXTokenAddressAsync();
+// Get exchange contract address
 const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync();
+```
+
+### Getting token information
+---
+We can use the `tokenRegistry` field of our `ZeroEx` instance to get information related to the WETH and ZRX tokens on the current network. This information is required for interacting with token balances and allowances and for converting token amounts into base unit amounts. Because the `getTokenIfExistsAsync()` method may return `undefined` for inputs that don't represent registered token addresses, we must check for `undefined` results before proceeding. Addresses of other tokens can be acquired though the `tokenRegistry` field of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+
+```javascript
+// Get token information
+const wethTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(WETH_ADDRESS);
+const zrxTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(ZRX_ADDRESS);
+
+// Check if either getTokenIfExistsAsync query resulted in undefined
+if (wethTokenInfo === undefined || zrxTokenInfo === undefined) {
+    throw new Error('could not find token info');
+}
+
+// Get token contract addresses
+const WETH_ADDRESS = wethTokenInfo.address;
+const ZRX_ADDRESS = zrxTokenInfo.address;
 ```
 
 ### Deciding our subscription options
