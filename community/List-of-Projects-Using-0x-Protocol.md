@@ -28,7 +28,6 @@ These lists are composed of projects that publicly announced their interest in u
 + [RadarRelay](https://radarrelay.com/)
 + [The 0cean](https://the0cean.com)
 + [Amadeus](http://amadeusrelay.org)
-+ [Decent Ex](https://decent.exchange)
 + [DDEX](https://ddex.io/)
 + [MobiDex](http://mobidex.io)
 
