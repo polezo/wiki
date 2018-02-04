@@ -104,7 +104,7 @@ Next, we use `0x.js` to get the address of the exchange contract on the current 
 
 ```javascript
 // Get exchange contract address
-const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddressAsync();
+const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddress();
 ```
 
 ### Getting token information
@@ -113,8 +113,8 @@ We can use the `tokenRegistry` field of our `ZeroEx` instance to get information
 
 ```javascript
 // Get token information
-const wethTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(WETH_ADDRESS);
-const zrxTokenInfo = await zeroEx.tokenRegistry.getTokenIfExistsAsync(ZRX_ADDRESS);
+const wethTokenInfo = await zeroEx.tokenRegistry.getTokenBySymbolIfExistsAsync('WETH');
+const zrxTokenInfo = await zeroEx.tokenRegistry.getTokenBySymbolIfExistsAsync('ZRX');
 
 // Check if either getTokenIfExistsAsync query resulted in undefined
 if (wethTokenInfo === undefined || zrxTokenInfo === undefined) {
