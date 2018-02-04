@@ -17,19 +17,20 @@ These lists are composed of projects that publicly announced their interest in u
 + [OpenANX](https://www.oax.org/)
 + [Request Network](https://request.network/)
 
+
 ### List of relayers that will be (or are) using the 0x protocol
 
++ [Amadeus](http://amadeusrelay.org)
++ [DDEX](https://ddex.io/)
 + [Dextroid](https://www.dextroid.io/)
 + [ERC dEX](http://ercdex.com)
 + [Ethfinex](https://www.ethfinex.com/)
 + [IDT Exchange](https://www.idtexchange.com/)
++ [MobiDex](http://mobidex.io)
 + [OpenRelay](https://openrelay.xyz)
 + [Paradex](https://paradex.io/)
 + [RadarRelay](https://radarrelay.com/)
 + [The 0cean](https://the0cean.com)
-+ [Amadeus](http://amadeusrelay.org)
-+ [DDEX](https://ddex.io/)
-+ [MobiDex](http://mobidex.io)
 
 
 ### List of 0x trade explorers
