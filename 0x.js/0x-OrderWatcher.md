@@ -1,4 +1,4 @@
-Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer wanting to prune their orderbook of any orders that have have become unfillable. Another example is a trader using the standard relayer API who wants to react quickly to orders retrieved from relayers becoming unfillable
+Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer wanting to prune their orderbook of any orders that have become unfillable. Another example is a trader using the standard relayer API who wants to react quickly to orders retrieved from relayers becoming unfillable
 
 At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it. This tool requires a backing Ethereum node setup to have a decent representation of the mempool so make sure to also read [our guide](https://0xproject.com/wiki#Mempool-Setup-Guide) on how to set one up.
 
@@ -10,7 +10,7 @@ Once the orderWatcher is started and an order has been added to it, it will emit
 
 ### Order Validity
 
-Order validity is not binary. An order can be partially filled, cancelled and fillable at the same time. Imagine an order that sells 4 tokens. Let's say it's already been filled for 1 and the maker cancelled it for 1. Now the order might be fillable for 2, but the maker moves one token out of the backing address. You can now only fill it for 1.
+Order validity is not binary. An order can be partially filled, cancelled and fillable at the same time. Imagine an order that sells 4 tokens. Let's say it's already been filled for 1 and the maker partially cancelled it for 1. Now the order might be fillable for 2, but the maker moves one token out of the backing address. You can now only fill it for 1.
 
 |filled|cancelled|unfunded|fillable|
 
@@ -29,7 +29,7 @@ An order is considered valid by the orderWatcher when it can be filled for a non
 
 You're free to implement your own logic on top of this information. Some decisions a relayer must make are:
 
-* Whether to accept orders that are partially fillable (unfunded - not to be confused with partially filled)
+* Whether to accept orders that are partially fillable due to the maker having less available funds or allowance than the order specifies (unfunded - not to be confused with partially filled)
 * What the minimum partially fillable amount is that they are willing to accept (this let's them avoid dust orders)
 * Whether to punish users whose orders become unfillable through an allowance/balance change (griefing)
 
@@ -71,7 +71,7 @@ Let's look into order validation more deeply and optimize it. When the order is 
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_state_deps.png" style="padding-bottom: 20px; padding-top: 20px" width="80%" />
 </div>
 
-Time is the easy part. OrderWatcher simply push your orders onto a min heap by expiration time and emit events whenever they expire. You might want to be notified before they expire. To do so, you can configure orderWatcher to notify you X seconds before an order expires. If an order expires in 10 seconds - there is no reason to keep it on the order book, because there is a very small probability the transaction will make it into a block within 10 seconds.
+Time is the easy part. OrderWatcher simply pushes your orders onto a min heap by expiration time and emit events whenever they expire. You might want to be notified before they expire. To do so, you can configure orderWatcher to notify you X seconds before an order expires. If an order expires in 10 seconds - there is no reason to keep it on the order book, because there is a very small probability the transaction will make it into a block within 10 seconds.
 
 Blockchain state is slightly more complex. We'd like to get notified when any of those four state fields in the above diagram change for any order. Luckily those are token balance and allowance changes. According to the ERC20 standard, any token transfer/allowance change MUST emit a corresponding event ([Transfer](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md#transfer-1) & [Approval](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md#approval) respectively). We can therefore listen for those events on the pending state level and use it as a proxy for the underlying state change.
 
@@ -87,7 +87,7 @@ Because order watcher operates on the mempool state level - it has some strong i
 
 * You need to be running you own Ethereum node
     * Existing solutions like Infura are too unreliable and don't support fetching pending events
-    * Learn [how to host your own Parity node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node)).
+    * Learn [how to host your own Parity node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node).
 * It's good to expand the default mempool size in order to accomodate as many transactions as possible.
 * Those fake blocks should contain the whole mempool so that we get all the events
     * Parity has a CLI flag for that
