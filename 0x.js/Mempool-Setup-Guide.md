@@ -20,7 +20,7 @@ There are basically two approaches to extracting data from an Ethereum transacti
     * The benefit is that we know exactly what the transaction did and we can extract the event logs from it. These event logs can inform us on what happened, even in contract sub-calls. We assume here that all the state changes we care about have associated log events (balance/allowance changes, order fills/cancels)
     * The downside is that we need to run it through a VM with access to the whole blockchain state, so it's impossible to do it client-side. We need a fully synced Ethereum node.
 
-Given that we want a complete picture of how the blockchain state will change with new transactions, we'll go with the dynamic approach. If you still want to try the static approach you can simply fetch the mempool from geth (`txpool_content`) or parity (`parity_pendingTransactions`) and [decode](https://github.com/miguelmota/ethereum-input-data-decoder) the parameters.
+Given that we want a complete picture of how the blockchain state will change with new transactions, we'll go with the dynamic approach.
 
 ### Setting up an accurate mempool
 
@@ -65,7 +65,7 @@ parity/parity:v1.8.1 \ // version of parity to run
 --auto-update none \ // we don't want auto-updates
 --no-download \ // and we don't want to download updates either
 --tx-queue-gas off \ // our mempool accepts any transaction
---tx-queue-size 1000000 \ // our mempool is big
+--tx-queue-size 1000000 \ // Set the size of the mempool to 1M
 --force-sealing \ // generate fake blocks
 --reseal-min-period=1 \ // not faster than once per 1ms
 --reseal-on-txs all // regenerate block on any new transaction
