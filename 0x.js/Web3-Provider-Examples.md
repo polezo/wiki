@@ -26,7 +26,7 @@ const KOVAN_NETWORK_ID = 42;
 const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the InjectedWeb3Subprovider to wrap the browser extension wallet
-providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3));
+providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvider));
 // Use an RPC provider to route all other requests
 providerEngine.addProvider(new Web3.providers.HttpProvider('http://localhost:8545'));
 providerEngine.start();
@@ -118,7 +118,7 @@ const KOVAN_NETWORK_ID = 42;
 const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the InjectedWeb3Subprovider to wrap the browser extension wallet
-providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3));
+providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvider));
 // Use the RedundantRPCSubprovider to route all other requests
 providerEngine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/'));
 providerEngine.start();
