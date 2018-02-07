@@ -58,7 +58,7 @@ The solution we are proposing here is to shadow orders that are deemed invalid r
 Lifeycle of an order:
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_states.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 507px;" width="80" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_states.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 507px;" width="80%" />
 </div>
 
 ### Performance optimizations
