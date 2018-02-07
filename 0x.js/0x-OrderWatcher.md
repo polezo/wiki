@@ -58,7 +58,7 @@ The solution we are proposing here is to shadow orders that are deemed invalid r
 Lifeycle of an order:
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_states.png" style="padding-bottom: 20px; padding-top: 20px" width="80%" maxWidth="507px" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_states.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 507px;" width="80" />
 </div>
 
 ### Performance optimizations
@@ -68,7 +68,7 @@ The pending state changes with every new transaction that gets submitted to the 
 Let's look into order validation more deeply and optimize it. When the order is already on an order book and it's schema and signature have already been validated - order validation is essentially a [pure function](https://en.wikipedia.org/wiki/Pure_function) that depends on blockchain state and time.
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_state_deps.png" style="padding-bottom: 20px; padding-top: 20px" width="80%" maxWidth="627px" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_state_deps.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 627px;" width="80%" />
 </div>
 
 Time is the easy part. OrderWatcher simply pushes your orders onto a min heap by expiration time and emit events whenever they expire. You might want to be notified before they expire. To do so, you can configure orderWatcher to notify you X seconds before an order expires. If an order expires in 10 seconds - there is no reason to keep it on the order book, because there is a very small probability the transaction will make it into a block within 10 seconds.
@@ -78,7 +78,7 @@ Blockchain state is slightly more complex. We'd like to get notified when any of
 Unfortunately not every balance change is a transfer. Some tokens implement additional logic like mint/burn and there is no standard about emitting events in such cases. This means the orderWatcher might miss some state changes. That's why we've implemented a cleanup job that periodically runs over all orders and checks them iteratively. This iterative process can run much more infrequently then if it were used as the primary mechanism for order watching.
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/state_to_order_mapping.png" style="padding-bottom: 20px; padding-top: 20px" width="80%" maxWidth="761px" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/state_to_order_mapping.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
 </div>
 
 ### Infrastructure requirements
