@@ -85,7 +85,7 @@ Unfortunately not every balance change is a transfer. Some tokens implement addi
 
 Because order watcher operates on the mempool state level - it has some strong infrastructure requirements.
 
-* You need to be running you own Ethereum node
+* You need to be running your own Ethereum node
     * Existing solutions like Infura are too unreliable and don't support fetching pending events
     * Learn [how to host your own Parity node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node).
 * It's good to expand the default mempool size in order to accomodate as many transactions as possible.
