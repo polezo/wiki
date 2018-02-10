@@ -6,10 +6,10 @@ Install TestRPC locally:
 npm install -g ethereumjs-testrpc
 ```
 
-In order to run TestRPC with all the latest 0x protocol smart contracts available, you must first download [this TestRPC snapshot](https://s3.amazonaws.com/testrpc-shapshots/78fe8dd.zip) and save it. Next unzip it's contents with:
+In order to run TestRPC with all the latest 0x protocol smart contracts available, you must first download [this TestRPC snapshot](https://s3.amazonaws.com/testrpc-shapshots/07d00cc515e0f9825b81595386b358593b7a3d6f.zip) and save it. Next unzip it's contents with:
 
 ```bash
-unzip ./78fe8dd.zip -d ./0x_testrpc_snapshot
+unzip ./07d00cc515e0f9825b81595386b358593b7a3d6f.zip -d ./0x_testrpc_snapshot
 ```
 
 You can now start TestRPC as follows:
