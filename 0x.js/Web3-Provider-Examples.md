@@ -1,6 +1,7 @@
 As previously described in the [Web3 Provider Explained](https://0xproject.com/wiki#Web3-Provider-Explained) section of the wiki, we at 0x have created a number of useful Web3 subproviders. These subproviders aren't only useful for 0x.js, they can be added to any application to provide resiliency, usability and to support hardware wallet functionality.
 
 You can install the 0x subproviders package as follows:
+
 ```
 npm install @0xproject/subproviders --save
 ```
@@ -11,8 +12,7 @@ The subproviders work best when they are composed together using the [Web3 Provi
 npm install web3@0.20.4 web3-provider-engine --save
 ```
 
-In the first example, we will make use of a browser extension wallet (e.g [Metamask](https://metamask.io/)) composed with an Ethereum node we control. This set up allows all of the account based activity (signing of messages and sending transactions) to route to the browser extension wallet, while allowing the data fetching requests to flow through to a specific Ethereum node of our choosing. 
-
+In the first example, we will make use of a browser extension wallet (e.g [Metamask](https://metamask.io/)) composed with an Ethereum node we control. This set up allows all of the account based activity (signing of messages and sending transactions) to route to the browser extension wallet, while allowing the data fetching requests to flow through to a specific Ethereum node of our choosing.
 
 ```typescript
 import * as Web3 from 'web3';
@@ -75,12 +75,11 @@ console.log(accounts);
 
 This above example works for enabling the Ledger Subprovider in Browser based applications, if you want to use the Ledger directly in a Node.js application, you must use a different `ledgerEthereumClientFactoryAsync`, for example:
 
-
 ```typescript
 // Import the NodeJS Client Factory, rather than the Browser Client Factory
 import {
     ledgerEthereumNodeJsClientFactoryAsync as ledgerEthereumClientFactoryAsync,
-    LedgerSubprovider
+    LedgerSubprovider,
 } from '@0xproject/subproviders';
 ```
 
@@ -96,11 +95,13 @@ public async signPersonalMessageAsync(data: string): Promise<string>
 ```
 
 ### Notes on Ledger Subprovider
+
 It is important to remember that UI components and UX need to be considered when adding the hardware wallet support to your application. A few examples that require additional thought:
-  * The user may have multiple accounts on the hardware wallet. The first account may not be the desired one
-  * The user may want to set the a higher gas price so the transaction has a higher probability of being mined
-  * The hardware device is limited to handling one request at a time 
-  * The hardware device is not capable of showing the message entirely on screen. An application [should confirm](https://github.com/ethfinex/0x-order-verify) what is displayed on the device
+
+* The user may have multiple accounts on the hardware wallet. The first account may not be the desired one
+* The user may want to set the a higher gas price so the transaction has a higher probability of being mined
+* The hardware device is limited to handling one request at a time
+* The hardware device is not capable of showing the message entirely on screen. An application [should confirm](https://github.com/ethfinex/0x-order-verify) what is displayed on the device
 
 In our last example we will add redundancy to the application by making use of the RedundantRPCSubprovider. The RedundantRPCSubprovider helps your application stay up when underlying Ethereum nodes experience network issues. To use this subprovider, simply provide it with a list of Ethereum node RPC endpoints and it will attempt each one in sequence until a successful response is returned.
 

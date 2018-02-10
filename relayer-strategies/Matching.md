@@ -1,12 +1,15 @@
 A relayer may chose to accept and broadcast orders where the `taker` field is equal to an address controlled by the relayer. When the relayer receives two orders on opposite sides of the market with overlapping prices, the relayer can call `batchFillOrders` or `batchFillOrKillOrders` to atomically match both orders.
 
 ##### Example
+
 Alice submits orderA to sell 1 WETH in exchange for 1000 ZRX to relayer Charlie. Bob submits orderB to sell 1000 ZRX in exchange for 1 WETH to Charlie. Charlie calls `batchFillOrKillOrders(orderA, 1000, orderB, 1)`, exchanging Alice's 1 WETH for Bob's 1000 ZRX.
 
 ##### Rationale
+
 This strategy removes the primary race condition from the matching process. Traders cannot accidentally or intentionally attempt to fill the same order since only the relayer is allowed to fill each order. The relayer also knows when orders are matched before anyone else and can update the orderbook as soon as the transaction is submitted, allowing for a more real-time trading experience. This strategy also moves all gas costs to the relayer and can potentially provide a better UX for traders.
 
 ##### Limitations
+
 Centralized matching has a few downsides, most notably:
 
 * It adds an element of trust. Relayers are not forced to match orders and are only incentivized by fees and/or arbitrage opportunities.

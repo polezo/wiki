@@ -1,8 +1,9 @@
 This article will walk you through deploying a [Parity](https://github.com/paritytech/parity) Ethereum node on [Amazon AWS](https://aws.amazon.com) using [Docker Machine](https://docs.docker.com/machine/overview/).
 
 This tutorial assumes that you:
-- Have [Docker](https://docs.docker.com/install/) installed
-- Have setup an AWS account and have the associated access key and secret.
+
+* Have [Docker](https://docs.docker.com/install/) installed
+* Have setup an AWS account and have the associated access key and secret.
 
 Before we can go ahead and spin up an EC2 instance, we need to create a security group call "parity-security-group" for our EC2 instance. To do so, log into AWS and open the EC2 service. On the right hand side you should see the "Security Groups" section. Click "Create Security Group" and add the inbound and outbound rules depicted below.
 
@@ -67,6 +68,7 @@ Since this is a pretty beefy command, let's break it down. The `--log-opt` comma
 ```
 docker logs parity-kovan
 ```
+
 With the `-v` command we mount the Parity node data folder to the external volume. This is important because it means that you won't need to re-sync your node after a restart.
 
 By removing the `--testnet` flag, Parity will run on mainnet. The `--rpccorsdomain` flag ensures that browser-based clients are able to ping your node without CORS errors.
