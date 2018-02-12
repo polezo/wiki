@@ -9,7 +9,7 @@ Using a configured Web3 Provider, the application can request signatures, estima
 The simplest example of a provider is:
 
 ```ts
-const provider = new web3.providers.HttpProvider('http://localhost:8545')
+const provider = new web3.providers.HttpProvider('http://localhost:8545');
 ```
 
 This provider simply takes each JSON RPC payload it receives and sends it on to the Ethereum node running on port 8545.
