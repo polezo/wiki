@@ -3,10 +3,11 @@ The diagrams provided below demonstrate the interactions that occur between the 
 ### Trade Execution (excl. fees)
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" height="330" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/trade_execution.png" style="padding-bottom: 20px; padding-top: 20px" width="80%" />
 </div>
 
 Transaction #1
+
 1. `Exchange.fillOrder(order, value)`
 2. `TokenTransferProxy.transferViaTokenTransferProxy(token, from, to, value)`
 3. `Token(token).transferFrom(from, to, value)`
@@ -21,35 +22,37 @@ Transaction #1
 ### Upgrading the Exchange Contract
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_exchange.png" height="350" style="padding-bottom: 20px; padding-top: 20px" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_exchange.png"
+     width="80%" style="padding-bottom: 20px; padding-top: 20px" />
 </div>
 
-- Transaction #1
+* Transaction #1
     1. `TokenTransferProxy.transferFrom(token, from, to, value)` 🚫
-- Transaction #2
+* Transaction #2
     2. `DAO.submitTransaction(destination, bytes)`
-- Transaction #3 (one tx per stakeholder)
+* Transaction #3 (one tx per stakeholder)
     3. `DAO.confirmTransaction(transactionId)`
-- Transaction #4
+* Transaction #4
     4. `DAO.executeTransaction(transactionId)`
     5. `TokenTransferProxy.addAuthorizedAddress(Exchangev2)`
-- Transaction #5
+* Transaction #5
     6. `TokenTransferProxy.transferFrom(token, from, to, value)` ✅
 
 ### Upgrading the Governance Contract
 
 <div align="center">
-    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_governance.png" height="350" style="padding-bottom: 20px; padding-top: 20px;" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/upgrade_governance.png"
+     width="80%" style="padding-bottom: 20px; padding-top: 20px;" />
 </div>
 
-- Transaction #1
+* Transaction #1
     1. `TokenTransferProxy.doSomething(...)` 🚫
-- Transaction #2
+* Transaction #2
     2. `DAOv1.submitTransaction(destination, bytes)`
-- Transaction #3 (one tx per stakeholder)
+* Transaction #3 (one tx per stakeholder)
     3. `DAOv1.confirmTransaction(transactionId)`
-- Transaction #4
+* Transaction #4
     4. `DAOv1.executeTransaction(transactionId)`
     5. `TokenTransferProxy.transferOwnership(DAOv2)`
-- Transaction #5
-    6. `TokenTransferProxy.doSomething(...)`  ✅
+* Transaction #5
+    6. `TokenTransferProxy.doSomething(...)` ✅
