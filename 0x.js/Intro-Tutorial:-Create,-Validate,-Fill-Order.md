@@ -2,8 +2,6 @@ In this tutorial, we will show you how you can use the [0x.js](https://github.co
 
 ### Setup
 
----
-
 Since 0x.js helps you build apps that interface with Ethereum, you will need to use it in conjunction with an Ethereum node. For development, we recommend using [TestRPC](https://github.com/ethereumjs/testrpc). Since there is some setup required to getting started with TestRPC and the 0x smart contracts, we are going to use a [0x.js starter project](https://github.com/0xProject/0x.js-starter-project) which handles a lot of this for us.
 
 Clone the repo:
@@ -38,8 +36,6 @@ yarn dev
 
 ### Importing packages
 
----
-
 The first step to interact with `0x.js` is to import the following relevant packages:
 
 ```javascript
@@ -51,8 +47,6 @@ import * as Web3 from 'web3';
 **Web3** is the package allowing us to interact with our node and the Ethereum world. **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic.
 
 ### Provider and constructor
-
----
 
 Now we need to instantiate a zeroEx and HttpProvider. In our case, since we are using our local node, we will use **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
 
@@ -68,8 +62,6 @@ const zeroEx = new ZeroEx(provider, configs);
 ```
 
 ### Declaring decimals and addresses
-
----
 
 Since we are dealing with a few contracts, we will specify them now to reduce the syntax load. Fortunately for us, `0x.js` library comes with a bunch of contract addresses that can be useful to have at hand. It also comes with a way to interact with the 0x token registry, which act as a store of vetted tokens and their addresses. One thing that is important to remember is that there are no decimals in the Ethereum virtual machine (EVM), which means you always need to keep track of how many "decimals" each token possesses. Since we will sell some ZRX for some ETH and since they both have 18 decimals, we can use a shared constant.
 
@@ -87,8 +79,6 @@ const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
 Above, **`EXCHANGE_ADDRESS`** is the [**Exchange.sol**](https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol) contract address, which is the 0x exchange smart contract which allows the maker to exchange ZRX for WETH with the taker. **`WETH_ADDRESS`** and **`ZRX_ADDRESS`** are the addresses of the tokens we will use in this tutorial. Learn more about what the [ERC20 standard](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) and [WETH](https://weth.io/) are.
 
 ### Setting up accounts
-
----
 
 TestRPC comes with a few test accounts and tokens, which is quite convenient when prototyping. We can get the list of our account addresses as follows:
 
@@ -145,8 +135,6 @@ At this point, it might be worth mentioning why we need to await all those trans
 
 ### Creating an order
 
----
-
 Users that create an order are called **Makers** and they need to specify some information in their order so the exchange.sol smart contract knows what to do with them.
 
 ```javascript
@@ -186,8 +174,6 @@ The `NULL_ADDRESS` is used for the `taker` field since in our case we do not car
 
 ### Signing the order
 
----
-
 Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try pretending to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
 
 You can first obtain the order hash with the following command:
@@ -221,8 +207,6 @@ await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](https://0xproject.com/wiki#Order-Book-Pruning) of invalid orders using this method.
 
 ### Filling the order
-
----
 
 Finally, now that we have a valid order, we can try to fill it while acting as a **Taker**. To do so, we first specify a few arguments
 

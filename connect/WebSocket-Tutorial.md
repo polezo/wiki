@@ -8,8 +8,6 @@ You can find all the `@0xproject/connect` documentation [here](https://0xproject
 
 ### Setup
 
----
-
 For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node, a local http server, and a local WebSocket server as our relayer. The [Connect starter project](https://github.com/0xProject/connect-starter-project) has everything we need to get started.
 
 Clone the repo:
@@ -57,8 +55,6 @@ SNAPSHOT: 9 bids & 9 asks
 
 ### Importing packages
 
----
-
 The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
 
 ```javascript
@@ -76,8 +72,6 @@ import { CustomOrderbookChannelHandler } from './custom_orderbook_channel_handle
 **Web3** is the package allowing us to interact with our node and the Ethereum world. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment. **CustomOrderbookChannelHandler** is a class we'll learn how to write later!
 
 ### Instantiating ZeroEx and WebSocketOrderbookChannel
-
----
 
 First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained). We also pass in a `ZeroExConfig` instance specifying the default testrpc networkId. This allows our `ZeroEx` instance to use the correct addresses of the contracts deployed on that network.
 
@@ -103,8 +97,6 @@ const orderbookChannel: OrderbookChannel = new WebSocketOrderbookChannel(relayer
 
 ### Getting the exchange contract addresses
 
----
-
 Next, we use `0x.js` to get the address of the exchange contract on the current network.
 
 ```javascript
@@ -113,8 +105,6 @@ const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddress();
 ```
 
 ### Getting token information
-
----
 
 We can use the `tokenRegistry` field of our `ZeroEx` instance to get information related to the WETH and ZRX tokens on the current network. This information is required for interacting with token balances and allowances and for converting token amounts into base unit amounts. Because the `getTokenIfExistsAsync()` method may return `undefined` for inputs that don't represent registered token addresses, we must check for `undefined` results before proceeding. Addresses of other tokens can be acquired though the `tokenRegistry` field of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
 
@@ -135,8 +125,6 @@ const ZRX_ADDRESS = zrxTokenInfo.address;
 
 ### Deciding our subscription options
 
----
-
 If in an application we need exchange functionality between two tokens, we can find a suitable order for our needs by subscribing to our `orderbookChannel`. The first step to doing so is creating an `OrderbookChannelSubscriptionOpts` instance describing the type of subscription we want. The `OrderbookChannelSubscriptionOpts` instance describes the `baseTokenAddress` and `quoteTokenAddress` of the orderbook that we want to subscribe to (learn more about the quote/base token terminology [here](https://en.wikipedia.org/wiki/Currency_pair)). In addition, it includes a `snapshot` property that signals our desire for a current snapshot of the orderbook as well as a `limit` describing how large the snapshot should be.
 
 ```javascript
@@ -151,8 +139,6 @@ const zrxWethSubscriptionOpts: OrderbookChannelSubscriptionOpts = {
 
 ### Subscribing to the orderbook
 
----
-
 Now that we have our subscription options, we just need an `OrderbookChannelHandler` instance to handle updates to the orderbook. We instantiate an instance of `CustomOrderbookChannelHandler` which implements `OrderbookChannelHandler` and pass in our `zeroEx` object. In the next section we'll take a closer look at the internals of `CustomOrderbookChannelHandler`. To start the subscription we make a call to the `subscribe()` method of our `orderbookChannel` and pass in our subscription options and handler.
 
 ```javascript
@@ -165,8 +151,6 @@ console.log('Listening for ZRX/WETH orderbook...');
 ```
 
 ### Diving into custom handler
-
----
 
 When we subscribed to the orderbook above, we passed in a new instance of `CustomOrderbookChannelHandler` as our `OrderbookChannelHandler`. The `OrderbookChannelHandler` is an object with four properties, each representing a function to be called back when our orderbook channel has an update for us. `onSnapshot()` will be called when the channel has received an orderbook snapshot to deliver to the client in the form of an `OrderbookResponse` instance. `onUpdate()` is called whenever the orderbook has a new `SignedOrder` on the bid or ask side. `onError()` is called whenever there is an issue communicating with the WebSocket. `onClose()` is called whenever the WebSocket has been closed and gives the client a chance to do any cleanup.
 
@@ -224,8 +208,6 @@ export class CustomOrderbookChannelHandler implements OrderbookChannelHandler  {
 
 ### Filling orders from the subscription
 
----
-
 Because there has not been any activity with our local relayer, the script we ran above should still be running with an output of:
 
 ```
@@ -250,8 +232,6 @@ ORDER FILLED: 0xec2294bdd34bade62ebfdd9e572e78d118d26e16717f7f36c2702843f59e5131
 ```
 
 ### Wrapping up
-
----
 
 Through this tutorial we learned how to:
 
