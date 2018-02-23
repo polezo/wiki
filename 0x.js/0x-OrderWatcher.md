@@ -35,7 +35,7 @@ You're free to implement your own logic on top of this information. Some decisio
 
 ### Naive approach
 
-The naive approach to order watching is to write a worker service that simply iterates over a set of orders, and calls the [zeroEx.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0xjs/0.22.4#validateOrderFillableOrThrowAsync) method on each one, discarding those that are no longer fillable. This method checks the last three conditions listed above.
+The naive approach to order watching is to write a worker service that simply iterates over a set of orders, and calls the [zeroEx.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0xjs/#exchange-validateOrderFillableOrThrowAsync) method on each one, discarding those that are no longer fillable. This method checks the last three conditions listed above.
 
 The orderWatcher takes a more sophisticated approach to this problem by mapping each order to the underlying state that could impact it's validity. Whenever the underlying state changes, it knows exactly which orders need to be re-evaluated. Since there are still edge-cases in our current approach (more details on this later), the orderWatcher also runs a naive iterator on a lengthier configurable interval in order to clean up any orders that might have been missed.
 
