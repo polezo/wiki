@@ -1,6 +1,6 @@
 Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer wanting to prune their orderbook of any orders that have become unfillable. Another example is a trader using the standard relayer API who wants to react quickly to orders retrieved from relayers becoming unfillable
 
-At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it. This tool requires a backing Ethereum node setup to have a decent representation of the mempool so make sure to also read [our guide](#Mempool-Setup-Guide) on how to set one up.
+At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it. This tool requires a backing Ethereum node setup to have a decent representation of the mempool so make sure to also read <a href="https://0xproject.com/wiki#Mempool-Setup-Guide" target="_blank">our guide</a> on how to set one up.
 
 ### OrderWatcher interface
 
