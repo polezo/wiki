@@ -1,4 +1,4 @@
-The 0x smart contracts can be called from other smart contracts in order to build more complex systems on top of the 0x protocol. In this tutorial we will show you how to write an atomic arbitrage smart contract between EtherDelta and 0x, as an example of what can be built using 0x at the smart contract level. Our arbitrage smart contract will either succeed at executing two trades (one on 0x, the other on EtherDelta) and make a guaranteed profit or fail both trades and leave our balances untouched. This is useful since there is no strong guarantee that either trade succeeds, and were we to simply submit both trades independently to the blockchain, we run the risk of only a single trade going through and having unwanted tokens in our possession.
+The 0x smart contracts can be called from other smart contracts in order to build complex systems on top of the 0x protocol. In this tutorial we will show you how to write an atomic arbitrage smart contract between EtherDelta and 0x, as an example of what can be built using 0x at the smart contract level. Our arbitrage smart contract will either succeed at executing two trades (one on 0x, the other on EtherDelta) and make a guaranteed profit or fail both trades and leave our balances untouched. This is useful since there is no strong guarantee that either trade succeeds, and were we to simply submit both trades independently to the blockchain, we run the risk of only a single trade going through and having unwanted tokens in our possession.
 
 ### Arbitrage smart contract
 
@@ -125,8 +125,10 @@ The usage example as well as the tests can be found [here](https://github.com/0x
 
 ### 0x & EtherDelta Required Setup
 
-This contract is owned by the person who deploys it. Before scanning the orderbooks for arbitrage opportunities, the owner must call the `setAllowances` function passing in the address of the takerToken of a potential order. This will set the 0x protocol's and EtherDelta's allowance for the token on behalf of this contract. It will also set the owner's allowance to the contract's token balance, so that you can withdraw the funds from the contract at any time.
+This contract is owned by the person who deploys it. Before scanning the orderbooks for arbitrage opportunities, the owner must call the `setAllowances` function passing in the address of the takerToken of a potential order. This will set the 0x protocol and EtherDelta allowance for the token on behalf of this contract. It will also set the owner's allowance to the contract's token balance so that they can withdraw the funds from the contract at any time.
 
-The next step is for the owner to transfer some taker tokens to this contract. This way, the contract has a sufficient balance to fill orders.
+The next step is for the owner to transfer some takerTokens to this contract. This way, the contract has a sufficient balance to fill orders.
 
-You are now ready to start arb'ing by calling `makeAtomicTrade`! Make sure to only submit `fillTakerTokenAmount` values that are less than or equal to your contract's takerToken balance. All arbitrage profits will be deposited into the contract and can be withdrawn at any time.
+You are now ready to start arbitraging by calling `makeAtomicTrade`! Make sure to only submit `fillTakerTokenAmount` values that are less than or equal to your contract's takerToken balance. All arbitrage profits will be deposited into the contract and can be withdrawn at any time.
+
+Good luck!
