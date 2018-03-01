@@ -1,22 +1,23 @@
-One can call 0x smart contracts from other smart contracts which can be useful while building some more complex solutions on top of 0x protocol. In this tutorial we'll scratch the surface of those possibilities and show how to do an atomic arbitrage between EtherDelta and 0x. We'll write an arbitrage smart contract that will either make both trades and make absolute profit or fail both trades and leave our balances untouched. This can be useful, because front-running is a real issue and if we do one trade, but the second one fails we'll end up having some tokens and we'll need to find another way to sell them.
+The 0x smart contracts can be called from other smart contracts in order to build more complex systems on top of the 0x protocol. In this tutorial we will show you how to write an atomic arbitrage smart contract between EtherDelta and 0x, as an example of what can be built using 0x at the smart contract level. Our arbitrage smart contract will either succeed at executing two trades (one on 0x, the other on EtherDelta) and make a guaranteed profit or fail both trades and leave our balances untouched. This is useful since there is no strong guarantee that either trade succeeds, and were we to simply submit both trades independently to the blockchain, we run the risk of only a single trade going through and having unwanted tokens in our possession.
 
 ### Interfaces of both contracts
 
 #### 0x Exchange contract
 
-In order to be able to trade via an 0x [Exchange contract](https://github.com/0xProject/0x.js/blob/development/packages/contracts/src/current/protocol/Exchange/Exchange.sol) we need to:
-    * set an allowance for 0x [Proxy contract](https://github.com/0xProject/0x.js/blob/development/packages/contracts/src/current/protocol/TokenTransferProxy/TokenTransferProxy.sol)
+In order to be able to trade via the [0x Exchange contract](https://github.com/0xProject/0x.js/blob/development/packages/contracts/src/current/protocol/Exchange/Exchange.sol) we need to set an allowance for [0x Proxy contract](https://github.com/0xProject/0x.js/blob/development/packages/contracts/src/current/protocol/TokenTransferProxy/TokenTransferProxy.sol).
 
 #### EtherDelta contract
 
 In order to be able to trade via an EtherDelta we need to:
-    * Set an allowance for EtherDelta contract
-    * Call `etherDelta.depositToken(token, amount)`
-    * Withdraw tokens after the trade `etherDelta.withdrawToken(token, amount)`
 
+* Set an allowance for EtherDelta contract
+* Call `etherDelta.depositToken(token, amount)`
+* Withdraw tokens after the trade `etherDelta.withdrawToken(token, amount)`
 
 ### Arbitrage smart contract
-Here is the example code for the Arbitrage smart contract. It's not intended to be gas efficient or safe. Please don't use in production. Solely for educational purposes.
+
+Here is the example code for the Arbitrage smart contract. It's not intended to be gas efficient or safe. Please don't use this in production. It is solely for educational purposes.
+
 ```solidity
 pragma solidity ^0.4.19;
 
