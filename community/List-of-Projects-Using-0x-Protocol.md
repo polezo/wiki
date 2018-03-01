@@ -5,6 +5,7 @@ These lists are composed of projects that publicly announced their interest in u
 + [Aragon](https://aragon.one/)
 + [Auctus](https://auctus.org/)
 + [Augur](http://www.augur.net/)
++ [b0x](https://b0x.network/)
 + [Blocknet](https://blocknet.co/)
 + [ChronoBank](https://chronobank.io/)
 + [Dharma](https://dharma.io/)
