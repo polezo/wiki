@@ -9,7 +9,7 @@ Using a configured Web3 Provider, the application can request signatures, estima
 The simplest example of a provider is:
 
 ```ts
-const provider = new web3.providers.HttpProvider('http://localhost:8545');
+const provider = new web3.providers.HttpProvider("http://localhost:8545");
 ```
 
 This provider simply takes each JSON RPC payload it receives and sends it on to the Ethereum node running on port 8545.
@@ -40,7 +40,7 @@ Many people use browser extension wallets (e.g [Metamask](https://metamask.io/))
 
 #### Updating the provider used by 0x.js
 
-If at some point the provider used by your dApp changes (e.g if your user wants to use their Ledger Nano S to sign orders), it is important that you update the provider used by your 0x.js instance. You can do this by calling [setProvider](https://0xproject.com/docs/0xjs#setProvider).
+If at some point the provider used by your dApp changes (e.g if your user wants to use their Ledger Nano S to sign orders), it is important that you update the provider used by your 0x.js instance. You can do this by calling [setProvider](https://0xproject.com/docs/0xjs#zeroEx-setProvider).
 
 ```ts
 await zeroEx.setProvider(newProvider, networkId);
