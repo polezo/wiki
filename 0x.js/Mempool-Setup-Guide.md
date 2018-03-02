@@ -46,7 +46,7 @@ Now that we have a good understanding of what we want to achieve and what the li
 
 **Note:** Since Geth does not (at the time of writing) implement some of the feature we need for our setup, we will only be using Parity nodes.
 
-To learn more about how to deploy a Parity node on AWS using Docker, check out [this article](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node).
+To learn more about how to deploy a Parity node on AWS using Docker, check out [this article](#How-To-Deploy-A-Parity-Node).
 
 Configure your node with the following arguments:
 
@@ -72,4 +72,4 @@ parity/parity:v1.8.1 \ // version of parity to run
 --infinite-pending-block // increase the pending block to include all pending txs
 ```
 
-To read more about how to use the mempool to watch an order book check out [this article](https://0xproject.com/wiki#0x-OrderWatcher).
+To read more about how to use the mempool to watch an order book check out [this article](#0x-OrderWatcher).
