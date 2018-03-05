@@ -1,4 +1,4 @@
-As previously described in the [Web3 Provider Explained](https://0xproject.com/wiki#Web3-Provider-Explained) section of the wiki, we at 0x have created a number of useful Web3 subproviders. These subproviders aren't only useful for 0x.js, they can be added to any application to provide resiliency, usability and to support hardware wallet functionality.
+As previously described in the [Web3 Provider Explained](#Web3-Provider-Explained) section of the wiki, we at 0x have created a number of useful Web3 subproviders. These subproviders aren't only useful for 0x.js, they can be added to any application to provide resiliency, usability and to support hardware wallet functionality.
 
 You can install the 0x subproviders package as follows:
 

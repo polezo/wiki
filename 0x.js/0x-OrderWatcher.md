@@ -1,6 +1,6 @@
 Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer wanting to prune their orderbook of any orders that have become unfillable. Another example is a trader using the standard relayer API who wants to react quickly to orders retrieved from relayers becoming unfillable
 
-At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it. This tool requires a backing Ethereum node setup to have a decent representation of the mempool so make sure to also read [our guide](https://0xproject.com/wiki#Mempool-Setup-Guide) on how to set one up.
+At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it. This tool requires a backing Ethereum node setup to have a decent representation of the mempool so make sure to also read [our guide](#Mempool-Setup-Guide) on how to set one up.
 
 ### OrderWatcher interface
 
@@ -87,7 +87,7 @@ Because order watcher operates on the mempool state level - it has some strong i
 
 * You need to be running your own Ethereum node
     * Existing solutions like Infura are too unreliable and don't support fetching pending events
-    * Learn [how to host your own Parity node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node).
+    * Learn [how to host your own Parity node](#How-To-Deploy-A-Parity-Node).
 * It's good to expand the default mempool size in order to accomodate as many transactions as possible.
 * Those fake blocks should contain the whole mempool so that we get all the events
     * Parity has a CLI flag for that

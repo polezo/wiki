@@ -48,7 +48,7 @@ import * as Web3 from 'web3';
 
 ### Provider and constructor
 
-Now we need to instantiate a zeroEx and HttpProvider. In our case, since we are using our local node, we will use **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained).
+Now we need to instantiate a zeroEx and HttpProvider. In our case, since we are using our local node, we will use **http://localhost:8545**. You can read about what providers are [here](#Web3-Provider-Explained).
 
 ```javascript
 // Provider pointing to local TestRPC on default port 8545
@@ -204,7 +204,7 @@ Now let's actually verify whether the order we created is valid
 await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 ```
 
-If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](https://0xproject.com/wiki#Order-Book-Pruning) of invalid orders using this method.
+If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#Order-Book-Pruning) of invalid orders using this method.
 
 ### Filling the order
 

@@ -77,7 +77,7 @@ import {CustomOrderbookChannelHandler} from './custom_orderbook_channel_handler'
 
 ### Instantiating ZeroEx and WebSocketOrderbookChannel
 
-First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](https://0xproject.com/wiki#Web3-Provider-Explained). We also pass in a `ZeroExConfig` instance specifying the default testrpc networkId. This allows our `ZeroEx` instance to use the correct addresses of the contracts deployed on that network.
+First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](#Web3-Provider-Explained). We also pass in a `ZeroExConfig` instance specifying the default testrpc networkId. This allows our `ZeroEx` instance to use the correct addresses of the contracts deployed on that network.
 
 ```javascript
 // Provider pointing to local TestRPC on default port 8545
