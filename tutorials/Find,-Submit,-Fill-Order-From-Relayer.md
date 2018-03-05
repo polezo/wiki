@@ -10,42 +10,42 @@ You can find all the `@0xproject/connect` documentation [here](https://0xproject
 
 ### Setup
 
-For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node and a local http service that conforms to the standard relayer api as our relayer. The [Connect starter project](https://github.com/0xProject/connect-starter-project) has everything we need to get started.
+For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node and a local http service that conforms to the standard relayer api as our relayer. The [0x.js starter project](https://github.com/0xProject/0x.js-starter-project) has everything we need to get started.
 
 Clone the repo:
 
 ```
-git clone git@github.com:0xProject/connect-starter-project.git
+git clone git@github.com:0xProject/0x.js-starter-project.git
 ```
 
-Install all the dependencies:
+Install all the dependencies (we use Yarn: `brew install yarn --without-node`):
 
 ```
-npm install
+yarn install
 ```
 
 Pull the latest TestRPC 0x snapshot with all the 0x contracts pre-deployed and an account with ZRX balance:
 
 ```
-npm run download_snapshot
+yarn download_snapshot
 ```
 
 In a separate terminal, navigate to the project directory and start TestRPC:
 
 ```
-npm run testrpc
+yarn testrpc
 ```
 
 In another terminal, navigate to the project directory and start a local http server that conforms to the standard relayer API, listening to port 3000:
 
 ```
-npm run api
+yarn api
 ```
 
-You can now run the tutorial script. This command will build and run the `src/tutorials/intro/index.ts` script which we will take a closer look at below:
+You can now run the tutorial script. This command will build and run the `src/tutorials/relayer_actions/index.ts` script which we will take a closer look at below:
 
 ```
-npm run tutorial1
+yarn relayer_actions
 ```
 
 ### Importing packages
@@ -53,8 +53,10 @@ npm run tutorial1
 The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
 
 ```javascript
-import * as Web3 from 'web3';
-import BigNumber from 'bignumber.js';
+import {
+    ZeroEx,
+    ZeroExConfig,
+} from '0x.js';
 import {
     FeesRequest,
     FeesResponse,
@@ -64,10 +66,11 @@ import {
     OrderbookResponse,
     SignedOrder,
 } from '@0xproject/connect';
-import { ZeroEx, ZeroExConfig } from '0x.js';
+import { BigNumber } from '@0xproject/utils';
+import * as Web3 from 'web3';
 ```
 
-**Web3** is the package allowing us to interact with our node and the Ethereum world. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment.
+**ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. **Web3** is the package allowing us to interact with our node and the Ethereum world.
 
 ### Instantiating ZeroEx and HttpClient
 

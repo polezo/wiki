@@ -31,7 +31,7 @@ yarn testrpc
 You can now run the code we are going to walk you through in the rest of this tutorial:
 
 ```
-yarn dev
+yarn order_actions
 ```
 
 ### Importing packages
