@@ -10,7 +10,7 @@ You can find all the `@0xproject/connect` documentation [here](https://0xproject
 
 ### Setup
 
-For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node and a local http service that conforms to the standard relayer api as our relayer. The [0x.js starter project](https://github.com/0xProject/0x.js-starter-project) has everything we need to get started.
+For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node and a local http service that conforms to the standard relayer api as our relayer. The [0x starter project](https://github.com/0xProject/0x-starter-project) has everything we need to get started.
 
 Clone the repo:
 
@@ -53,10 +53,7 @@ yarn relayer_actions
 The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
 
 ```javascript
-import {
-    ZeroEx,
-    ZeroExConfig,
-} from '0x.js';
+import { ZeroEx, ZeroExConfig } from '0x.js';
 import {
     FeesRequest,
     FeesResponse,

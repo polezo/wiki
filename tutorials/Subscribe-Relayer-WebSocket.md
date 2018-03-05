@@ -8,7 +8,7 @@ You can find all the `@0xproject/connect` documentation [here](https://0xproject
 
 ### Setup
 
-For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node, a local http server, and a local WebSocket server as our relayer. The The [0x.js starter project](https://github.com/0xProject/0x.js-starter-project) has everything we need to get started.
+For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node, a local http server, and a local WebSocket server as our relayer. The The [0x starter project](https://github.com/0xProject/0x-starter-project) has everything we need to get started.
 
 Clone the repo:
 
@@ -58,10 +58,7 @@ SNAPSHOT: 9 bids & 9 asks
 The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
 
 ```javascript
-import {
-    ZeroEx,
-    ZeroExConfig,
-} from '0x.js';
+import { ZeroEx, ZeroExConfig } from '0x.js';
 import {
     OrderbookChannel,
     OrderbookChannelHandler,
@@ -70,7 +67,7 @@ import {
 } from '@0xproject/connect';
 import * as Web3 from 'web3';
 
-import {CustomOrderbookChannelHandler} from './custom_orderbook_channel_handler';
+import { CustomOrderbookChannelHandler } from './custom_orderbook_channel_handler';
 ```
 
 **ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **Web3** is the package allowing us to interact with our node and the Ethereum world. **CustomOrderbookChannelHandler** is a class we'll learn how to write later!

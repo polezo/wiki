@@ -2,7 +2,7 @@ In this tutorial, we will show you how you can use the [0x.js](https://github.co
 
 ### Setup
 
-Since 0x.js helps you build apps that interface with Ethereum, you will need to use it in conjunction with an Ethereum node. For development, we recommend using [TestRPC](https://github.com/ethereumjs/testrpc). Since there is some setup required to getting started with TestRPC and the 0x smart contracts, we are going to use a [0x.js starter project](https://github.com/0xProject/0x.js-starter-project) which handles a lot of this for us.
+Since 0x.js helps you build apps that interface with Ethereum, you will need to use it in conjunction with an Ethereum node. For development, we recommend using [TestRPC](https://github.com/ethereumjs/testrpc). Since there is some setup required to getting started with TestRPC and the 0x smart contracts, we are going to use a [0x starter project](https://github.com/0xProject/0x-starter-project) which handles a lot of this for us.
 
 Clone the repo:
 
