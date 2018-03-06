@@ -1,4 +1,11 @@
-A Relayer is an application responsible for creating and discovering 0x orders. This concept is a layer above the 0x Exchange smart contracts. Picture it as the interface a user would see and interact with. The 0x Exchange smart contract handles the core exchange functionality.
+A Relayer is an application responsible for creating and discovering 0x orders. This concept is a layer that sits above the 0x Exchange smart contracts. Picture it as the interface a user would see and interact with. The 0x Exchange smart contract handles the core exchange functionality.
+
+## Advantages of Decentralised Exchange
+* No Signup required
+* Users trade directly from their wallets
+* No deposit or withdraw
+* No hot wallet that can be hacked
+* No lock-in, trade across all relayers
 
 ## 0x Protocol Overview
 In 0x protocol, orders are transported off-chain, massively reducing gas costs and eliminating blockchain bloat. Relayers help broadcast orders and collect a fee each time they facilitate a trade. Anyone can build a relayer.
@@ -7,7 +14,7 @@ The simplest example of a Relayer is a website allowing users to create, discove
 
 ![Relayer](https://0xproject.com/images/landing/relayer_diagram.png)
 
-To aid this process we have written a Javascript library called 0x.js. This library helps create and submit orders to the Exchange contract. 
+To aid this process we have written a Javascript library called [0x.js](https://github.com/0xProject/0x-monorepo/tree/development/packages/0x.js). This library helps create and submit orders to the Exchange contract. 
 
 Before getting started with 0x.js and the 0x protocol, it is helpful to introduce a few concepts. There are two sides to every exchange, makers and takers. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. Makers create orders and submit them to a Relayer. Takers discover orders via a Relayer and submit these to the Exchange contract. The exchange contract performs an atomic swap, exchanging the maker and taker tokens.
 
@@ -51,6 +58,8 @@ There are many strategies a Relayer can choose from. The simplest and most basic
 ## Shared Liquidity
 One great feature of 0x Protocol is the idea of shared liquidity. There is a self-reinforcing cycle where low liquidity results in a low number of users.  We have defined a number of API endpoints called the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api).  By making use of shared liquidity, a Relayer is able increase the liquidity of their Orderbooks.
 
+## Prune your Orderbooks
+Over time, orders may expire, trades may execute and tokens may be sent. It is best to keep your Orderbooks nice and clean. Since a User trades out of their wallets, they are also able to send tokens out at any time. This has the potential to change the validity of an order. It is important to make sure that all the orders are still valid. Iterating over the Orderbook and checking is one simple way, a more advanced way is to watch for events relating to orders using the [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).
 
 
 * ~~What is a relayer~~
@@ -62,3 +71,5 @@ One great feature of 0x Protocol is the idea of shared liquidity. There is a sel
 * ~~0x Exchange~~
 * ~~Shared liqduitiy~~
 * Advantages of a Relayer over a Centralised exchange
+* Trade from your wallet. No deposit or withdraw. Trade across relayers, no lock in. No counterparty risk
+* ~~Order book pruning~~
