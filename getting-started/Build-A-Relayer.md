@@ -1,11 +1,9 @@
 A Relayer is an application responsible for creating and discovering 0x orders. This concept is a layer that sits above the 0x Exchange smart contracts. Picture it as the interface a user would see and interact with. The 0x Exchange smart contract handles the core exchange functionality.
 
-## Advantages of Decentralised Exchange
-* No Signup required
-* Users trade directly from their wallets
-* No deposit or withdraw
-* No hot wallet that can be hacked
-* No lock-in, trade across all relayers
+## Advantages of a Decentralised Exchange
+There are many advantages to a Decentralised Exchange versus a Centralised Exchange. One of the largest problems with Centralised Exchanges are their usage of deposits into a "hot" wallet. This is often a wallet with millions of dollars of tokens. History is not favourable to this set up and hundreds of millions of dollars have been stolen from centralised exchanges. With a Decentralised Exchange, a user trades from their own wallet. Eliminating the attack vector of a single "hot" wallet.
+
+On 0x, there is no deposit or withdraw, so users are able to trade across all Relayers. In fact, often Relayers will display eachothers orders to increase their liquidity. Having no deposit reduces the transaction fees for a user and allows them to remain in control of their funds at all time. Users can even trade directly from their hardware device such as a Ledger Nano S. 
 
 ## 0x Protocol Overview
 In 0x protocol, orders are transported off-chain, massively reducing gas costs and eliminating blockchain bloat. Relayers help broadcast orders and collect a fee each time they facilitate a trade. Anyone can build a relayer.
@@ -60,16 +58,3 @@ One great feature of 0x Protocol is the idea of shared liquidity. There is a sel
 
 ## Prune your Orderbooks
 Over time, orders may expire, trades may execute and tokens may be sent. It is best to keep your Orderbooks nice and clean. Since a User trades out of their wallets, they are also able to send tokens out at any time. This has the potential to change the validity of an order. It is important to make sure that all the orders are still valid. Iterating over the Orderbook and checking is one simple way, a more advanced way is to watch for events relating to orders using the [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).
-
-
-* ~~What is a relayer~~
-* ~~Makers~~
-* ~~Takers~~
-* ~~OrderBook~~
-* ~~OrderBook Strategy~~
-* ~~0x.js~~
-* ~~0x Exchange~~
-* ~~Shared liqduitiy~~
-* Advantages of a Relayer over a Centralised exchange
-* Trade from your wallet. No deposit or withdraw. Trade across relayers, no lock in. No counterparty risk
-* ~~Order book pruning~~
