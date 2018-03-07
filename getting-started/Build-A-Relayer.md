@@ -1,9 +1,9 @@
 A Relayer is an application responsible for creating and allowing users to discover 0x orders. It is a layer that sits above the 0x Exchange smart contract. Picture it as the interface a user would see and interact with. The 0x Exchange smart contract handles the core exchange functionality.
 
 ## Advantages of a Decentralised Exchange
-There are many advantages to a Decentralised Exchange versus a Centralised Exchange. One of the largest problems with Centralised Exchanges are their deposits into a "hot" wallet. This often holds millions of dollars of tokens. These wallets have historically been the target of a hack, with hundreds of millions of dollars worth of tokens stolen. With a Decentralised Exchange, a user trades from their own wallet. Eliminating the attack vector of a single "hot" wallet.
+There are many advantages to a Decentralised Exchange versus a Centralised Exchange. One of the largest problems with Centralised Exchanges is their need to deposit into a "hot" wallet for trading. This often holds millions of dollars worth of tokens. These wallets have historically been the target of a hack, with hundreds of millions of dollars worth of tokens stolen so far. With a Decentralised Exchange, a user trades directly from their own wallet, eliminating the attack vector of a single "hot" wallet.
 
-On 0x, there is no deposit or withdraw, so users are able to trade across all Relayers. In fact, Relayers will often display eachothers orders to increase their Orderbook depth. Having no deposit reduces the transaction fees for a user and allows them to remain in control of their funds at all time. Users can even trade directly from their hardware device such as a Ledger Nano S. 
+On 0x, there is no deposit (or withdraw), so users are able to trade across all Relayers. In fact, Relayers will often display each others orders to increase their Orderbook depth. Having no deposit reduces the transaction fees for a user and allows them to remain in control of their funds at all times. Users can even trade directly from their hardware device such as a Ledger Nano S. 
 
 ## 0x Protocol Overview
 In 0x protocol, orders are transported off-chain, massively reducing gas costs and eliminating blockchain bloat. Relayers help broadcast orders and collect a fee each time they facilitate a trade. Anyone can build a relayer.
