@@ -49,7 +49,7 @@ interface Order {
 
 Now you should see that a Relayers job is to collect these orders in an off-chain database. This collection of orders is called an Orderbook. A Relayer displays the Orderbook to potential takers. The incentive here is for a Relayer to collect fees from the orders. By being the fee recipient Relayers can earn fees in ZRX token.
 
-We have a tutorial on how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Intro-Tutorial:-Create,-Validate,-Fill-Order) if you're ready to jump in and start developing on 0x. This tutorial will take you through setting up 0x.js, creating an order and show you how to sign an order.
+We have a tutorial on how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) if you're ready to jump in and start developing on 0x. This tutorial will take you through setting up 0x.js, creating an order and show you how to sign an order.
 
 ## Relayer Strategies 
 There are many strategies a Relayer can choose from. The simplest and most basic is an Open Orderbook strategy. This allows anyone to take the order and submit it to the Exchange contract. An Over The Counter (OTC) strategy defines a Taker address. Only the specific Taker can be a counter party to that exchange. For more information and more strategies, read our wiki article on [Relayer Strategies](https://0xproject.com/wiki#Open-Orderbook)
@@ -62,4 +62,4 @@ Over time, orders may expire, trades may execute and tokens may be sent. It is b
 
 ## Next Steps
 
-Now that you have a high level idea of what a Relayer is, it's time to get started learning how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Intro-Tutorial:-Create,-Validate,-Fill-Order). You may also want to decide on a [Relayer Strategy](https://0xproject.com/wiki#Open-Orderbook), we recommend the Open Orderbook strategy. If you're looking for more orders to add to your Orderbook, take a look at the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api). Remember to keep your Orderbook fresh and pruned by using the [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).
+Now that you have a high level idea of what a Relayer is, it's time to get started learning how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order). You may also want to decide on a [Relayer Strategy](https://0xproject.com/wiki#Open-Orderbook), we recommend the Open Orderbook strategy. If you're looking for more orders to add to your Orderbook, take a look at the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api). Remember to keep your Orderbook fresh and pruned by using the [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).

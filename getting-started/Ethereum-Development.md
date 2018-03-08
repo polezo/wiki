@@ -10,7 +10,9 @@ As web browsers do not natively support interacting with the Ethereum Blockchain
 
 ### Development
 
-<a href="https://codesandbox.io/s/1qmjyp7p5j" rel="Sandbox"><img width="800" src="https://user-images.githubusercontent.com/27389/36460173-1979adf8-166c-11e8-8bd8-8a09604abe1c.png" /></a>
+<center>
+<a href="https://codesandbox.io/s/1qmjyp7p5j" rel="Sandbox"><img width="400" height="450" src="https://user-images.githubusercontent.com/27389/37127952-fc2080ca-2245-11e8-9459-229ae807dc2e.png" /></a>
+</center>
 
 
 #### Test Networks
@@ -26,3 +28,6 @@ It is difficult to get a sufficient amount of Ether to deploy your contracts and
 By now you are likely familiar with the ERC20 standard, Ether (aka ETH) and the plethora of ERC20 tokens out there. Unfortunately, ETH is not an ERC20 token and because of this interacting with both ERC20 tokens and ETH at the same time can lead to scenarios which add complexity to your smart contracts. Less code is better, it is easier to understand and audit. One technique the community has adopted is to adapt the interface of ETH to behave like an ERC20 token. This allows one to treat everything as an ERC20 token and reduces smart contract complexity. We call this WETH or Wrapper ETH. The owner of some Ether would deposit, for example, 1 Ether into the wrapped Ether contract in return for 1 WETH token. When they are finished with the WETH they withdraw back their 1ETH in exchange for 1WETH. This idea is becoming increasingly common in the ecosystem. More information on WETH can be found [here](https://weth.io/).
 
 Now that you have a high-level overview of Ethereum Blockchain development, it is time to check out our other tutorials and examples. Be sure to try out our [Sandbox](https://codesandbox.io/s/1qmjyp7p5j) which provides a development environment ready to run against 
+
+## Next Steps
+Now that you've got a basic understanding of what is involved with developing on the Ethereum Blockchain you're ready to move on to our next step of [Building a Relayer](). Or you can jump right in and learn how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) on 0x.
