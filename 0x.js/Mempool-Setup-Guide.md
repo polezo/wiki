@@ -57,7 +57,7 @@ docker run -d \
 --log-opt max-size=100m \
 --log-opt max-file=20 \
 -v /home/ubuntu/parity-data:/mnt \ // mount chain data
-parity/parity:v1.8.1 \ // version of parity to run
+parity/parity:v1.9.4 \ // version of parity to run
 --jsonrpc-interface all \ // bind on all interfaces
 --rpccorsdomain '\*' \ // add CORS headers
 --jsonrpc-hosts all \ // allow all hosts
