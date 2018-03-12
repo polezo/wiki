@@ -16,7 +16,8 @@ In the first example, we will make use of a browser extension wallet (e.g [Metam
 
 ```typescript
 import * as Web3 from 'web3';
-import Web3ProviderEngine = require('web3-provider-engine');
+import * as Web3ProviderEngine from 'web3-provider-engine';
+import * as RPCSubprovider from 'web3-provider-engine/subproviders/rpc';
 import { promisify } from '@0xproject/utils';
 import { InjectedWeb3Subprovider } from '@0xproject/subproviders';
 import { ZeroEx } from '0x.js';
@@ -26,9 +27,10 @@ const KOVAN_NETWORK_ID = 42;
 const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the InjectedWeb3Subprovider to wrap the browser extension wallet
+// All account based and signing requests will go through the InjectedWeb3Subprovider
 providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvider));
 // Use an RPC provider to route all other requests
-providerEngine.addProvider(new Web3.providers.HttpProvider('http://localhost:8545'));
+providerEngine.addProvider(new RPCSubprovider({ rpcUrl: 'http://localhost:8545' }));
 providerEngine.start();
 
 const web3 = new Web3(providerEngine);
@@ -44,7 +46,8 @@ Within the 0x Subprovider package, we have also added a [Ledger Nano S](https://
 
 ```typescript
 import * as Web3 from 'web3';
-import Web3ProviderEngine = require('web3-provider-engine');
+import * as Web3ProviderEngine from 'web3-provider-engine';
+import * as RPCSubprovider from 'web3-provider-engine/subproviders/rpc';
 import { promisify } from '@0xproject/utils';
 import {
     ledgerEthereumBrowserClientFactoryAsync as ledgerEthereumClientFactoryAsync,
@@ -57,13 +60,14 @@ const KOVAN_NETWORK_ID = 42;
 const providerEngine = new Web3ProviderEngine();
 // Compose our Providers, order matters
 // Use the Ledger Subprovider to intercept all account based requests
+// All other requests will go through the RPCSubprovider
 const ledgerSubprovider = new LedgerSubprovider({
     networkId: KOVAN_NETWORK_ID,
     ledgerEthereumClientFactoryAsync,
 });
 providerEngine.addProvider(ledgerSubprovider);
 // Use an RPC provider to route all other requests
-providerEngine.addProvider(new Web3.providers.HttpProvider('http://localhost:8545'));
+providerEngine.addProvider(new RPCSubprovider({ rpcUrl: 'http://localhost:8545' }));
 providerEngine.start();
 
 const web3 = new Web3(providerEngine);
