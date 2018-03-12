@@ -18,8 +18,9 @@ In the first example, we will make use of a browser extension wallet (e.g [Metam
 import * as Web3 from 'web3';
 import * as Web3ProviderEngine from 'web3-provider-engine';
 import * as RPCSubprovider from 'web3-provider-engine/subproviders/rpc';
-import { promisify } from '@0xproject/utils';
+
 import { InjectedWeb3Subprovider } from '@0xproject/subproviders';
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { ZeroEx } from '0x.js';
 
 const KOVAN_NETWORK_ID = 42;
@@ -36,7 +37,9 @@ providerEngine.start();
 const web3 = new Web3(providerEngine);
 // Optional, use with 0x.js
 const zeroEx = new ZeroEx(providerEngine, { networkId: KOVAN_NETWORK_ID });
-const accounts = await promisify<string>(web3.eth.getAccounts)();
+// Get all of the accounts through the Web3Wrapper
+const web3Wrapper = new Web3Wrapper(providerEngine);
+const accounts = await web3Wrapper.getAvailableAddressesAsync();
 console.log(accounts);
 ```
 
@@ -48,11 +51,12 @@ Within the 0x Subprovider package, we have also added a [Ledger Nano S](https://
 import * as Web3 from 'web3';
 import * as Web3ProviderEngine from 'web3-provider-engine';
 import * as RPCSubprovider from 'web3-provider-engine/subproviders/rpc';
-import { promisify } from '@0xproject/utils';
+
 import {
     ledgerEthereumBrowserClientFactoryAsync as ledgerEthereumClientFactoryAsync,
     LedgerSubprovider,
 } from '@0xproject/subproviders';
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { ZeroEx } from '0x.js';
 
 const KOVAN_NETWORK_ID = 42;
@@ -73,7 +77,9 @@ providerEngine.start();
 const web3 = new Web3(providerEngine);
 // Optional, use with 0x.js
 const zeroEx = new ZeroEx(providerEngine, { networkId: KOVAN_NETWORK_ID });
-const accounts = await promisify<string>(web3.eth.getAccounts)();
+// Get all of the accounts through the Web3Wrapper
+const web3Wrapper = new Web3Wrapper(providerEngine);
+const accounts = await web3Wrapper.getAvailableAddressesAsync();
 console.log(accounts);
 ```
 
@@ -112,11 +118,11 @@ In our last example we will add redundancy to the application by making use of t
 ```typescript
 import * as Web3 from 'web3';
 import Web3ProviderEngine = require('web3-provider-engine');
-import { promisify } from '@0xproject/utils';
 import {
     InjectedWeb3Subprovider,
     RedundantRPCSubprovider
 } from '@0xproject/subproviders';
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 const KOVAN_NETWORK_ID = 42;
 // Create a Web3 Provider Engine
@@ -128,7 +134,10 @@ providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvid
 providerEngine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/'));
 providerEngine.start();
 
+// Reinitialize web3 with the provider engine
 const web3 = new Web3(providerEngine);
-const gasPriceEstimate = await promisify<string>(web3.eth.getGasPrice)();
-console.log(gasPriceEstimate);
+// Get the latest Block Number
+const web3Wrapper = new Web3Wrapper(providerEngine);
+const blockNumber = await web3Wrapper.getBlockNumberAsync();
+console.log(blockNumber);
 ```
