@@ -9,13 +9,12 @@ npm install @0xproject/subproviders --save
 The subproviders work best when they are composed together using the [Web3 Provider Engine](https://github.com/MetaMask/provider-engine). This can be installed as follows:
 
 ```
-npm install web3@0.20.4 web3-provider-engine --save
+npm install web3-provider-engine @0xproject/web3-wrapper --save
 ```
 
 In the first example, we will make use of a browser extension wallet (e.g [Metamask](https://metamask.io/)) composed with an Ethereum node we control. This set up allows all of the account based activity (signing of messages and sending transactions) to route to the browser extension wallet, while allowing the data fetching requests to flow through to a specific Ethereum node of our choosing.
 
 ```typescript
-import * as Web3 from 'web3';
 import * as Web3ProviderEngine from 'web3-provider-engine';
 import * as RPCSubprovider from 'web3-provider-engine/subproviders/rpc';
 
@@ -34,7 +33,6 @@ providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvid
 providerEngine.addProvider(new RPCSubprovider({ rpcUrl: 'http://localhost:8545' }));
 providerEngine.start();
 
-const web3 = new Web3(providerEngine);
 // Optional, use with 0x.js
 const zeroEx = new ZeroEx(providerEngine, { networkId: KOVAN_NETWORK_ID });
 // Get all of the accounts through the Web3Wrapper
@@ -48,7 +46,6 @@ Using the configuration above, all account related requests (e.g signing and sen
 Within the 0x Subprovider package, we have also added a [Ledger Nano S](https://www.ledgerwallet.com/start/ledger-nano-s) subprovider. By adding this subprovider first into the Web3 Provider Engine, we are able to route all account based requests to the Ledger. We again use the RPC Provider for all other requests.
 
 ```typescript
-import * as Web3 from 'web3';
 import * as Web3ProviderEngine from 'web3-provider-engine';
 import * as RPCSubprovider from 'web3-provider-engine/subproviders/rpc';
 
@@ -74,7 +71,6 @@ providerEngine.addProvider(ledgerSubprovider);
 providerEngine.addProvider(new RPCSubprovider({ rpcUrl: 'http://localhost:8545' }));
 providerEngine.start();
 
-const web3 = new Web3(providerEngine);
 // Optional, use with 0x.js
 const zeroEx = new ZeroEx(providerEngine, { networkId: KOVAN_NETWORK_ID });
 // Get all of the accounts through the Web3Wrapper
@@ -108,15 +104,14 @@ public async signPersonalMessageAsync(data: string): Promise<string>
 
 It is important to remember that UI components and UX need to be considered when adding the hardware wallet support to your application. A few examples that require additional thought:
 
-* The user may have multiple accounts on the hardware wallet. The first account may not be the desired one
-* The user may want to set the a higher gas price so the transaction has a higher probability of being mined
-* The hardware device is limited to handling one request at a time
-* The hardware device is not capable of showing the message entirely on screen. An application [should confirm](https://github.com/ethfinex/0x-order-verify) what is displayed on the device
+*   The user may have multiple accounts on the hardware wallet. The first account may not be the desired one
+*   The user may want to set the a higher gas price so the transaction has a higher probability of being mined
+*   The hardware device is limited to handling one request at a time
+*   The hardware device is not capable of showing the message entirely on screen. An application [should confirm](https://github.com/ethfinex/0x-order-verify) what is displayed on the device
 
 In our last example we will add redundancy to the application by making use of the RedundantRPCSubprovider. The RedundantRPCSubprovider helps your application stay up when underlying Ethereum nodes experience network issues. To use this subprovider, simply provide it with a list of Ethereum node RPC endpoints and it will attempt each one in sequence until a successful response is returned.
 
 ```typescript
-import * as Web3 from 'web3';
 import Web3ProviderEngine = require('web3-provider-engine');
 import {
     InjectedWeb3Subprovider,
@@ -134,8 +129,6 @@ providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvid
 providerEngine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/'));
 providerEngine.start();
 
-// Reinitialize web3 with the provider engine
-const web3 = new Web3(providerEngine);
 // Get the latest Block Number
 const web3Wrapper = new Web3Wrapper(providerEngine);
 const blockNumber = await web3Wrapper.getBlockNumberAsync();
