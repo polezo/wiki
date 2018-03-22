@@ -1,10 +1,10 @@
 In this tutorial, we will show you how you can use the [@0xproject/connect](https://github.com/0xProject/0x.js/tree/development/packages/connect) package in conjunction with [0x.js](https://github.com/0xProject/0x.js/tree/development/packages/0x.js) in order to:
 
-*   ask a relayer for fee information
-*   submit signed orders to a relayer with appropriate fees
-*   ask a relayer for a ZRX/WETH orderbook
-*   find the best orders in the orderbook
-*   fill orders from the orderbook using `0x.js`
+* ask a relayer for fee information
+* submit signed orders to a relayer with appropriate fees
+* ask a relayer for a ZRX/WETH orderbook
+* find the best orders in the orderbook
+* fill orders from the orderbook using `0x.js`
 
 You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/connect).
 
@@ -296,10 +296,10 @@ console.log('WETH After: ' + ZeroEx.toUnitAmount(wethBalanceAfterFill, wethToken
 
 Through this tutorial we learned how to:
 
-*   ask a relayer for fee information
-*   submit signed orders to a relayer with appropriate fees
-*   ask a relayer for a ZRX/WETH orderbook
-*   find the best orders in the orderbook
-*   fill orders from the orderbook using `0x.js`
+* ask a relayer for fee information
+* submit signed orders to a relayer with appropriate fees
+* ask a relayer for a ZRX/WETH orderbook
+* find the best orders in the orderbook
+* fill orders from the orderbook using `0x.js`
 
-While all of these tasks were performed using TestRPC and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/ for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
+While all of these tasks were performed using TestRPC and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v0/ for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
