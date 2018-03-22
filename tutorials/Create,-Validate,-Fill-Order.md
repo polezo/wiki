@@ -204,7 +204,7 @@ Now let's actually verify whether the order we created is valid
 await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 ```
 
-If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#Order-Book-Pruning) of invalid orders using this method.
+If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method.
 
 ### Filling the order
 
