@@ -16,7 +16,7 @@ In order to interact with dApps (distributed applications) a user must have Ethe
 
 <div align="center">
     <a href="https://codesandbox.io/s/1qmjyp7p5j" rel="Sandbox">
-        <img src="https://user-images.githubusercontent.com/27389/36460173-1979adf8-166c-11e8-8bd8-8a09604abe1c.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
+        <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/sandbox.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
     </a>
 </div>
 
@@ -30,7 +30,7 @@ It can be difficult to get a sufficient amount of test Ether to deploy your cont
 
 <div align="center">
     <a href="https://0xproject.com/portal/balances">
-        <img src="https://user-images.githubusercontent.com/27389/36271820-9bfde1c2-1234-11e8-9117-c7c4d5656d59.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
+        <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/network_screenshot.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
     </a>
 </div>
 

@@ -11,7 +11,7 @@ In 0x protocol, orders are transported off-chain over any arbitrary medium, mass
 The simplest example of a Relayer is a website allowing users to create, discover and fill orders. The Relayer must build out a UI and host a backend database to provide this functionality.
 
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/27389/37127952-fc2080ca-2245-11e8-9459-229ae807dc2e.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 342px;" width="80%" />
+    <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/relayer_diagram.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 342px;" width="80%" />
 </div>
 
 To simplify the process of interacting with the 0x protocol, we have written a Javascript/Typescript library called [0x.js](http://0xproject.com/docs/0xjs). This library helps relayers interact with the 0x protocol smart contracts through a higher-level, easier to use interface. In addition, it also providers many useful utilities for hashing, signing, validating and serializing 0x orders.
