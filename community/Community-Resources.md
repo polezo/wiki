@@ -72,4 +72,12 @@ These external resources have been created by community members and/or projects 
 ### Videos
 
 * [0x Protocol Presentation @ Devcon 3 (Nov 3, 2017)](https://www.youtube.com/watch?v=9d019RycObk)
-* [0x Protocol - Deep Dive @ SF Ethereum Developer Meetup (July 9, 2017)](https://www.youtube.com/watch?v=h8daWRgzg9w)
+* [0x Protocol Deep Dive @ SF Ethereum Developer Meetup (July 9, 2017)](https://www.youtube.com/watch?v=h8daWRgzg9w)
+* [0x Protocol Technical Overview @ Coinbase Code School (June 23, 2017)](https://www.youtube.com/watch?v=dVT36N8wUIo)
+* [Token Summit I - Show and Tell - 0x with Will Warren (Jun 12, 2017)](https://www.youtube.com/watch?v=7wTRbWwUCvg)
+* [Every call you take. Every change you make. I’ll be watching you! - Leonid Logvinov (Dec 21, 2017)](https://www.youtube.com/watch?feature=youtu.be&v=pUm2HHWuywc&app=desktop)
+
+### Interview
+
+* [Unchained - Will Warren of 0x on Why Decentralized Exchanges Are the Future](http://unchainedpodcast.co/will-warren-of-0x-on-why-decentralized-exchanges-are-the-future)
+* [Epicenter - Amir Bandeali & Will Warren: 0x Protocol and the Decentralized Exchange Frontier](https://www.youtube.com/watch?v=dXdok5GLVUc)
