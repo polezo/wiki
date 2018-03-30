@@ -58,6 +58,7 @@ These external resources have been created by community members and/or projects 
 
 ### Websites
 
+* [0x Forum](https://forum.0xproject.com/)
 * [Wrapped Ether](https://weth.io/)
 * [Token Allowance](https://tokenallowance.io/)
 * [Relayer Networks](https://relayer.network/)
