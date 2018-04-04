@@ -8,6 +8,8 @@ In this tutorial, we will show you how you can use the [@0xproject/connect](http
 
 You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/connect).
 
+You can find a list of relayers that comply with the Standard Relayer API [here](https://github.com/0xProject/0x-relayer-registry)
+
 ### Setup
 
 For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node and a local http service that conforms to the standard relayer api as our relayer. The [0x starter project](https://github.com/0xProject/0x-starter-project) has everything we need to get started.
