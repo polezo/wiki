@@ -224,7 +224,9 @@ Now that we created an order, we need to prove that we actually own the address 
 const orderHash = ZeroEx.getOrderHashHex(order);
 
 // Sign orderHash and produce a ecSignature
-const ecSignature = await zeroEx.signOrderHashAsync(orderHash, address);
+const shouldAddPersonalMessagePrefix = false;
+const ecSignature = await zeroEx.signOrderHashAsync(orderHash, address, 
+                                                    shouldAddPersonalMessagePrefix);
 
 // Append signature to order
 const signedOrder: SignedOrder = {
