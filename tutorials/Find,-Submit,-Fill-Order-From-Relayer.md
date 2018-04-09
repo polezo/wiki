@@ -164,7 +164,7 @@ Another thing we need to do is "convert" ETH to WETH, because ETH is not ERC20 c
 // Deposit ETH and generate WETH tokens for each address in wethOwnerAddresses
 const ethToConvert = ZeroEx.toBaseUnitAmount(new BigNumber(5), wethTokenInfo.decimals);
 const depositTxHashes = await Promise.all(wethOwnerAddresses.map(address => {
-    return zeroEx.etherToken.depositAsync(ethToConvert, address);
+    return zeroEx.etherToken.depositAsync(WETH_ADDRESS, ethToConvert, address);
 }));
 await Promise.all(depositTxHashes.map(tx => {
     return zeroEx.awaitTransactionMinedAsync(tx);
