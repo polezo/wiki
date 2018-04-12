@@ -14,9 +14,9 @@ The simplest example of a Relayer is a website allowing users to create, discove
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/relayer_diagram.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 342px;" width="80%" />
 </div>
 
-To simplify the process of interacting with the 0x protocol, we have written a Javascript/Typescript library called [0x.js](http://0xproject.com/docs/0xjs). This library helps relayers interact with the 0x protocol smart contracts through a higher-level, easier to use interface. In addition, it also providers many useful utilities for hashing, signing, validating and serializing 0x orders.
+To simplify the process of interacting with the 0x protocol, we have written a Javascript/Typescript library called [0x.js](http://0xproject.com/docs/0x.js). This library helps relayers interact with the 0x protocol smart contracts through a higher-level, easier to use interface. In addition, it also providers many useful utilities for hashing, signing, validating and serializing 0x orders.
 
-Before getting started with [0x.js](http://0xproject.com/docs/0xjs) and the 0x protocol, it is helpful to introduce a few concepts. There are two parties involved in every trade, a maker and a taker. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. The makers then submits these to a relayer. Takers discover orders via a relayer and fills them by sending them directly to the 0x protocol smart contracts. The 0x protocol smart contracts performs an atomic swap, exchanging the maker and taker tokens.
+Before getting started with [0x.js](http://0xproject.com/docs/0x.js) and the 0x protocol, it is helpful to introduce a few concepts. There are two parties involved in every trade, a maker and a taker. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. The makers then submits these to a relayer. Takers discover orders via a relayer and fills them by sending them directly to the 0x protocol smart contracts. The 0x protocol smart contracts performs an atomic swap, exchanging the maker and taker tokens.
 
 ### Order
 
@@ -53,7 +53,7 @@ interface Order {
 
 It is a relayers job to collect cryptographically signed versions of these orders into an off-chain database. This collection of orders is what we refer to as an orderbook. A relayer displays their orderbook to potential takers. The incentive here is for a relayer to collect fees from the orders they host. By being the fee recipient, relayers can earn fees in ZRX tokens.
 
-We have a tutorial on how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) for when you are ready to jump in and start developing on 0x. This tutorial will take you through setting up [0x.js](http://0xproject.com/docs/0xjs) in order to create, sign and fill a 0x order.
+We have a tutorial on how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) for when you are ready to jump in and start developing on 0x. This tutorial will take you through setting up [0x.js](http://0xproject.com/docs/0x.js) in order to create, sign and fill a 0x order.
 
 ### Relayer strategies
 

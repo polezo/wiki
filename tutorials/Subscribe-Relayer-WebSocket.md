@@ -240,4 +240,4 @@ Through this tutorial we learned how to:
 * receive orderbook updates from a relayer in real time
 * take action on the updates
 
-For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
+For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).

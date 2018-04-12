@@ -1,4 +1,4 @@
-In this tutorial, we will show you how you can use the [0x.js](https://github.com/0xProject/0x.js) library to create, validate and fill buy and sell orders via the 0x protocol. You can find all the `0x.js` documentation [here](https://0xproject.com/docs/0xjs).
+In this tutorial, we will show you how you can use the [0x.js](https://github.com/0xProject/0x.js) library to create, validate and fill buy and sell orders via the 0x protocol. You can find all the `0x.js` documentation [here](https://0xproject.com/docs/0x.js).
 
 ### Setup
 

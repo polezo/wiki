@@ -306,4 +306,4 @@ Through this tutorial we learned how to:
 * find the best orders in the orderbook
 * fill orders from the orderbook using `0x.js`
 
-While all of these tasks were performed using TestRPC and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v0/ for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0xjs).
+While all of these tasks were performed using TestRPC and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v0/ for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).
