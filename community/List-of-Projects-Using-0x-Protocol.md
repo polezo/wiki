@@ -12,7 +12,6 @@ These lists are composed of projects that publicly announced their interest in u
 * [District0x](https://district0x.io/)
 * [dYdX](https://dydx.exchange/)
 * [EasyTrade](https://easytrade.io/)
-* [Ethix](http://ethix.systems/)
 * [Hut34 Project](http://hut34.io/)
 * [Lendroid](https://lendroid.com/)
 * [Maker](https://makerdao.com/)
