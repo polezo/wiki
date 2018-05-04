@@ -1,4 +1,4 @@
-A relayer is any party or entity which hosts an off-chain orderbook. They provide a way for users to add, remove and update this orderbook through an API, GUI or both. In doing so, relayers helps traders discover counter-parties and ferry cryptographically signed orders between them. Once two parties agree on the terms of an order, the order is settled directly on the Ethereum blockchain via the 0x protocol smart contracts.
+A relayer is any party or entity which hosts an off-chain orderbook. They provide a way for users to add, remove and update this orderbook through an API, GUI or both. In doing so, relayers help traders discover counter-parties and ferry cryptographically signed orders between them. Once two parties agree on the terms of an order, the order is settled directly on the Ethereum blockchain via the 0x protocol smart contracts.
 
 ### Advantages of decentralized exchange
 
