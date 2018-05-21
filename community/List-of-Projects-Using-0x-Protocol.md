@@ -28,7 +28,7 @@ These lists are composed of projects that publicly announced their interest in u
 * [ERC dEX](http://ercdex.com)
 * [Ethfinex](https://www.ethfinex.com/)
 * [IDT Exchange](https://www.idtexchange.com/)
-* [Instex](https://www.instex.io/)
+* [Instex](https://app.instex.io/)
 * [MobiDex](http://mobidex.io)
 * [OpenRelay](https://openrelay.xyz)
 * [Paradex](https://paradex.io/)
