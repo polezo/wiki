@@ -3,16 +3,24 @@ These external resources have been created by community members and/or projects 
 ### 0x Blog Posts
 
 * Development Update
-
+  
+  [Development Update #8 — April 2018](https://blog.0xproject.com/development-update-8-april-2018-c0b50d7fda12)  
+  [Development Update #7 — March 2018](https://blog.0xproject.com/development-update-7-march-2018-4b2b675bf5ef)  
   [Development Update #6 — February 2018](https://blog.0xproject.com/development-update-6-february-2018-8d6f6018eabf)  
   [Development Update #5 — January 2018](https://blog.0xproject.com/development-update-5-january-2018-6308b2cb13bf)  
-  [Development Update #4 — December 2017](https://blog.0xproject.com/development-update-4-december-2017-f1873f5685c7)
+  [Development Update #4 — December 2017](https://blog.0xproject.com/development-update-4-december-2017-f1873f5685c7)  
   [Development Update #3 — November 2017](https://blog.0xproject.com/development-update-3-nov-2017-1f66faf4c171)  
   [Development Update #2 — October 2017](https://blog.0xproject.com/development-update-2-oct-2017-ced97688f236)  
   [Development Update #1 - September 2017](https://blog.0xproject.com/development-update-1-sept-2017-40086c4ba4e3)
 
+* Relayer Report
+
+  [Relayer Report #2 — May 16, 2018](https://blog.0xproject.com/relayer-report-2-may-16-2018-3558439a8c07)  
+  [Relayer Report #1 — May 1, 2018](https://blog.0xproject.com/relayer-report-1-48263bbc745f)
+
 * Will Warren
 
+  [Compliant peer-to-peer trading](https://blog.0xproject.com/compliant-peer-to-peer-trading-4dab8e5c3162)  
   [Governance in 0x Protocol](https://blog.0xproject.com/governance-in-0x-protocol-86779ae5809e)  
   [Front-running, Griefing and the Perils of Virtual Settlement (Part 2)](https://blog.0xproject.com/front-running-griefing-and-the-perils-of-virtual-settlement-part-2-921b00109e21)  
   [Front-running, Griefing and the Perils of Virtual Settlement (Part 1)](https://blog.0xproject.com/front-running-griefing-and-the-perils-of-virtual-settlement-part-1-8554ab283e97)  
@@ -31,37 +39,43 @@ These external resources have been created by community members and/or projects 
   [0x Development Roadmap](https://blog.0xproject.com/0x-development-roadmap-e82a2974efcc)  
   [Introducing 0x](https://blog.0xproject.com/introducing-0x-d51d5231ba53)
   
+* Alex Xu
+
+  [Recap: 0x at ETHWaterloo Hackathon](https://blog.0xproject.com/recap-0x-at-ethwaterloo-hackathon-d43e9b658f97)  
+  [Announcing 0x Portal](https://blog.0xproject.com/announcing-0x-portal-dfff04dd3e0a)
+
+* Brandon Millman
+
+  [Introducing 0x Connect](https://blog.0xproject.com/introducing-0x-connect-67471fb45c94)  
+  [Introducing the 0x Standard Relayer API](https://blog.0xproject.com/introducing-the-0x-standard-relayer-api-8a37bd90a3e)
+
 * Fabio Berger
 
   [Announcing 0x OTC](https://blog.0xproject.com/announcing-0x-otc-5db58dc9ba8)
+
+* Jacob Evans
+  
+  [Sneak Peek: 0x Trade Widget](https://blog.0xproject.com/sneak-peek-0x-trade-widget-cbd13305407d)  
+  [0x.js Developer Sandbox](https://blog.0xproject.com/0x-js-developer-sandbox-15a3feb7443c)  
 
 * Leonid Logvinov
 
   [ABI to TypeScript generator](https://blog.0xproject.com/abi-to-typescript-generator-b0fb5cae9e29)  
   [Announcing 0x.js](https://blog.0xproject.com/announcing-0x-js-30dff30b10f)
   
-* Alex Xu
+* Tom Schmidt
 
-  [Recap: 0x at ETHWaterloo Hackathon](https://blog.0xproject.com/recap-0x-at-ethwaterloo-hackathon-d43e9b658f97)  
-  [Announcing 0x Portal](https://blog.0xproject.com/announcing-0x-portal-dfff04dd3e0a)
-  
-* Brandon Millman
-
-  [Introducing 0x Connect](https://blog.0xproject.com/introducing-0x-connect-67471fb45c94)  
-  [Introducing the 0x Standard Relayer API](https://blog.0xproject.com/introducing-the-0x-standard-relayer-api-8a37bd90a3e)
-  
-* Jacob Evans
-
-  [0x.js Developer Sandbox](https://blog.0xproject.com/0x-js-developer-sandbox-15a3feb7443c)  
-  [Sneak Peek: 0x Trade Widget](https://blog.0xproject.com/sneak-peek-0x-trade-widget-cbd13305407d)
-
+  [Introducing 0x Protocol V2](https://blog.0xproject.com/introducing-0x-protocol-v2-9f5bda04d38d)  
+  [18 Ideas for 0x Relayers in 2018](https://blog.0xproject.com/@tomhschmidt)
 
 ### Websites
 
 * [0x Forum](https://forum.0xproject.com/)
+* [0x Relayer Report](https://0xprotocol.substack.com/)
 * [Wrapped Ether](https://weth.io/)
 * [Token Allowance](https://tokenallowance.io/)
 * [Relayer Networks](https://relayer.network/)
+* [Wallet2wallet](https://wallet2wallet.io/)
 
 ### Blog Posts
 
@@ -71,11 +85,13 @@ These external resources have been created by community members and/or projects 
 
 ### Videos
 
+* [Fluidity Summit 2018: 0x Version 2.0 (May 14, 2018)](https://www.youtube.com/watch?v=9JaFSPeo-Go&feature=youtu.be&a=)  
+* [Every call you take. Every change you make. I’ll be watching you! - Leonid Logvinov (Dec 21, 2017)](https://www.youtube.com/watch?feature=youtu.be&v=pUm2HHWuywc&app=desktop)
+* [0x: An Open Protocol Approach to Decentralized Exchange (Nov 29, 2017)](https://www.youtube.com/watch?v=Ub8Qakn37sg&feature=youtu.be)
 * [0x Protocol Presentation @ Devcon 3 (Nov 3, 2017)](https://www.youtube.com/watch?v=9d019RycObk)
 * [0x Protocol Deep Dive @ SF Ethereum Developer Meetup (July 9, 2017)](https://www.youtube.com/watch?v=h8daWRgzg9w)
 * [0x Protocol Technical Overview @ Coinbase Code School (June 23, 2017)](https://www.youtube.com/watch?v=dVT36N8wUIo)
-* [Token Summit I - Show and Tell - 0x with Will Warren (Jun 12, 2017)](https://www.youtube.com/watch?v=7wTRbWwUCvg)
-* [Every call you take. Every change you make. I’ll be watching you! - Leonid Logvinov (Dec 21, 2017)](https://www.youtube.com/watch?feature=youtu.be&v=pUm2HHWuywc&app=desktop)
+* [Token Summit I - Show and Tell - 0x with Will Warren (June 12, 2017)](https://www.youtube.com/watch?v=7wTRbWwUCvg)
 
 ### Interview
 
