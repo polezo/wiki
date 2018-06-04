@@ -45,7 +45,7 @@ The order watcher works on the pending state layer (mempool). This means, that y
 
 ### Understanding blockchain state layers
 
-Ethereum is a state-machine with different state layers, each with it's own degrees of certainty and latency. The pending state layer includes all the newest transactions in the mempool. It is very likely to change before being mined into blocks, whereas transactions with 15 block confirmations are highly unlikely to change. Waiting for 15 confirmations however has the noticeable downside that it takes ~2m45s for a transaction to reach that state.
+Ethereum is a state-machine with different state layers, each with it's own degrees of certainty and latency. The pending state layer includes all the newest transactions in the mempool. It is very likely to change before being mined into blocks, whereas transactions with 15 block confirmations are highly unlikely to change. Waiting for 15 confirmations however has the noticeable downside that it takes ~3m45s for a transaction to reach that state. 
 
 JSON RPC allows the caller to specify the state layer they want to access by [specifying a block number](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_call), 'latest' or 'pending'.
 
