@@ -126,7 +126,7 @@ const providerEngine = new Web3ProviderEngine();
 // Use the InjectedWeb3Subprovider to wrap the browser extension wallet
 providerEngine.addProvider(new InjectedWeb3Subprovider(window.web3.currentProvider));
 // Use the RedundantRPCSubprovider to route all other requests
-providerEngine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/'));
+providerEngine.addProvider(new RedundantRPCSubprovider(['http://localhost:8545', 'https://kovan.infura.io/']));
 providerEngine.start();
 
 // Get the latest Block Number
