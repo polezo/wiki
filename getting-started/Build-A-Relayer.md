@@ -16,7 +16,7 @@ The simplest example of a Relayer is a website allowing users to create, discove
 
 To simplify the process of interacting with the 0x protocol, we have written a Javascript/Typescript library called [0x.js](http://0xproject.com/docs/0x.js). This library helps relayers interact with the 0x protocol smart contracts through a higher-level, easier to use interface. In addition, it also provides many useful utilities for hashing, signing, validating, and serializing 0x orders.
 
-Before getting started with [0x.js](http://0xproject.com/docs/0x.js) and the 0x protocol, it is helpful to introduce a few concepts. There are two parties involved in every trade, a maker and a taker. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. The makers then submits these to a relayer. Takers discover orders via a relayer and fills them by sending them directly to the 0x protocol smart contracts. The 0x protocol smart contracts performs an atomic swap, exchanging the maker and taker tokens.
+Before getting started with [0x.js](http://0xproject.com/docs/0x.js) and the 0x protocol, it is helpful to introduce a few concepts. There are two parties involved in every trade, a maker and a taker. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. The maker then submits these to a relayer. Takers discover orders via a relayer and fill them by sending them directly to the 0x protocol smart contracts. The 0x protocol smart contracts performs an atomic swap, exchanging the maker and taker tokens.
 
 ### Order
 
@@ -65,7 +65,7 @@ Because all relayers represent orders using the 0x protocol order format, an ord
 
 ### Pruning your orderbooks
 
-Over time, orders may expire, partially filled, cancelled or no longer fillable. It is best to keep your orderbook free of expired or unfillable orders. Iterating over the orderbook periodically and checking each orders validity is a simple way to accomplish this. For a more advanced and efficient approach, you could use an [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).
+Over time, orders may expire, partially filled, cancelled or no longer fillable. It is best to keep your orderbook free of expired or unfillable orders. Iterating over the orderbook periodically and checking each order's validity is a simple way to accomplish this. For a more advanced and efficient approach, you could use an [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).
 
 ### Next steps
 
