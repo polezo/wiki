@@ -29,6 +29,7 @@ These lists are composed of projects that publicly announced their interest in u
 * [Ethfinex](https://www.ethfinex.com/)
 * [IDT Exchange](https://www.idtexchange.com/)
 * [Instex](https://app.instex.io/)
+* [LedgerDex](https://www.ledgerdex.com/)
 * [MobiDex](http://mobidex.io)
 * [OpenRelay](https://openrelay.xyz)
 * [Paradex](https://paradex.io/)
