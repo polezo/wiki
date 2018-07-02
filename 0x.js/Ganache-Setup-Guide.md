@@ -1,6 +1,6 @@
-In order to run 0x.js methods that interact with the Ethereum blockchain (i.e filling an order, checking a balance or setting an allowance) you need to point your Web3 Provider to an Ethereum node. Because of the ~12 second block times, during development it is best to use [Ganache-cli](https://github.com/trufflesuite/ganache-cli) a fake Ethereum RPC client made for testing and development.
+In order to run 0x.js methods that interact with the Ethereum blockchain (i.e filling an order, checking a balance or setting an allowance) you need to point your Web3 Provider to an Ethereum node. Because of the ~12 second block times, during development it is best to use [Ganache-cli](https://github.com/trufflesuite/ganache-cli) a fast Ethereum RPC client made for testing and development.
 
-Install Ganache-cli:
+Install Ganache-cli locally:
 
 ```
 npm install -g ganache-cli

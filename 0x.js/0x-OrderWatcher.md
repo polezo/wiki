@@ -1,12 +1,14 @@
 Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer wanting to prune their orderbook of any orders that have become unfillable. Another example is a trader using the standard relayer API who wants to react quickly to orders retrieved from relayers becoming unfillable
 
-At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it. This tool requires a backing Ethereum node setup to have a decent representation of the mempool so make sure to also read [our guide](#Mempool-Setup-Guide) on how to set one up.
+At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it.
+
+You can use OrderWatcher with the Ethereum node of your choice if you configure OrderWatcher to watch events at the latest confirmed block layer (`OrderWatcherConfig.stateLayer` set to `BlockParamLiteral.Latest`). In order to watch at the mempool level however, you must run a backing Ethereum node setup to have a decent representation of the mempool, read [our guide](#Mempool-Setup-Guide) on how to set that up.
 
 ### OrderWatcher interface
 
 From an interface point of view - the orderWatcher is a daemon. You can start & stop it's subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the [full interface description](https://0xproject.com/docs/0x.js#orderWatcher) in the 0x.js docs.
 
-Once the orderWatcher is started and an order has been added to it, it will emit orderStateChange events every time any of the state backing an order's fillability (i.e order expirations, fills, cancels, etc...) changes. This event is emitted with all the necessary information for the subscriber to then decide with their own custom rules whether or not they consider the order still valid.
+Once the orderWatcher is started and an order has been added to it, it will emit orderStateChange events every time any of the state backing an order's fillability (i.e order expirations, fills, cancels, etc...) changes. There events are emitted with all the necessary information for the subscriber to then decide with their own custom rules whether or not they consider the order still valid.
 
 ### Order Validity
 
@@ -16,22 +18,22 @@ Order validity is not binary. An order can be partially filled, cancelled and fi
 
 An order is considered valid by the orderWatcher when it can be filled for a non-zero amount. For this to be possible the next conditions need to be satisfied:
 
-* It has a valid structure (schema)
-    * This is checked before accepting the order
-* It has a valid signature
-    * This is checked before accepting the order
-* It's not expired
-    * Is dynamic and depends on time
-* It's not fully filled or cancelled
-    * Is dynamic and depends on blockchain state
-* Maker has enough funds & allowance to perform the trade and pay fees
-    * Is dynamic and depends on blockchain state
+-   It has a valid structure (schema)
+    -   This is checked before accepting the order
+-   It has a valid signature
+    -   This is checked before accepting the order
+-   It's not expired
+    -   Is dynamic and depends on time
+-   It's not fully filled or cancelled
+    -   Is dynamic and depends on blockchain state
+-   Maker has enough funds & allowance to perform the trade and pay fees
+    -   Is dynamic and depends on blockchain state
 
 You're free to implement your own logic on top of this information. Some decisions a relayer must make are:
 
-* Whether to accept orders that are partially fillable due to the maker having less available funds or allowance than the order specifies (unfunded - not to be confused with partially filled)
-* What the minimum partially fillable amount is that they are willing to accept (this let's them avoid dust orders)
-* Whether to punish users whose orders become unfillable through an allowance/balance change (griefing)
+-   Whether to accept orders that are partially fillable due to the maker having less available funds or allowance than the order specifies (unfunded - not to be confused with partially filled)
+-   What the minimum partially fillable amount is that they are willing to accept (this let's them avoid dust orders)
+-   Whether to punish users whose orders become unfillable through an allowance/balance change (griefing)
 
 ### Naive approach
 
@@ -45,7 +47,7 @@ The order watcher works on the pending state layer (mempool). This means, that y
 
 ### Understanding blockchain state layers
 
-Ethereum is a state-machine with different state layers, each with it's own degrees of certainty and latency. The pending state layer includes all the newest transactions in the mempool. It is very likely to change before being mined into blocks, whereas transactions with 15 block confirmations are highly unlikely to change. Waiting for 15 confirmations however has the noticeable downside that it takes ~3m45s for a transaction to reach that state. 
+Ethereum is a state-machine with different state layers, each with it's own degrees of certainty and latency. The pending state layer includes all the newest transactions in the mempool. It is very likely to change before being mined into blocks, whereas transactions with 15 block confirmations are highly unlikely to change. Waiting for 15 confirmations however has the noticeable downside that it takes ~3m45s for a transaction to reach that state.
 
 JSON RPC allows the caller to specify the state layer they want to access by [specifying a block number](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_call), 'latest' or 'pending'.
 
@@ -81,18 +83,18 @@ Unfortunately not every balance change is a transfer. Some tokens implement addi
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/state_to_order_mapping.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
 </div>
 
-### Infrastructure requirements
+### Infrastructure requirements (to watch at mempool level)
 
-Because order watcher operates on the mempool state level - it has some strong infrastructure requirements.
+For order watcher to operate on the mempool state level, it has some strong infrastructure requirements.
 
-* You need to be running your own Ethereum node
-    * Existing solutions like Infura are too unreliable and don't support fetching pending events
-    * Learn [how to host your own Parity node](#How-To-Deploy-A-Parity-Node).
-* It's good to expand the default mempool size in order to accomodate as many transactions as possible.
-* Those fake blocks should contain the whole mempool so that we get all the events
-    * Parity has a CLI flag for that
-    * Geth is working on it so for now it's Parity only :(
-* Your node needs to be long lived and to be accessible from outside because otherwise - you won't get a good mempool
+-   You need to be running your own Ethereum node (if you want to watch at the mempool level)
+    -   Existing solutions like Infura don't support fetching pending events
+    -   Learn [how to host your own Parity node](#How-To-Deploy-A-Parity-Node).
+-   It's good to expand the default mempool size in order to accomodate as many transactions as possible.
+-   Those fake blocks should contain the whole mempool so that we get all the events
+    -   Parity has a CLI flag for that
+    -   Geth is working on it so for now it's Parity only :(
+-   Your node needs to be long lived and to be accessible from outside because otherwise - you won't get a good mempool
 
 Future work
 
