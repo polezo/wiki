@@ -9,16 +9,16 @@ npm install -g ganache-cli
 In order to run Ganache-cli with all the latest V2 0x protocol smart contracts available, you must first download [this Ganache-cli snapshot](https://s3.amazonaws.com/testrpc-shapshots/a83f5241dc84984a5db46dd14955e1fa052aad59.zip) and save it. Next unzip it's contents with:
 
 ```bash
-unzip ./a83f5241dc84984a5db46dd14955e1fa052aad59.zip -d ./0x_testrpc_snapshot
+unzip ./a83f5241dc84984a5db46dd14955e1fa052aad59.zip -d ./0x_snapshot
 ```
 
 You can now start Ganache-cli as follows:
 
 ```bash
-testrpc \
+ganache-cli \
 --networkId 50 \
 -p 8545 \
---db ./0x_testrpc_snapshot \
+--db ./0x_snapshot \
 -m "concert load couple harbor equip island argue ramp clarify fence smart topic"
 ```
 
