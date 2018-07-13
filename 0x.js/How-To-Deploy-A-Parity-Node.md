@@ -14,6 +14,9 @@ export VPC_ID=$(aws ec2 create-vpc \
     --cidr-block 10.0.0.0/16 \
     --query Vpc.VpcId \
     --output text)
+aws ec2 create-tags \
+    --resources $VPC_ID \
+    --tags Key=Name,Value="0x Parity Node Tutorial"
 aws ec2 create-subnet \
     --vpc-id $VPC_ID \
     --cidr-block 10.0.0.0/16 \
