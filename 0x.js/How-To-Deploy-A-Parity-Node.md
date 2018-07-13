@@ -63,11 +63,12 @@ done
 
 Next, let's spin up a new EC2 instance with an attached volume. When deploying on Kovan a 16GB SSD should be sufficient, however for mainnet you should attach a 128GB SSD.
 
-Note: Replace `${ACCESS_KEY}` and `${ACCESS_SECRET_KEY}` with your AWS credentials. Also, if your VPC is not the default one for your account, you'll need to pass in its ID with an additional `--amazonec2-vpc-id` argument.
+Note: Replace `${ACCESS_KEY}` and `${ACCESS_SECRET_KEY}` with your AWS credentials.
 
 ```
 docker-machine create \
 --driver amazonec2 \
+--amazonec2-vpc-id $VPC_ID \
 --amazonec2-security-group parity-security-group \
 --amazonec2-instance-type t2.medium \
 --amazonec2-region us-east-1 \
