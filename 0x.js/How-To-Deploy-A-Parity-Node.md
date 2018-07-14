@@ -100,9 +100,9 @@ docker run -d \
 --name parity-kovan \
 -v /home/ubuntu/parity-data:/mnt \
  parity/parity \
---testnet \
+--chain kovan \
 --jsonrpc-interface 0.0.0.0 \
---rpccorsdomain '*' \
+--jsonrpc-cors '*' \
 --jsonrpc-hosts all \
 -d /mnt \
 --auto-update none \
