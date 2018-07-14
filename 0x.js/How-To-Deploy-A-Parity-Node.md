@@ -14,6 +14,9 @@ export VPC_ID=$(aws ec2 create-vpc \
     --cidr-block 10.0.0.0/16 \
     --query Vpc.VpcId \
     --output text)
+aws ec2 create-tags \
+    --resources $VPC_ID \
+    --tags Key=Name,Value="0x Parity Node Tutorial"
 aws ec2 create-subnet \
     --vpc-id $VPC_ID \
     --cidr-block 10.0.0.0/16 \
@@ -60,16 +63,17 @@ done
 
 Next, let's spin up a new EC2 instance with an attached volume. When deploying on Kovan a 16GB SSD should be sufficient, however for mainnet you should attach a 128GB SSD.
 
-Note: Replace `${ACCESS_KEY}` and `${ACCESS_SECRET_KEY}` with your AWS credentials. Also, if your VPC is not the default one for your account, you'll need to pass in its ID with an additional `--amazonec2-vpc-id` argument.
+Note: Replace `$ACCESS_KEY` and `$ACCESS_SECRET_KEY` with your AWS credentials.
 
 ```
 docker-machine create \
 --driver amazonec2 \
+--amazonec2-vpc-id $VPC_ID \
 --amazonec2-security-group parity-security-group \
 --amazonec2-instance-type t2.medium \
 --amazonec2-region us-east-1 \
---amazonec2-access-key ${ACCESS_KEY} \
---amazonec2-secret-key ${ACCESS_SECRET_KEY} \
+--amazonec2-access-key $ACCESS_KEY \
+--amazonec2-secret-key $ACCESS_SECRET_KEY \
 --amazonec2-root-size 128 \
 parity-node
 ```
@@ -96,9 +100,9 @@ docker run -d \
 --name parity-kovan \
 -v /home/ubuntu/parity-data:/mnt \
  parity/parity \
---testnet \
+--chain kovan \
 --jsonrpc-interface 0.0.0.0 \
---rpccorsdomain '*' \
+--jsonrpc-cors '*' \
 --jsonrpc-hosts all \
 -d /mnt \
 --auto-update none \
@@ -119,4 +123,4 @@ By removing the `--testnet` flag, Parity will run on mainnet. The `--rpccorsdoma
 
 Parity defaults to downloading and installing upgrades as they are published. To avoid this behavior, we need to set the `--no-download` flag and `--auto-update` to `none`.
 
-You should now be able to access your Parity node via it's Public IP located under EC2's "Instances" section!  If you need to ssh to the machine, you can use the same command used by `docker-machine`: `ssh -i ~/.docker/machine/machines/parity_node/id_rsa ubuntu@${IP_ADDRESS}`.
+You should now be able to access your Parity node via it's Public IP located under EC2's "Instances" section!  If you need to ssh to the machine, you can use the same command used by `docker-machine`: `ssh -i ~/.docker/machine/machines/parity-node/id_rsa ubuntu@$IP_ADDRESS`.
