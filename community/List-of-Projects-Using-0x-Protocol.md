@@ -36,9 +36,10 @@ These lists are composed of projects that publicly announced their interest in u
 * [Radar Relay](https://radarrelay.com/)
 * [Shark Relay](https://app.sharkrelay.com/)
 * [Starbit](https://www.starbitex.com/Trade)
-* [The 0cean](https://the0cean.com)
+* [The Ocean](https://theocean.trade)
 * [Token Jar](https://tokenjar.io/)
 * [Tokenlon](https://tokenlon.token.im/)
+* [Weswap](https://www.weswap.io/)
 
 ### List of 0x trade explorers
 
