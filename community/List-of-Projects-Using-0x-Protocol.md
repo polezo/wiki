@@ -17,6 +17,7 @@ These lists are composed of projects that publicly announced their interest in u
 * [Maker](https://makerdao.com/)
 * [MelonPort](https://melonport.com/)
 * [OpenANX](https://www.openanx.org/)
+* [Paradigm Protocol](https://paradigm.market/)
 * [Request Network](https://request.network/)
 * [Set](https://setprotocol.com/)
 
