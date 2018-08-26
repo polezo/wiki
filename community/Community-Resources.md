@@ -2,15 +2,17 @@ The communities and posts below include content that has been curated by 0x team
 
 ### Communities
 
+* Development Specific Communities
+  * [Rocket Chat Dev Channel](https://chat.0xproject.com/channel/dev)  
+  * [Forum](https://forum.0xproject.com)  
+  * [Github](https://github.com/0xproject)  
+
 * General Communities 
-  * [Rocket.chat](https://chat.0xproject.com) 
   * [Twitter](https://twitter.com/0xproject)  
   * [Reddit](https://reddit.com/r/0xproject)
   * [Medium](https://blog.0xproject.com) 
+  * [Rocket Chat General Channel](https://chat.0xproject.com/channel/general) 
 
-* Development Specific Communities
-  * [Forum](https://forum.0xproject.com)  
-  * [Github](https://github.com/0xproject)  
 
 ### Key 0x Blog Posts
 
