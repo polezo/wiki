@@ -5,7 +5,7 @@ These lists are composed of projects that publicly announced their interest in u
 * [Aragon](https://aragon.one/)
 * [Auctus](https://auctus.org/)
 * [Augur](http://www.augur.net/)
-* [b0x](https://b0x.network/)
+* [bZx](https://bzx.network/)
 * [Blocknet](https://blocknet.co/)
 * [ChronoBank](https://chronobank.io/)
 * [Dharma](https://dharma.io/)
@@ -17,7 +17,9 @@ These lists are composed of projects that publicly announced their interest in u
 * [Maker](https://makerdao.com/)
 * [MelonPort](https://melonport.com/)
 * [OpenANX](https://www.openanx.org/)
+* [Paradigm Protocol](https://paradigm.market/)
 * [Request Network](https://request.network/)
+* [Set](https://setprotocol.com/)
 
 ### List of relayers that will be (or are) using the 0x protocol
 
@@ -36,9 +38,10 @@ These lists are composed of projects that publicly announced their interest in u
 * [Radar Relay](https://radarrelay.com/)
 * [Shark Relay](https://app.sharkrelay.com/)
 * [Starbit](https://www.starbitex.com/Trade)
-* [The 0cean](https://the0cean.com)
+* [The Ocean](https://theocean.trade)
 * [Token Jar](https://tokenjar.io/)
 * [Tokenlon](https://tokenlon.token.im/)
+* [Weswap](https://www.weswap.io/)
 
 ### List of 0x trade explorers
 

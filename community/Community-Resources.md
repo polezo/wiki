@@ -4,17 +4,23 @@ These external resources have been created by community members and/or projects 
 
 * Development Update
   
-  [Development Update #8 — April 2018](https://blog.0xproject.com/development-update-8-april-2018-c0b50d7fda12)  
+  [Development Update #10 — June 2018](https://blog.0xproject.com/development-update-10-june-2018-5b8278e706ec)  
+  [Development Update #9 — May 2018](https://blog.0xproject.com/development-update-9-may-2018-bd9e89f11899)  
+  [Development Update #8 — April 2018](https://blog.0xproject.com/development-update-8-april-2018-c0b50d7fda12)   
   [Development Update #7 — March 2018](https://blog.0xproject.com/development-update-7-march-2018-4b2b675bf5ef)  
   [Development Update #6 — February 2018](https://blog.0xproject.com/development-update-6-february-2018-8d6f6018eabf)  
   [Development Update #5 — January 2018](https://blog.0xproject.com/development-update-5-january-2018-6308b2cb13bf)  
   [Development Update #4 — December 2017](https://blog.0xproject.com/development-update-4-december-2017-f1873f5685c7)  
   [Development Update #3 — November 2017](https://blog.0xproject.com/development-update-3-nov-2017-1f66faf4c171)  
   [Development Update #2 — October 2017](https://blog.0xproject.com/development-update-2-oct-2017-ced97688f236)  
-  [Development Update #1 - September 2017](https://blog.0xproject.com/development-update-1-sept-2017-40086c4ba4e3)
+  [Development Update #1 — September 2017](https://blog.0xproject.com/development-update-1-sept-2017-40086c4ba4e3)
 
 * Relayer Report
-
+  
+  [Relayer Report #6 — July 17, 2018](https://blog.0xproject.com/relayer-report-6-decentralized-exchanges-meet-nfts-d716e5f9f3ec)  
+  [Relayer Report #5 — July 2, 2018](https://blog.0xproject.com/relayer-report-5-governance-with-a-cherry-on-top-3d33e8c0a5bb)  
+  [Relayer Report #4 — June 15, 2018](https://blog.0xproject.com/relayer-report-4-mission-and-values-c4a348ce77ce)  
+  [Relayer Report #3 — June 1, 2018](https://blog.0xproject.com/relayer-report-3-paradex-acquired-19672de94d51)  
   [Relayer Report #2 — May 16, 2018](https://blog.0xproject.com/relayer-report-2-may-16-2018-3558439a8c07)  
   [Relayer Report #1 — May 1, 2018](https://blog.0xproject.com/relayer-report-1-48263bbc745f)
 
@@ -47,7 +53,8 @@ These external resources have been created by community members and/or projects 
 * Brandon Millman
 
   [Introducing 0x Connect](https://blog.0xproject.com/introducing-0x-connect-67471fb45c94)  
-  [Introducing the 0x Standard Relayer API](https://blog.0xproject.com/introducing-the-0x-standard-relayer-api-8a37bd90a3e)
+  [Introducing the 0x Standard Relayer API](https://blog.0xproject.com/introducing-the-0x-standard-relayer-api-8a37bd90a3e)  
+  [Introducing the New 0x Portal](https://blog.0xproject.com/introducing-the-new-0x-portal-79b9aa6df72e)
 
 * Fabio Berger
 
@@ -71,6 +78,7 @@ These external resources have been created by community members and/or projects 
 ### Websites
 
 * [0x Forum](https://forum.0xproject.com/)
+* [0x Chat](https://chat.0xproject.com/)
 * [0x Relayer Report](https://0xprotocol.substack.com/)
 * [Wrapped Ether](https://weth.io/)
 * [Token Allowance](https://tokenallowance.io/)
@@ -93,7 +101,7 @@ These external resources have been created by community members and/or projects 
 * [0x Protocol Technical Overview @ Coinbase Code School (June 23, 2017)](https://www.youtube.com/watch?v=dVT36N8wUIo)
 * [Token Summit I - Show and Tell - 0x with Will Warren (June 12, 2017)](https://www.youtube.com/watch?v=7wTRbWwUCvg)
 
-### Interview
+### Interviews
 
 * [Unchained - Will Warren of 0x on Why Decentralized Exchanges Are the Future](http://unchainedpodcast.co/will-warren-of-0x-on-why-decentralized-exchanges-are-the-future)
 * [Epicenter - Amir Bandeali & Will Warren: 0x Protocol and the Decentralized Exchange Frontier](https://www.youtube.com/watch?v=dXdok5GLVUc)
