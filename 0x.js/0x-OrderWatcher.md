@@ -2,11 +2,11 @@ Many applications built on top of the 0x protocol will want to react to changes 
 
 At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it.
 
-You can use OrderWatcher with the Ethereum node of your choice if you configure OrderWatcher to watch events at the latest confirmed block layer (`OrderWatcherConfig.stateLayer` set to `BlockParamLiteral.Latest`). In order to watch at the mempool level however, you must run a backing Ethereum node setup to have a decent representation of the mempool, read [our guide](#Mempool-Setup-Guide) on how to set that up.
+You can use OrderWatcher with the Ethereum node of your choice.
 
 ### OrderWatcher interface
 
-From an interface point of view - the orderWatcher is a daemon. You can start & stop it's subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the [full interface description](https://0xproject.com/docs/0x.js#orderWatcher) in the 0x.js docs.
+From an interface point of view - the orderWatcher is a daemon. You can start & stop it's subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0xproject/order-watcher docs](https://0xproject.com/docs/order-watcher).
 
 Once the orderWatcher is started and an order has been added to it, it will emit orderStateChange events every time any of the state backing an order's fillability (i.e order expirations, fills, cancels, etc...) changes. There events are emitted with all the necessary information for the subscriber to then decide with their own custom rules whether or not they consider the order still valid.
 
@@ -43,19 +43,19 @@ The orderWatcher takes a more sophisticated approach to this problem by mapping 
 
 ### State finality
 
-The order watcher works on the pending state layer (mempool). This means, that you get notified about changes in order validity as soon as the relevant transaction hits the mempool. This has many upsides - it enables people to build more reactive UI's and waste less gas trying to fill orders that have a high likelihood of already being filled. However it also has some downsides - state changes are emitted more frequently then they would be if we operated on the state layer with at least 1 confirmation (latest block).
+The order watcher works on the state layer with 1 confirmation (latest block). This means it will react to events emitted from transactions that have been mined into the latest block. These events could still be reverted if this latest block gets uncles (i.e during a block re-org). In these cases, the OrderWatcher will handle the block-reorg correctly and re-emit an event correcting the orders validity.
 
 ### Understanding blockchain state layers
 
-Ethereum is a state-machine with different state layers, each with it's own degrees of certainty and latency. The pending state layer includes all the newest transactions in the mempool. It is very likely to change before being mined into blocks, whereas transactions with 15 block confirmations are highly unlikely to change. Waiting for 15 confirmations however has the noticeable downside that it takes ~3m45s for a transaction to reach that state.
+Ethereum is a state-machine with different state layers, each with it's own degrees of certainty and latency. The 1st state layer includes all the newest transactions mined within the latest block. It is still quite likely to change since many miners are working to mine the next block, whereas transactions with 15 block confirmations are highly unlikely to change. Waiting for 15 confirmations however has the noticeable downside that it takes ~3m45s for a transaction to reach that state.
 
 JSON RPC allows the caller to specify the state layer they want to access by [specifying a block number](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_call), 'latest' or 'pending'.
 
 The easiest thing to do would be to simply validate orders at an “immutable” state layer (say 10 confirmations) and only if an order is invalid at that point, prune the order. Doing so however, would mean that our understanding of the market is outdated by up to 3mins. This is an unacceptably large amount of latency.
 
-On the other hand - we can't afford reacting immediately to changes in the pending state layer because the transaction making an order invalid might not end up being included in the canonical chain due to chain reorgs and we will have discarded a valid order.
+On the other hand - we can't afford to react immediately to changes in the 1st state layer because the transaction making an order invalid might not end up being included in the canonical chain due to chain reorgs and we will have discarded a valid order.
 
-The solution we are proposing here is to shadow orders that are deemed invalid rather then removing them from our set of orders immediately. In the relayer orderbook pruning example, as soon as the order appears invalid within the pending state layer we recommend flagging it as such and to stop broadcasting it to UI/API clients. If the order becomes valid again later (e.g due to a chain re-org) it should be unshadowed and the order shown once again. Since we don't want our DB to grow indefinitely - it might make sense to still run an iterative cleanup worker that checks the validity of flagged orders at a much higher confirmation depth and removes them conclusively if they are deemed invalid at that point.
+The solution we are proposing here is to shadow orders that are deemed invalid rather then removing them from our set of orders immediately. In the relayer orderbook pruning example, as soon as the order appears invalid within the 1st state layer we recommend flagging it as such and to stop broadcasting it to UI/API clients. If the order becomes valid again later (e.g due to a chain re-org) it should be unshadowed and the order shown once again. Since we don't want our DB to grow indefinitely - it might make sense to still run an iterative cleanup worker that checks the validity of flagged orders at a much higher confirmation depth and removes them conclusively if they are deemed invalid at that point.
 
 Lifeycle of an order:
 
@@ -65,7 +65,7 @@ Lifeycle of an order:
 
 ### Performance optimizations
 
-The pending state changes with every new transaction that gets submitted to the mempool and if we want to keep our order book up to date - we need to revalidate all orders we are tracking every time this happens. Since this can happen every couple of milliseconds and we might be tracking millions of orders, an iterative approach will not be performant enough.
+A new block is mined approx. every ~12sec and if we want to keep our order book up to date - we need to revalidate all orders we are tracking every time this happens. Since this can happen every couple of seconds and we might be tracking millions of orders, an iterative approach will not be performant enough.
 
 Let's look into order validation more deeply and optimize it. When the order is already on an order book and it's schema and signature have already been validated - order validation is essentially a [pure function](https://en.wikipedia.org/wiki/Pure_function) that depends on blockchain state and time.
 
@@ -84,17 +84,6 @@ Unfortunately not every balance change is a transfer. Some tokens implement addi
 </div>
 
 ### Infrastructure requirements (to watch at mempool level)
-
-For order watcher to operate on the mempool state level, it has some strong infrastructure requirements.
-
--   You need to be running your own Ethereum node (if you want to watch at the mempool level)
-    -   Existing solutions like Infura don't support fetching pending events
-    -   Learn [how to host your own Parity node](#How-To-Deploy-A-Parity-Node).
--   It's good to expand the default mempool size in order to accomodate as many transactions as possible.
--   Those fake blocks should contain the whole mempool so that we get all the events
-    -   Parity has a CLI flag for that
-    -   Geth is working on it so for now it's Parity only :(
--   Your node needs to be long lived and to be accessible from outside because otherwise - you won't get a good mempool
 
 Future work
 
