@@ -28,16 +28,10 @@ In a separate terminal, navigate to the project directory and start Ganache:
 yarn ganache-cli
 ```
 
-In a separate terminal, navigate to the project directory and start the Standard Relayer API:
-
-```
-yarn fake_sra_server
-```
-
 You can now run the code we are going to walk you through in the rest of this tutorial:
 
 ```
-yarn scenario:fill_order_sra
+yarn scenario:fill_order_erc20
 ```
 
 ### Importing packages
@@ -55,13 +49,11 @@ import {
     signatureUtils,
     SignerType,
 } from '0x.js';
-import { HttpClient, OrderbookRequest } from '@0xproject/connect';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 ```
 
 **0x.js** is a package that pulls in a number of underlying 0x packages and exposes their respective functionality. You can choose to pull these packages directly without using 0x.js. These packages allow you to interact with the 0x smart contracts (contract wrappers) and create, sign and validate orders (order utils).
 **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic.
-**Connect** is a package for communicating with Relayers implementing the Standard Relayer API.
 **Web3Wrapper** is a package for interacting with an Ethereum node, retrieving account information. This is an optional package and you can choose to use alternatives like Web3.js or Ethers.js.
 
 ### Provider and constructor
@@ -92,23 +84,20 @@ const [maker, taker] = await web3Wrapper.getAvailableAddressesAsync();
 Since we are dealing with a few contracts, we will specify them now to reduce the syntax load. Fortunately for us, `0x.js` library comes with a couple of contract addresses that can be useful to have at hand. One thing that is important to remember is that there are no decimals in the Ethereum virtual machine (EVM), which means you always need to keep track of how many "decimals" each token possesses. Since we will sell some ZRX for some ETH and since they both have 18 decimals, we can use a shared constant.
 
 ```javascript
-// Number of decimals to use (for ETH and ZRX)
-const DECIMALS = 18;
-
 // Token Addresses
 const zrxTokenAddress = contractWrappers.exchange.getZRXTokenAddress();
 const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists();
 ```
 
-0x Protocol uses an the ABI encoding scheme for the asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 100 ZRX (ERC20) for 10 WETH (ERC20).
+0x Protocol uses the ABI encoding scheme for asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20).
 
 ```typescript
 const makerAssetData = assetDataUtils.encodeERC20AssetData(zrxTokenAddress);
 const takerAssetData = assetDataUtils.encodeERC20AssetData(etherTokenAddress);
 // the amount the maker is selling of maker asset
-const makerAssetAmount = new BigNumber(100);
+const makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(5), DECIMALS);
 // the amount the maker wants of taker asset
-const takerAssetAmount = new BigNumber(10);
+const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);
 ```
 
 ### Approvals and WETH Balance
@@ -139,7 +128,7 @@ const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
 await web3Wrapper.awaitTransactionMinedAsync(takerWETHDepositTxHash);
 ```
 
-At this point, it might be worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immediately after submitting a transaction with a transaction hash, so the user interface (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immediately on ganache. It is nevertheless a good habit to interact with the blockchain with these async/await calls.
+At this point, it is worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immediately after submitting a transaction with a transaction hash, so the user interface (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immediately on ganache. It is nevertheless a good habit to interact with the blockchain with these async/await calls.
 
 ### Creating an order
 
@@ -176,7 +165,7 @@ where the fields are:
 -   **feeRecipientAddress** : Ethereum address of our **Relayer** (none for now).
 -   **makerAssetData**: The token address the **Maker** is offering.
 -   **takerAssetData**: The token address the **Maker** is requesting from the **Taker**.
--   **exchangeAddress** : The exchange.sol address.
+-   **exchangeAddress** : The Exchange address.
 -   **salt**: Random number to make the order (and therefore its hash) unique.
 -   **makerFee**: How many ZRX the **Maker** will pay as a fee to the **Relayer**.
 -   **takerFee** : How many ZRX the **Taker** will pay as a fee to the **Relayer**.
