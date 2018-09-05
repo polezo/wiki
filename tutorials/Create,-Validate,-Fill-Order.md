@@ -90,7 +90,7 @@ const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists
 const DECIMALS = 18;
 ```
 
-0x Protocol uses the ABI encoding scheme for asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20). For more information on how these values are encoded see the [0x Specification](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#erc20proxy) and [ABI Encoding](https://solidity.readthedocs.io/en/latest/abi-spec.html).
+Since 0x protocol supports multiple token standards, it uses the [Ethereum ABI encoding scheme](https://ethereum.gitbooks.io/frontier-guide/content/abi.html) to encode all the necessary information about an asset into a single hexidecimal string. For example, a token compliant with the ERC20 standard uses the token's contract address as it's unique identifier. 0x protocol thus encodes the address, together with an ERC20 identifier, creating the `assetData` for that token. Other standards encode additional pieces of identifying information, such as the tokenId for an ERC721 token. In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20). For more information on how these values are encoded see the [0x Specification](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#erc20proxy).
 
 ```typescript
 const makerAssetData = assetDataUtils.encodeERC20AssetData(zrxTokenAddress);
@@ -103,7 +103,7 @@ const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(0.1), DECIMA
 
 ### Approvals and WETH Balance
 
-To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker asset is WETH (or Wrapper ETH, you can read about WETH [here](https://weth.io/).), as ETH is not an ERC20 token it must first be converted into WETH to be used on 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The ContractWrappers package has helpers for general ERC20 tokens as well as the WETH token.
+To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker asset is WETH (or Wrapped ETH, you can read about WETH [here](https://weth.io/).), as ETH is not an ERC20 token it must first be converted into WETH to be used by 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The `@0xproject/contract-wrappers` package has helpers for general ERC20 tokens as well as the WETH token.
 
 ```typescript
 // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
@@ -129,7 +129,7 @@ const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
 await web3Wrapper.awaitTransactionSuccessAsync(takerWETHDepositTxHash);
 ```
 
-At this point, it is worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immediately after submitting a transaction with a transaction hash, so the user interface (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immediately on ganache. It is nevertheless a good habit to interact with the blockchain with these async/await calls.
+At this point, it is worth mentioning why we need to await all those transactions. Sending a transaction to the Ethereum network through 0x.js will return a transaction hash once the transaction has been submitted to the network. At this point however, the transaction has not yet been mined and included into a block. For that to happen, we need to wait for it to be mined using `awaitTransactionSuccessAsync`. Since we don't want to proceed until the transaction has been mined, we wait after sending each transaction. On Ganache, transactions are mined very quickly, but beware that it can take ~12sec for a block to be mined on mainnet.
 
 ### Creating an order
 
@@ -178,7 +178,7 @@ The `NULL_ADDRESS` is used for the `taker` field since in our case we do not car
 
 ### Signing the order
 
-Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try pretending to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
+Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try pretending to be someone else just to annoy an exchange and other traders! To do so, we will sign the order with the corresponding private key and append the signature to our order.
 
 You first obtain the order hash via the following:
 
@@ -187,22 +187,22 @@ You first obtain the order hash via the following:
 const orderHashHex = orderHashUtils.getOrderHashHex(order);
 ```
 
-Now that we have the order hash, we can sign it and append the signature to the order;
+Now that we have the order hash, we can sign it and append the signature to the order:
 
 ```typescript
 const signature = await signatureUtils.ecSignOrderHashAsync(providerEngine, orderHashHex, maker, SignerType.Default);
 const signedOrder = { ...order, signature };
 ```
 
-With this, anyone can verify that the signature is authentic and this will prevent any change to the order by a third party. If the order is changed by even a single bit, then the hash of the order will be different and therefore invalid when compared to the signed hash.
+With this, anyone can verify that the signature is authentic and this will prevent any change to the order by a third party. If the order is changed in the slightest, the hash of the order will be different and therefore invalid when compared to the signed hash.
 
-Now let's verify whether the order is valid
+Now let's verify whether the order is valid if filled by `taker` for the `takerAssetAmount` amount:
 
 ```typescript
 await contractWrappers.exchange.validateFillOrderThrowIfInvalidAsync(signedOrder, takerAssetAmount, taker);
 ```
 
-If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method.
+If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method or the [0x OrderWatcher](https://0xproject.com/docs/order-watcher)).
 
 ### Filling the order
 
