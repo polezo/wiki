@@ -83,7 +83,7 @@ const [maker, taker] = await web3Wrapper.getAvailableAddressesAsync();
 
 Since we are dealing with a few contracts, we will specify them now to reduce the syntax load. Fortunately for us, `0x.js` library comes with a couple of contract addresses that can be useful to have at hand. One thing that is important to remember is that there are no decimals in the Ethereum virtual machine (EVM), which means you always need to keep track of how many "decimals" each token possesses. Since we will sell some ZRX for some ETH and since they both have 18 decimals, we can use a shared constant.
 
-```javascript
+```typescript
 // Token Addresses
 const zrxTokenAddress = contractWrappers.exchange.getZRXTokenAddress();
 const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists();
@@ -102,7 +102,7 @@ const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(0.1), DECIMA
 
 ### Approvals and WETH Balance
 
-To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker is using WETH (or Wrapper ETH), as ETH is not an ERC20 token it must first be converted into WETH to be used on 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The ContractWrappers package has helpers for general ERC20 tokens as well as the WETH token.
+To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker asset is WETH (or Wrapper ETH, you can read about WETH [here](https://weth.io/).), as ETH is not an ERC20 token it must first be converted into WETH to be used on 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The ContractWrappers package has helpers for general ERC20 tokens as well as the WETH token.
 
 ```typescript
 // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
@@ -159,19 +159,19 @@ const order: Order = {
 
 where the fields are:
 
+-   **exchangeAddress** : The Exchange address.
 -   **makerAddress** : Ethereum address of our **Maker**.
 -   **takerAddress** : Ethereum address of our **Taker**.
 -   **senderAddress** : Ethereum address of a required **Sender** (none for now).
 -   **feeRecipientAddress** : Ethereum address of our **Relayer** (none for now).
--   **makerAssetData**: The token address the **Maker** is offering.
--   **takerAssetData**: The token address the **Maker** is requesting from the **Taker**.
--   **exchangeAddress** : The Exchange address.
+-   **expirationTimeSeconds**: When will the order expire (in unix time).
 -   **salt**: Random number to make the order (and therefore its hash) unique.
--   **makerFee**: How many ZRX the **Maker** will pay as a fee to the **Relayer**.
--   **takerFee** : How many ZRX the **Taker** will pay as a fee to the **Relayer**.
 -   **makerAssetAmount**: The amount of token the **Maker** is offering.
 -   **takerAssetAmount**: The amount of token the **Maker** is requesting from the **Taker**.
--   **expirationTimeSeconds**: When will the order expire (in unix time).
+-   **makerAssetData**: The token address the **Maker** is offering.
+-   **takerAssetData**: The token address the **Maker** is requesting from the **Taker**.
+-   **makerFee**: How many ZRX the **Maker** will pay as a fee to the **Relayer**.
+-   **takerFee** : How many ZRX the **Taker** will pay as a fee to the **Relayer**.
 
 The `NULL_ADDRESS` is used for the `taker` field since in our case we do not care who the taker will be and using `NULL_ADDRESS` will allow anyone to fill our order.
 
@@ -179,7 +179,7 @@ The `NULL_ADDRESS` is used for the `taker` field since in our case we do not car
 
 Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try pretending to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
 
-You can first obtain the order hash with the following command:
+You first obtain the order hash via the following:
 
 ```typescript
 // Generate the order hash and sign it
@@ -188,17 +188,17 @@ const orderHashHex = orderHashUtils.getOrderHashHex(order);
 
 Now that we have the order hash, we can sign it and append the signature to the order;
 
-```javascript
+```typescript
 const signature = await signatureUtils.ecSignOrderHashAsync(providerEngine, orderHashHex, maker, SignerType.Default);
 const signedOrder = { ...order, signature };
 ```
 
 With this, anyone can verify that the signature is authentic and this will prevent any change to the order by a third party. If the order is changed by even a single bit, then the hash of the order will be different and therefore invalid when compared to the signed hash.
 
-Now let's actually verify whether the order we created is valid
+Now let's verify whether the order is valid
 
-```javascript
-// TODO
+```typescript
+await contractWrappers.exchange.validateFillOrderThrowIfInvalidAsync(signedOrder, takerAssetAmount, taker);
 ```
 
 If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method.
@@ -207,9 +207,9 @@ If something was wrong with our order, this function would throw an informative 
 
 Finally, now that we have a valid order, we can try to fill it while acting as a **Taker**. `takerAssetAmount` is simply the amount of tokens (in our case WETH) the **Taker** wants to fill. For this tutorial, we will be completely filling the order. Orders may also be partially filled.
 
-Now let's try to fill the order:
+Now let's fill the order:
 
-```javascript
+```typescript
 txHash = await contractWrappers.exchange.fillOrderAsync(signedOrder, takerAssetAmount, taker, {
     gasLimit: TX_DEFAULTS.gas,
 });
@@ -218,4 +218,4 @@ await web3Wrapper.awaitTransactionMinedAsync(txHash);
 
 This function broadcasts the transaction and returns its hash that we can use to get information about the transaction itself, such as when it is successfully mined.
 
-Congratulation! You have now successfully created, validated and filled an order using 0x.js and the 0x protocol!
+Congratulations! You have now successfully created, validated and filled an order using 0x.js and the 0x protocol!
