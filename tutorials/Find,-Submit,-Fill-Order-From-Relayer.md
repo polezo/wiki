@@ -128,14 +128,14 @@ const makerZRXApprovalTxHash = await contractWrappers.erc20Token.setUnlimitedPro
     zrxTokenAddress,
     maker,
 );
-await web3Wrapper.awaitTransactionMinedAsync(makerZRXApprovalTxHash);
+await web3Wrapper.awaitTransactionSuccessAsync(makerZRXApprovalTxHash);
 
 // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
 const takerWETHApprovalTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(
     etherTokenAddress,
     taker,
 );
-await web3Wrapper.awaitTransactionMinedAsync(takerWETHApprovalTxHash);
+await web3Wrapper.awaitTransactionSuccessAsync(takerWETHApprovalTxHash);
 
 // Convert ETH into WETH for taker by depositing ETH into the WETH contract
 const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
@@ -143,7 +143,7 @@ const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
     takerAssetAmount,
     taker,
 );
-await web3Wrapper.awaitTransactionMinedAsync(takerWETHDepositTxHash);
+await web3Wrapper.awaitTransactionSuccessAsync(takerWETHDepositTxHash);
 ```
 
 At this point, it is worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immediately after submitting a transaction with a transaction hash, so the user interface (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immediately on ganache. It is nevertheless a good habit to interact with the blockchain with these async/await calls.
@@ -283,7 +283,7 @@ Now that the order is validated we submit it to the blockchain by calling fillOr
 txHash = await contractWrappers.exchange.fillOrderAsync(sraOrder, takerAssetAmount, taker, {
     gasLimit: TX_DEFAULTS.gas,
 });
-await web3Wrapper.awaitTransactionMinedAsync(txHash);
+await web3Wrapper.awaitTransactionSuccessAsync(txHash);
 ```
 
 ### Wrapping up
