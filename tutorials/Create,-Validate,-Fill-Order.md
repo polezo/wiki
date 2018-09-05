@@ -87,9 +87,10 @@ Since we are dealing with a few contracts, we will specify them now to reduce th
 // Token Addresses
 const zrxTokenAddress = contractWrappers.exchange.getZRXTokenAddress();
 const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists();
+const DECIMALS = 18;
 ```
 
-0x Protocol uses the ABI encoding scheme for asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20).
+0x Protocol uses the ABI encoding scheme for asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20). For more information on how these values are encoded see the [0x Specification](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#erc20proxy) and [ABI Encoding](https://solidity.readthedocs.io/en/latest/abi-spec.html).
 
 ```typescript
 const makerAssetData = assetDataUtils.encodeERC20AssetData(zrxTokenAddress);
@@ -110,14 +111,14 @@ const makerZRXApprovalTxHash = await contractWrappers.erc20Token.setUnlimitedPro
     zrxTokenAddress,
     maker,
 );
-await web3Wrapper.awaitTransactionMinedAsync(makerZRXApprovalTxHash);
+await web3Wrapper.awaitTransactionSuccessAsync(makerZRXApprovalTxHash);
 
 // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
 const takerWETHApprovalTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(
     etherTokenAddress,
     taker,
 );
-await web3Wrapper.awaitTransactionMinedAsync(takerWETHApprovalTxHash);
+await web3Wrapper.awaitTransactionSuccessAsync(takerWETHApprovalTxHash);
 
 // Convert ETH into WETH for taker by depositing ETH into the WETH contract
 const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
@@ -125,7 +126,7 @@ const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
     takerAssetAmount,
     taker,
 );
-await web3Wrapper.awaitTransactionMinedAsync(takerWETHDepositTxHash);
+await web3Wrapper.awaitTransactionSuccessAsync(takerWETHDepositTxHash);
 ```
 
 At this point, it is worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immediately after submitting a transaction with a transaction hash, so the user interface (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immediately on ganache. It is nevertheless a good habit to interact with the blockchain with these async/await calls.
@@ -213,7 +214,7 @@ Now let's fill the order:
 txHash = await contractWrappers.exchange.fillOrderAsync(signedOrder, takerAssetAmount, taker, {
     gasLimit: TX_DEFAULTS.gas,
 });
-await web3Wrapper.awaitTransactionMinedAsync(txHash);
+await web3Wrapper.awaitTransactionSuccessAsync(txHash);
 ```
 
 This function broadcasts the transaction and returns its hash that we can use to get information about the transaction itself, such as when it is successfully mined.
