@@ -1,10 +1,10 @@
 In this tutorial, we will show you how you can use the [@0xproject/connect](https://github.com/0xProject/0x.js/tree/development/packages/connect) package in conjunction with [0x.js](https://github.com/0xProject/0x.js/tree/development/packages/0x.js) in order to:
 
-* ask a relayer for fee information
-* submit signed orders to a relayer with appropriate fees
-* ask a relayer for a ZRX/WETH orderbook
-* find the best orders in the orderbook
-* fill orders from the orderbook using `0x.js`
+-   ask a relayer for fee information
+-   submit signed orders to a relayer with appropriate fees
+-   ask a relayer for a ZRX/WETH orderbook
+-   find the best orders in the orderbook
+-   fill orders from the orderbook using `0x.js`
 
 You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/connect).
 
@@ -12,12 +12,12 @@ You can find a list of relayers that comply with the Standard Relayer API [here]
 
 ### Setup
 
-For this tutorial we will be using [TestRPC](https://github.com/ethereumjs/testrpc) as our ethereum node and a local http service that conforms to the standard relayer api as our relayer. The [0x starter project](https://github.com/0xProject/0x-starter-project) has everything we need to get started.
+Since 0x.js helps you build apps that interface with Ethereum, you will need to use it in conjunction with an Ethereum node. For development, we recommend using [Ganache CLI](https://github.com/trufflesuite/ganache-cli). Since there is some setup required to getting started with Ganache and the 0x smart contracts, we are going to use a [0x starter project](https://github.com/0xProject/0x-starter-project) which handles a lot of this for us.
 
 Clone the repo:
 
 ```
-git clone git@github.com:0xProject/0x-starter-project.git
+git clone https://@github.com/0xProject/0x-starter-project.git
 ```
 
 Install all the dependencies (we use Yarn: `brew install yarn --without-node`):
@@ -26,7 +26,7 @@ Install all the dependencies (we use Yarn: `brew install yarn --without-node`):
 yarn install
 ```
 
-Pull the latest TestRPC 0x snapshot with all the 0x contracts pre-deployed and an account with ZRX balance:
+Pull the latest Ganache 0x snapshot with all the 0x contracts pre-deployed and an account with ZRX balance:
 
 ```
 yarn download_snapshot
@@ -35,19 +35,19 @@ yarn download_snapshot
 In a separate terminal, navigate to the project directory and start TestRPC:
 
 ```
-yarn testrpc
+yarn ganache-cli
 ```
 
-In another terminal, navigate to the project directory and start a local http server that conforms to the standard relayer API, listening to port 3000:
+In another terminal, navigate to the project directory and start a local http server that conforms to a portion of the standard relayer API, listening to port 3000:
 
 ```
-yarn api
+yarn fake_sra_server
 ```
 
-You can now run the tutorial script. This command will build and run the `src/tutorials/relayer_actions/index.ts` script which we will take a closer look at below:
+You can now run the code we are going to walk you through in the rest of this tutorial:
 
 ```
-yarn relayer_actions
+yarn scenario:fill_order_sra
 ```
 
 ### Importing packages
@@ -55,255 +55,245 @@ yarn relayer_actions
 The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
 
 ```javascript
-import { ZeroEx, ZeroExConfig } from '0x.js';
 import {
-    FeesRequest,
-    FeesResponse,
-    HttpClient,
+    assetDataUtils,
+    BigNumber,
+    ContractWrappers,
+    generatePseudoRandomSalt,
     Order,
-    OrderbookRequest,
-    OrderbookResponse,
-    SignedOrder,
-} from '@0xproject/connect';
-import { BigNumber } from '@0xproject/utils';
-import * as Web3 from 'web3';
+    orderHashUtils,
+    signatureUtils,
+    SignerType,
+} from '0x.js';
+import { HttpClient, OrderbookRequest, OrderConfigRequest } from '@0xproject/connect';
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 ```
 
-**ZeroEx** is the `0x.js` library, which allows us to interact with the 0x smart contracts and environment. **@0xproject/connect** is a set of tools and types that let us easily interact with relayers that conform to the standard relayer api. **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. **Web3** is the package allowing us to interact with our node and the Ethereum world.
+**0x.js** is a package that pulls in a number of underlying 0x packages and exposes their respective functionality. You can choose to pull these packages directly without using 0x.js. These packages allow you to interact with the 0x smart contracts (contract wrappers) and create, sign and validate orders (order utils).
+**BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic.
+**HttpClient** is a Standard Relayer API client implementation that allows you to easily query any Standard Relayer API endpoint.
+**Web3Wrapper** is a package for interacting with an Ethereum node, retrieving account information. This is an optional package and you can choose to use alternatives like Web3.js or Ethers.js.
 
-### Instantiating ZeroEx and HttpClient
+### Instantiating a Provider and ContractWrappers
 
-First, we create a `ZeroEx` instance with a provider pointing to our local TestRPC node at **http://localhost:8545**. You can read about what providers are [here](#Web3-Provider-Explained). We also pass in a `ZeroExConfig` instance specifying the default testrpc networkId. This allows our `ZeroEx` instance to use the correct addresses of the contracts deployed on that network.
+First, we need to instantiate an instance of ContractWrappers and a Provider. In our case, since we are using our local node (ganache), we will use **http://localhost:8545**. You can read about what providers are [here](#Web3-Provider-Explained).
+
+```typescript
+import { RPCSubprovider, Web3ProviderEngine } from '0x.js';
+
+export const providerEngine = new Web3ProviderEngine();
+providerEngine.addProvider(new RPCSubprovider('http://localhost:8545'));
+providerEngine.start();
+// Instantiate ContractWrappers with the provider
+const contractWrappers = new ContractWrappers(providerEngine, { networkId: NETWORK_CONFIGS.networkId });
+```
+
+### Retreiving Accounts from the Provider
+
+We will use Web3Wrapper to retrieve accounts from the provider. The first account will the the maker, and the second account will be the taker for the purposes of this tutorial.
+
+```typescript
+const web3Wrapper = new Web3Wrapper(providerEngine);
+const [maker, taker] = await web3Wrapper.getAvailableAddressesAsync();
+```
+
+### Declaring decimals and addresses
+
+Since we are dealing with a few contracts, we will specify them now to reduce the syntax load. Fortunately for us, `0x.js` library comes with a couple of contract addresses that can be useful to have at hand. One thing that is important to remember is that there are no decimals in the Ethereum virtual machine (EVM), which means you always need to keep track of how many "decimals" each token possesses. Since we will sell some ZRX for some ETH and since they both have 18 decimals, we can use a shared constant.
 
 ```javascript
-// Provider pointing to local TestRPC on default port 8545
-const provider = new Web3.providers.HttpProvider('http://localhost:8545');
-
-// Instantiate 0x.js instance
-const zeroExConfig: ZeroExConfig = {
-    networkId: 50, // testrpc
-};
-
-// Instantiate 0x.js instance
-const zeroEx = new ZeroEx(provider, zeroExConfig);
+// Token Addresses
+const zrxTokenAddress = contractWrappers.exchange.getZRXTokenAddress();
+const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists();
 ```
+
+0x Protocol uses the ABI encoding scheme for asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20).
+
+```typescript
+const makerAssetData = assetDataUtils.encodeERC20AssetData(zrxTokenAddress);
+const takerAssetData = assetDataUtils.encodeERC20AssetData(etherTokenAddress);
+// the amount the maker is selling of maker asset
+const makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(5), DECIMALS);
+// the amount the maker wants of taker asset
+const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);
+```
+
+### Approvals and WETH Balance
+
+To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker is using WETH (or Wrapper ETH), as ETH is not an ERC20 token it must first be converted into WETH to be used on 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The ContractWrappers package has helpers for general ERC20 tokens as well as the WETH token.
+
+```typescript
+// Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
+const makerZRXApprovalTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(
+    zrxTokenAddress,
+    maker,
+);
+await web3Wrapper.awaitTransactionSuccessAsync(makerZRXApprovalTxHash);
+
+// Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
+const takerWETHApprovalTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(
+    etherTokenAddress,
+    taker,
+);
+await web3Wrapper.awaitTransactionSuccessAsync(takerWETHApprovalTxHash);
+
+// Convert ETH into WETH for taker by depositing ETH into the WETH contract
+const takerWETHDepositTxHash = await contractWrappers.etherToken.depositAsync(
+    etherTokenAddress,
+    takerAssetAmount,
+    taker,
+);
+await web3Wrapper.awaitTransactionSuccessAsync(takerWETHDepositTxHash);
+```
+
+At this point, it is worth mentioning why we need to await all those transactions. Calling an 0x.js function returns immediately after submitting a transaction with a transaction hash, so the user interface (UI) might show some useful information to the user before the transaction is mined (it sometimes takes long time). In our use-case we just want it to be confirmed, which happens immediately on ganache. It is nevertheless a good habit to interact with the blockchain with these async/await calls.
+
+## Creating an HttpClient
 
 Next, we create an `HttpClient` instance with a url pointing to a local standard relayer api http server running at **http://localhost:3000**. The `HttpClient` is our programmatic gateway to any relayer that conforms to the standard relayer api http standard.
 
 ```javascript
 // Instantiate relayer client pointing to a local server on port 3000
-const relayerApiUrl = 'http://localhost:3000/v0';
+const relayerApiUrl = 'http://localhost:3000/v2';
 const relayerClient = new HttpClient(relayerApiUrl);
 ```
 
-### Getting the exchange contract addresses
+### Getting configuration information
 
-Next, we use `0x.js` to get the address of the exchange contract on the current network.
+Before creating an order to submit to a relayer, it is necessary to understand the requirements a relayer may have to host the order on their orderbook. This is what the `/order_config` endpoint is for.
 
-```javascript
-// Get exchange contract address
-const EXCHANGE_ADDRESS = await zeroEx.exchange.getContractAddress();
-```
-
-### Getting token information
-
-We can use the `tokenRegistry` field of our `ZeroEx` instance to get information related to the WETH and ZRX tokens on the current network. This information is required for interacting with token balances and allowances and for converting token amounts into base unit amounts. Because the `getTokenIfExistsAsync()` method may return `undefined` for inputs that don't represent registered token addresses, we must check for `undefined` results before proceeding. Addresses of other tokens can be acquired though the `tokenRegistry` field of a ZeroEx instance or on [Etherscan](https://etherscan.io/tokens).
+Create a partial order (or `OrderConfigRequest`) and query the API using `getOrderConfigAsync`:
 
 ```javascript
-// Get token information
-const wethTokenInfo = await zeroEx.tokenRegistry.getTokenBySymbolIfExistsAsync('WETH');
-const zrxTokenInfo = await zeroEx.tokenRegistry.getTokenBySymbolIfExistsAsync('ZRX');
+// Generate and expiration time and find the exchange smart contract address
+const randomExpiration = getRandomFutureDateInSeconds();
+const exchangeAddress = contractWrappers.exchange.getContractAddress();
 
-// Check if either getTokenIfExistsAsync query resulted in undefined
-if (wethTokenInfo === undefined || zrxTokenInfo === undefined) {
-    throw new Error('could not find token info');
-}
-
-// Get token contract addresses
-const WETH_ADDRESS = wethTokenInfo.address;
-const ZRX_ADDRESS = zrxTokenInfo.address;
-```
-
-### Setting up accounts
-
-Now, we can use `0x.js` to grab available addresses. We assign the first address to a variable `zrxOwnerAddress` because it has a balance of 100000000 ZRX in the snapshot. We assign the rest of the addresses to a variable called `wethOwnerAddresses` because we will generate WETH for these addresses.
-
-```javascript
-// Get all available addresses
-const addresses = await zeroEx.getAvailableAddressesAsync();
-
-// Get the first address, this address is preloaded with a ZRX balance from the snapshot
-const zrxOwnerAddress = addresses[0];
-
-// Assign other addresses as WETH owners
-const wethOwnerAddresses = addresses.slice(1);
-```
-
-### Setting unlimited allowance
-
-The next step is to allow the 0x protocol to interact with our funds. 0x allows users to trade tokens directly from their accounts without the need to send their tokens anywhere. This is possible thanks to the `approve()` and `transferFrom()` functions that are part of the ERC20 token standard. In order to give the 0x protocol Proxy smart contract access to WETH and ZRX, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)).
-
-```javascript
-// Set WETH and ZRX unlimited allowances for all addresses
-const setZrxAllowanceTxHashes = await Promise.all(addresses.map(address => {
-    return zeroEx.token.setUnlimitedProxyAllowanceAsync(ZRX_ADDRESS, address);
-}));
-const setWethAllowanceTxHashes = await Promise.all(addresses.map(address => {
-    return zeroEx.token.setUnlimitedProxyAllowanceAsync(WETH_ADDRESS, address);
-}));
-await Promise.all(setZrxAllowanceTxHashes.concat(setWethAllowanceTxHashes).map(tx => {
-    return zeroEx.awaitTransactionMinedAsync(tx);
-}));
-```
-
-### Generating WETH
-
-Another thing we need to do is "convert" ETH to WETH, because ETH is not ERC20 compliant. We iterate over each address in `wethOwnerAddresses` and deposit ETH into the WETH token contract in order to mint WETH (you can read about WETH [here](https://weth.io/)).
-
-```javascript
-// Deposit ETH and generate WETH tokens for each address in wethOwnerAddresses
-const ethToConvert = ZeroEx.toBaseUnitAmount(new BigNumber(5), wethTokenInfo.decimals);
-const depositTxHashes = await Promise.all(wethOwnerAddresses.map(address => {
-    return zeroEx.etherToken.depositAsync(WETH_ADDRESS, ethToConvert, address);
-}));
-await Promise.all(depositTxHashes.map(tx => {
-    return zeroEx.awaitTransactionMinedAsync(tx);
-}));
-```
-
-### Ready to interact with the relayer
-
-Now we are ready to start interacting with the relayer! For each address in `wethOwnerAddresses`, we will be getting fee information from the relayer, generating a complete order, signing the order, and submitting the order to the relayer.
-
-```javascript
-await Promise.all(wethOwnerAddresses.map(async (address, index) => {
-    // Steps for the "Getting fee information from the relayer" and "Signing and submitting an order to the relayer" sections go here
-}
-```
-
-### Getting fee information from the relayer
-
-Different relayers in the 0x ecosystem will implement specific fee structures depending on various factors including orderbook depth, time of day, promotions, etc. The standard relayer api gives relayers the ability to provide fine-grained fee information specific to their service on a per-order basis. Below, we compile an object that conforms to the `FeesRequest` interface. This interface defines a set of information that a relayer needs in order to provide accurate fee information. We then submit this request to the `getFeesAsync()` function of the `relayerClient` and receive a `FeesResponse` instance in response. The `FeesRequest` and `FeesResponse` can be combined to create a complete order with appropriate fees for this relayer.
-
-```javascript
-// Programmatically determine the exchange rate based on the index of address in wethOwnerAddresses
-const exchangeRate = (index + 1) * 10; // ZRX/WETH
-const makerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(5), wethTokenInfo.decimals);
-const takerTokenAmount = makerTokenAmount.mul(exchangeRate);
-
-// Generate fees request for the order
-const ONE_HOUR_IN_MS = 3600000;
-const feesRequest: FeesRequest = {
-    exchangeContractAddress: EXCHANGE_ADDRESS,
-    maker: address,
-    taker: ZeroEx.NULL_ADDRESS,
-    makerTokenAddress: WETH_ADDRESS,
-    takerTokenAddress: ZRX_ADDRESS,
-    makerTokenAmount,
-    takerTokenAmount,
-    expirationUnixTimestampSec: new BigNumber(Date.now() + ONE_HOUR_IN_MS),
-    salt: ZeroEx.generatePseudoRandomSalt(),
+// Ask the relayer about the parameters they require for the order
+const orderConfigRequest: OrderConfigRequest = {
+    exchangeAddress,
+    makerAddress: maker,
+    takerAddress: NULL_ADDRESS,
+    expirationTimeSeconds: randomExpiration,
+    makerAssetAmount,
+    takerAssetAmount,
+    makerAssetData,
+    takerAssetData,
 };
+const orderConfig = await httpClient.getOrderConfigAsync(orderConfigRequest);
+```
 
-// Send fees request to relayer and receive a FeesResponse instance
-const feesResponse: FeesResponse = await relayerClient.getFeesAsync(feesRequest);
+Here are the fields in an order config request:
 
-// Combine the fees request and response to form a complete order
+-   **makerAddress** : Ethereum address of our **Maker**.
+-   **takerAddress** : Ethereum address of our **Taker**.
+-   **makerAssetData**: The token address the **Maker** is offering.
+-   **takerAssetData**: The token address the **Maker** is requesting from the **Taker**.
+-   **exchangeAddress** : The Exchange address.
+-   **makerAssetAmount**: The amount of token the **Maker** is offering.
+-   **takerAssetAmount**: The amount of token the **Maker** is requesting from the **Taker**.
+-   **expirationTimeSeconds**: When will the order expire (in unix time).
+
+Here are the fields that are provided in the order config response:
+
+-   **senderAddress** : Ethereum address of a required **Sender** (none for now).
+-   **feeRecipientAddress** : Ethereum address of our **Relayer** (none for now).
+-   **makerFee**: How many ZRX the **Maker** will pay as a fee to the **Relayer**.
+-   **takerFee** : How many ZRX the **Taker** will pay as a fee to the **Relayer**.
+
+You can see that together they form a full Order object, except for the salt.
+
+### Creating an order
+
+Now that we have the configuration information, we can create a full order.
+
+```javascript
+// Create the order
 const order: Order = {
-    ...feesRequest,
-    ...feesResponse,
+    salt: generatePseudoRandomSalt(),
+    ...orderConfigRequest,
+    ...orderConfig,
 };
 ```
 
-### Signing and submitting an order to the relayer
+### Signing the order
 
-Now that we created an order, we need to prove that we actually own the address specified in the `maker` field of `order`. To do so, we will sign the order with the corresponding private key and append the signature to our order to form a complete `SignedOrder`. We then submit this order to the `submitOrderAsync()` function of the `relayerClient`. If you are not using TestRPC as your Web3 Provider, you will need to pass a provider to `0x.js` that sends message signing requests to your signing service.
+Now that we created an order as a **Maker**, we need to prove that we actually own the address specified as `makerAddress`. After all, we could always try pretending to be someone else just to annoy an exchange and other traders! To do so, we will sign the orders with the corresponding private key and append the signature to our order.
 
 ```javascript
-// Create orderHash
-const orderHash = ZeroEx.getOrderHashHex(order);
+// Generate the order hash and sign it
+const orderHashHex = orderHashUtils.getOrderHashHex(order);
+const signature = await signatureUtils.ecSignOrderHashAsync(providerEngine, orderHashHex, maker, SignerType.Default);
+const signedOrder = { ...order, signature };
+```
 
-// Sign orderHash and produce a ecSignature
-const shouldAddPersonalMessagePrefix = false;
-const ecSignature = await zeroEx.signOrderHashAsync(orderHash, address, 
-                                                    shouldAddPersonalMessagePrefix);
+With this, anyone can verify that the signature is authentic and this will prevent any change to the order by a third party. If the order is changed by even a single bit, then the hash of the order will be different and therefore invalid when compared to the signed hash.
 
-// Append signature to order
-const signedOrder: SignedOrder = {
-    ...order,
-    ecSignature,
-};
+Now let's actually verify whether the order we created is valid
 
-// Submit order to relayer
-await relayerClient.submitOrderAsync(signedOrder);
+```javascript
+await contractWrappers.exchange.validateOrderFillableOrThrowAsync(signedOrder);
+```
+
+If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method.
+
+### Submitting the order to the relayer
+
+We can finally submit our signed order to the relayer for them to host on their orderbook.
+
+```javascript
+// Submit the order to the SRA Endpoint
+await httpClient.submitOrderAsync(signedOrder, { networkId: NETWORK_CONFIGS.networkId };
 ```
 
 ### Requesting an orderbook
 
-If in an application we need exchange functionality between two tokens, we can find a suitable order for our needs using the `getOrderbookAsync()` method of `HttpClient`. In this example, we use the addresses of the ZRX and WETH tokens we retrieved earlier and use them to generate an `OrderbookRequest` to send to the relayerClient. In response, we get an `OrderbookResponse` containing orders that correspond with the provided `quoteTokenAddress` and `baseTokenAddress` (learn more about the quote/base token terminology [here](https://en.wikipedia.org/wiki/Currency_pair)).
+If in an application we need exchange functionality between two assets, we can find a suitable order for our needs using the `getOrderbookAsync()` method of `HttpClient`. In this example, we use the addresses of the ZRX and WETH tokens we retrieved earlier and use them to generate an `OrderbookRequest` to send to the relayerClient. In response, we get an `OrderbookResponse` containing orders that correspond with the provided `quoteAssetData` and `baseAssetData` (learn more about the quote/base token terminology [here](https://en.wikipedia.org/wiki/Currency_pair)).
 
 ```javascript
-// Generate orderbook request for ZRX/WETH pair
-const orderbookRequest: OrderbookRequest = {
-    baseTokenAddress: ZRX_ADDRESS,
-    quoteTokenAddress: WETH_ADDRESS,
-};
-
-// Send orderbook request to relayer
-const orderbookResponse: OrderbookResponse = await relayerClient.getOrderbookAsync(orderbookRequest);
+// Taker queries the Orderbook from the Relayer
+const orderbookRequest: OrderbookRequest = { baseAssetData: makerAssetData, quoteAssetData: takerAssetData };
+const response = await httpClient.getOrderbookAsync(orderbookRequest, { networkId: NETWORK_CONFIGS.networkId });
+if (response.asks.total === 0) {
+    throw new Error('No orders found on the SRA Endpoint');
+}
 ```
 
-### Finding the best orders
+### Filling an order
 
-`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a `SignedOrder` array where for each order, the `makerTokenAddress` field is equal to the `quoteTokenAddress` provided by the `OrderbookRequest` and the `takerTokenAddress` field is equal to `baseTokenAddress`. `Asks` is also a `SignedOrder` array but it is the opposite of `bids`. For each order, the `makerTokenAddress` field is equal to the `baseTokenAddress` and the `takerTokenAddress` field is equal to `quoteTokenAddress`.
+`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a [`PaginatedCollection`](https://0xproject.com/docs/connect#types-PaginatedCollection) of [`APIOrder`](https://0xproject.com/docs/connect#types-APIOrder)s where for each order, the `makerAssetData` field is equal to the `quoteAssetData` provided by the `OrderbookRequest` and the `takerAssetData` field is equal to `baseAssetData`. `Asks` is the opposite of `bids`. For each order, the `makerAssetData` field is equal to the `baseAssetData` and the `takerAssetData` field is equal to `quoteAssetData`.
+
+The Standard Relayer API guarantees that the orders are sorted by price, and then by _taker fee price_ which is defined as the `takerFee` divided by `takerAmount`. After _taker fee price_, orders are to be sorted by expiration in ascending order.
+
+Given the above, we can just pick an order from the top of the asks paginated collection and fill it:
 
 ```javascript
-// Because we are looking to exchange our ZRX for WETH, we get the bids side of the order book and sort the orders with the best rate first
-const sortedBids = orderbookResponse.bids.sort((orderA, orderB) => {
-    const orderRateA = new BigNumber(orderA.makerTokenAmount).div(new BigNumber(orderA.takerTokenAmount));
-    const orderRateB = new BigNumber(orderB.makerTokenAmount).div(new BigNumber(orderB.takerTokenAmount));
-    return orderRateB.comparedTo(orderRateA);
-});
-
-// Calculate and print out the WETH/ZRX exchange rate for each order
-const rates = sortedBids.map(order => {
-    const rate = new BigNumber(order.makerTokenAmount).div(new BigNumber(order.takerTokenAmount));
-    return rate.toString() + ' WETH/ZRX';
-});
-console.log(rates);
+const sraOrder = response.asks.records[0].order;
 ```
 
-### Filling the orders
-
-Now that we have the best WETH/ZRX orders that the relayer has to offer, we can use them to exchange some of the ZRX balance of `zrxOwnerAddress` into WETH from the `wethOwnerAddresses`. In this example, we wish to completely fill the best bid the relayer has to offer. We can do this using the `sortedBids` array we generated above, and the `fillOrderAsync()` function of the exchange wrapper provided by our instance of `ZeroEx`. When we print our balances, we can see that we successfully performed the exchange
+Now we validate the order is fillable given the maker and taker. This checks the balances and allowances of both the Maker and Taker, this way if there are any issues we do not waste gas on a failed transaction.
 
 ```javascript
-// Get balances before the fill
-const zrxBalanceBeforeFill = await zeroEx.token.getBalanceAsync(ZRX_ADDRESS, zrxOwnerAddress);
-const wethBalanceBeforeFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, zrxOwnerAddress);
-console.log('ZRX Before: ' + ZeroEx.toUnitAmount(zrxBalanceBeforeFill, zrxTokenInfo.decimals).toString());
-console.log('WETH Before: ' + ZeroEx.toUnitAmount(wethBalanceBeforeFill, wethTokenInfo.decimals).toString());
+await contractWrappers.exchange.validateFillOrderThrowIfInvalidAsync(sraOrder, takerAssetAmount, taker);
+```
 
-// Completely fill the best bid
-const bidToFill = sortedBids[0];
-const fillTxHash = await zeroEx.exchange.fillOrderAsync(bidToFill, bidToFill.takerTokenAmount, true, zrxOwnerAddress);
-await zeroEx.awaitTransactionMinedAsync(fillTxHash);
+Now that the order is validated we submit it to the blockchain by calling fillOrder.
 
-// Get balances after the fill
-const zrxBalanceAfterFill = await zeroEx.token.getBalanceAsync(ZRX_ADDRESS, zrxOwnerAddress);
-const wethBalanceAfterFill = await zeroEx.token.getBalanceAsync(WETH_ADDRESS, zrxOwnerAddress);
-console.log('ZRX After: ' + ZeroEx.toUnitAmount(zrxBalanceAfterFill, zrxTokenInfo.decimals).toString());
-console.log('WETH After: ' + ZeroEx.toUnitAmount(wethBalanceAfterFill, wethTokenInfo.decimals).toString());
+```javascript
+txHash = await contractWrappers.exchange.fillOrderAsync(sraOrder, takerAssetAmount, taker, {
+    gasLimit: TX_DEFAULTS.gas,
+});
+await web3Wrapper.awaitTransactionSuccessAsync(txHash);
 ```
 
 ### Wrapping up
 
 Through this tutorial we learned how to:
 
-* ask a relayer for fee information
-* submit signed orders to a relayer with appropriate fees
-* ask a relayer for a ZRX/WETH orderbook
-* find the best orders in the orderbook
-* fill orders from the orderbook using `0x.js`
+-   ask a relayer for fee information
+-   submit signed orders to a relayer with appropriate fees
+-   ask a relayer for a ZRX/WETH orderbook
+-   find the best orders in the orderbook
+-   fill orders from the orderbook using `0x.js`
 
-While all of these tasks were performed using TestRPC and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v0/ for executing trades on the main Ethereum network **today**. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).
+While all of these tasks were performed using Ganache and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v2/ for executing trades on the main Ethereum network. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).

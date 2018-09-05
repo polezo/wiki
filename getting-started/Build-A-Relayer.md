@@ -24,36 +24,39 @@ Below is an interface description of the 0x protocol order format:
 
 ```typescript
 interface Order {
+    senderAddress: string;
     // Ethereum address of the Maker
-    maker: string;
+    makerAddress: string;
     // Ethereum address of the Taker. If no address specified, anyone can fill the order.
-    taker: string;
+    takerAddress: string;
     // How many ZRX the Maker will pay as a fee to the relayer
     makerFee: BigNumber;
     // How many ZRX the Taker will pay as a fee to the relayer
     takerFee: BigNumber;
-    // The amount of tokens the Maker is offering to exchange
-    makerTokenAmount: BigNumber;
-    // The amount of tokens the Maker is willing to accept in return
-    takerTokenAmount: BigNumber;
-    // The address of the token the Maker is offering
-    makerTokenAddress: string;
-    // The address of token the Maker is requesting in return
-    takerTokenAddress: string;
-    // Random number to guarantee order uniqueness
+    // The amount of an asset the Maker is offering to exchange
+    makerAssetAmount: BigNumber;
+    // The amount of an asset the Maker is willing to accept in return
+    takerAssetAmount: BigNumber;
+    // The identifying data about the asset the Maker is offering
+    makerAssetData: string;
+    // The identifying data about the asset the Maker is requesting in return
+    takerAssetData: string;
+    // A salt to guarentee OrderHash uniqueness. Usually a milisecond timestamp of when order was made
     salt: BigNumber;
     // The address of the 0x protocol exchange smart contract
-    exchangeContractAddress: string;
-    // The address that will receive the fees
-    feeRecipient: string;
+    exchangeAddress: string;
+    // The address (user or smart contract) that will receive the fees
+    feeRecipientAddress: string;
     // When the order will expire (unix timestamp in seconds)
-    expirationUnixTimestampSec: BigNumber;
+    expirationTimeSeconds: BigNumber;
 }
 ```
 
 It is a relayer's job to collect cryptographically signed versions of these orders into an off-chain database. This collection of orders is what we refer to as an orderbook. A relayer displays their orderbook to potential takers. The incentive here is for a relayer to collect fees from the orders they host. By being the fee recipient, relayers can earn fees in ZRX tokens.
 
 We have a tutorial on how to [Create, Validate, and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) for when you are ready to jump in and start developing on 0x. This tutorial will take you through setting up [0x.js](http://0xproject.com/docs/0x.js) in order to create, sign and fill a 0x order.
+
+If you want to take a deep-dive into the 0x internals, take a look at the [0x Protocol Specification](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md).
 
 ### Relayer strategies
 
