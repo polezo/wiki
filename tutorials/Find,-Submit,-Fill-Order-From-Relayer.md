@@ -1,10 +1,10 @@
 In this tutorial, we will show you how you can use the [@0xproject/connect](https://github.com/0xProject/0x.js/tree/development/packages/connect) package in conjunction with [0x.js](https://github.com/0xProject/0x.js/tree/development/packages/0x.js) in order to:
 
-* ask a relayer for fee information
-* submit signed orders to a relayer with appropriate fees
-* ask a relayer for a ZRX/WETH orderbook
-* find the best orders in the orderbook
-* fill orders from the orderbook using `0x.js`
+-   ask a relayer for fee information
+-   submit signed orders to a relayer with appropriate fees
+-   ask a relayer for a ZRX/WETH orderbook
+-   find the best orders in the orderbook
+-   fill orders from the orderbook using `0x.js`
 
 You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/connect).
 
@@ -87,6 +87,7 @@ providerEngine.start();
 // Instantiate ContractWrappers with the provider
 const contractWrappers = new ContractWrappers(providerEngine, { networkId: NETWORK_CONFIGS.networkId });
 ```
+
 ### Retreiving Accounts from the Provider
 
 We will use Web3Wrapper to retrieve accounts from the provider. The first account will the the maker, and the second account will be the taker for the purposes of this tutorial.
@@ -183,6 +184,7 @@ const orderConfig = await httpClient.getOrderConfigAsync(orderConfigRequest);
 ```
 
 Here are the fields in an order config request:
+
 -   **makerAddress** : Ethereum address of our **Maker**.
 -   **takerAddress** : Ethereum address of our **Taker**.
 -   **makerAssetData**: The token address the **Maker** is offering.
@@ -193,6 +195,7 @@ Here are the fields in an order config request:
 -   **expirationTimeSeconds**: When will the order expire (in unix time).
 
 Here are the fields that are provided in the order config response:
+
 -   **senderAddress** : Ethereum address of a required **Sender** (none for now).
 -   **feeRecipientAddress** : Ethereum address of our **Relayer** (none for now).
 -   **makerFee**: How many ZRX the **Maker** will pay as a fee to the **Relayer**.
@@ -220,12 +223,7 @@ Now that we created an order as a **Maker**, we need to prove that we actually o
 ```javascript
 // Generate the order hash and sign it
 const orderHashHex = orderHashUtils.getOrderHashHex(order);
-const signature = await signatureUtils.ecSignOrderHashAsync(
-    providerEngine,
-    orderHashHex,
-    maker,
-    SignerType.Default,
-);
+const signature = await signatureUtils.ecSignOrderHashAsync(providerEngine, orderHashHex, maker, SignerType.Default);
 const signedOrder = { ...order, signature };
 ```
 
@@ -234,7 +232,7 @@ With this, anyone can verify that the signature is authentic and this will preve
 Now let's actually verify whether the order we created is valid
 
 ```javascript
-// TODO
+await contractWrappers.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 ```
 
 If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method.
@@ -263,14 +261,25 @@ if (response.asks.total === 0) {
 
 ### Filling an order
 
-`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a [`PaginatedCollection`](https://0xproject.com/docs/connect#types-PaginatedCollection) of [`APIOrder`](https://0xproject.com/docs/connect#types-APIOrder)s where for each order, the `makerAssetData` field is equal to the `quoteAssetData` provided by the `OrderbookRequest` and the `takerAssetData` field is equal to `baseAssetData`. `Asks`  is the opposite of `bids`. For each order, the `makerAssetData` field is equal to the `baseAssetData` and the `takerAssetData` field is equal to `quoteAssetData`.
+`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a [`PaginatedCollection`](https://0xproject.com/docs/connect#types-PaginatedCollection) of [`APIOrder`](https://0xproject.com/docs/connect#types-APIOrder)s where for each order, the `makerAssetData` field is equal to the `quoteAssetData` provided by the `OrderbookRequest` and the `takerAssetData` field is equal to `baseAssetData`. `Asks` is the opposite of `bids`. For each order, the `makerAssetData` field is equal to the `baseAssetData` and the `takerAssetData` field is equal to `quoteAssetData`.
 
-The Standard Relayer API guarantees that the orders are sorted by price, and then by *taker fee price* which is defined as the `takerFee` divided by `takerAmount`. After *taker fee price*, orders are to be sorted by expiration in ascending order. 
+The Standard Relayer API guarantees that the orders are sorted by price, and then by _taker fee price_ which is defined as the `takerFee` divided by `takerAmount`. After _taker fee price_, orders are to be sorted by expiration in ascending order.
 
 Given the above, we can just pick an order from the top of the asks paginated collection and fill it:
 
 ```javascript
 const sraOrder = response.asks.records[0].order;
+```
+
+Now we validate the order is fillable given the maker and taker. This checks the balances and allowances of both the Maker and Taker, this way if there are any issues we do not waste gas on a failed transaction.
+
+```javascript
+await contractWrappers.exchange.validateFillOrderThrowIfInvalidAsync(sraOrder, takerAssetAmount, taker);
+```
+
+Now that the order is validated we submit it to the blockchain by calling fillOrder.
+
+```javascript
 txHash = await contractWrappers.exchange.fillOrderAsync(sraOrder, takerAssetAmount, taker, {
     gasLimit: TX_DEFAULTS.gas,
 });
@@ -281,10 +290,10 @@ await web3Wrapper.awaitTransactionMinedAsync(txHash);
 
 Through this tutorial we learned how to:
 
-* ask a relayer for fee information
-* submit signed orders to a relayer with appropriate fees
-* ask a relayer for a ZRX/WETH orderbook
-* find the best orders in the orderbook
-* fill orders from the orderbook using `0x.js`
+-   ask a relayer for fee information
+-   submit signed orders to a relayer with appropriate fees
+-   ask a relayer for a ZRX/WETH orderbook
+-   find the best orders in the orderbook
+-   fill orders from the orderbook using `0x.js`
 
 While all of these tasks were performed using Ganache and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v2/ for executing trades on the main Ethereum network. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).
