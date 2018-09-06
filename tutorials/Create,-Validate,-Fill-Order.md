@@ -72,7 +72,7 @@ const contractWrappers = new ContractWrappers(providerEngine, { networkId: NETWO
 
 ### Retreiving Accounts from the Provider
 
-We will use Web3Wrapper to retrieve accounts from the provider. The first account will the the maker, and the second account will be the taker for the purposes of this tutorial.
+We will use Web3Wrapper to retrieve accounts from the provider. The first account will be the maker, and the second account will be the taker for the purposes of this tutorial.
 
 ```typescript
 const web3Wrapper = new Web3Wrapper(providerEngine);
