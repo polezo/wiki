@@ -33,7 +33,7 @@ The contracts found in the following directories are considered within scope of 
 -   `src/2.0.0/multisig/MultiSigWalletWithTimeLock`
 -   `src/2.0.0/extensions/Forwarder`
 
-Please note that any bugs already reported are considered out of scope (security audits to be released).
+Please note that any bugs already reported are considered out of scope. Security audits of these contracts can be found [here](https://docs.google.com/document/d/1jYv6V21MfCSwCS5fxD6ZyaLWGzkpRSUO0lZpST94XsA/edit) and [here](https://github.com/ConsenSys/0x_audit_report_2018-07-23).
 
 ### Disclosures
 
