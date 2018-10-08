@@ -1,22 +1,24 @@
 Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer wanting to prune their orderbook of any orders that have become unfillable. Another example is a trader using the standard relayer API who wants to react quickly to orders retrieved from relayers becoming unfillable.
 
-At 0x - we've implemented an orderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it.
+At 0x - we've implemented an OrderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms involved and so we've written this article to walk you through the design choices we made and how to use it.
 
 You can use OrderWatcher with the Ethereum node of your choice.
 
 ### OrderWatcher interface
 
-From an interface point of view - the orderWatcher is a daemon. You can start & stop its subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0xproject/order-watcher docs](https://0xproject.com/docs/order-watcher).
+From an interface point of view - the OrderWatcher is a daemon. You can start & stop its subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0xproject/order-watcher docs](https://0xproject.com/docs/order-watcher).
 
-Once the orderWatcher is started and an order has been added to it, it will emit orderStateChange events every time any of the state backing an order's fillability (i.e order expirations, fills, cancels, etc...) changes. There events are emitted with all the necessary information for the subscriber to then decide with their own custom rules whether or not they consider the order still valid.
+Once the OrderWatcher is started and an order has been added to it, it will emit orderStateChange events every time any of the state backing an order's fillability (i.e order expirations, fills, cancels, etc...) changes. There events are emitted with all the necessary information for the subscriber to then decide with their own custom rules whether or not they consider the order still valid.
 
 ### Order Validity
 
 Order validity is not binary. An order can be partially filled, cancelled and fillable at the same time. Imagine an order that sells 4 tokens. Let's say it has already been filled for 1 and the maker partially cancelled it for 1. Now the order might be fillable for 2, but the maker moves one token out of the backing address. You can now only fill it for 1.
 
-|filled|cancelled|unfunded|fillable|
+```
+filled | cancelled | unfunded | fillable
+```
 
-An order is considered valid by the orderWatcher when it can be filled for a non-zero amount. For this to be possible the next conditions need to be satisfied:
+An order is considered valid by the OrderWatcher when it can be filled for a non-zero amount. For this to be possible the next conditions need to be satisfied:
 
 -   It has a valid structure (schema)
     -   This is checked before accepting the order
@@ -35,15 +37,100 @@ You're free to implement your own logic on top of this information. Some decisio
 -   What the minimum partially fillable amount is that they are willing to accept (this lets them avoid dust orders)
 -   Whether to punish users whose orders become unfillable through an allowance/balance change (griefing)
 
+Below are the contract events that the OrderWatcher handles by default:
+
+| 0x Exchange Events |
+| ------------------ |
+| Fill               |
+| Cancel             |
+| CancelUpTo         |
+
+| Maker Asset Events | Token Type |
+| ------------------ | ---------- |
+| Transfer           | ERC20      |
+| Approval           | ERC20      |
+| Transfer           | ERC721     |
+| Approval           | ERC721     |
+| ApprovalForAll     | ERC721     |
+| Deposit            | WETH       |
+| Withdraw           | WETH       |
+
+If any of the above events result in an change in order state you will receive a callback. [OrderState](https://0xproject.com/docs/order-watcher#types-OrderState) indicates whether the order is [valid](https://0xproject.com/docs/order-watcher#types-OrderStateValid) or [invalid](https://0xproject.com/docs/order-watcher#types-OrderStateInvalid), as well as the current [relevant state of the order](https://0xproject.com/docs/order-watcher#types-OrderRelevantState).
+
+In the case where an event caused the order to remain [valid](https://0xproject.com/docs/order-watcher#types-OrderStateValid), but change the amount fillable (such as a `Fill` or a `Transfer` event) the order state will contain the current calculated relevant state:
+
+```typescript
+isValid: true,
+orderRelevantState: {
+    // The taker amount filled for this order
+	filledTakerAssetAmount: BigNumber,
+    // The remaining amount that is fillable given the makers balance and allowances, in maker asset
+	remainingFillableMakerAssetAmount: BigNumber,
+    // The remaining amount that is fillable given the makers balance and allowances, in taker asset
+	remainingFillableTakerAssetAmount: BigNumber,
+    // The balance of maker asset
+	makerBalance: BigNumber,
+    // The allowance of maker asset to the ERC20 Transfer Proxy
+	makerProxyAllowance: BigNumber,
+    // The maker balance of ZRX
+	makerFeeBalance: BigNumber,
+    // The maker allowances of ZRX to the ERC20 Transfer Proxy
+	makerFeeProxyAllowance: BigNumber,
+},
+orderHash: string,
+transactionHash: undefined|string,
+```
+
+Note: In some circumstances `filledTakerAssetAmount + remainingFillableTakerAssetAmount` may be lower than the order total `takerAssetAmount`. This is because OrderWatcher calculates how much is remaining to be filled given the makers balance and allowance for the asset (as well as fees, if any).
+
+Sometimes an event occurs which causes the order to become [invalid](https://0xproject.com/docs/order-watcher#types-OrderStateInvalid). The cause can be for a number of reasons, here are a few common scenarios:
+
+-   Order expired
+-   Order has been fully filled
+-   Maker cancelled the order
+-   Maker has reduced their balance of the token to 0
+-   Maker has reduced their allowance of the token to 0
+
+When this occurs the order state will be the following:
+
+```typescript
+isValid: false,
+error: ExchangeContractErrs,
+orderHash: string,
+transactionHash: undefined|string,
+```
+
+Where the list of [errors](https://0xproject.com/docs/order-watcher#types-ExchangeContractErrs) which can cause the order to be invalid is one of:
+
+| Exchange State               | Description                                                |
+| ---------------------------- | ---------------------------------------------------------- |
+| OrderCancelled               | The order has been cancelled on chain                      |
+| OrderRemainingFillAmountZero | The order has been fully filled                            |
+| OrderFillRoundingError       | The order results in a rounding error and cannot be filled |
+| OrderFillExpired             | The order has expired                                      |
+
+| Maker State                   | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
+| InsufficientMakerBalance      | The maker has 0 maker asset balance                  |
+| InsufficientMakerAllowance    | The maker has 0 maker asset allowance                |
+| InsufficientMakerFeeBalance   | The maker has 0 ZRX balance and the order has fees   |
+| InsufficientMakerFeeAllowance | The maker has 0 ZRX allowance and the order has fees |
+
+Note: The exchange state is quite final and it is best to remove these orders immediately from your order book. The maker state can change in the future so it is possible to hide these orders for some period of time. For example, the maker could be in the process of acquiring more maker asset or is yet to set allowances.
+
+It is possible to receive multiple updates for an order as OrderWatcher processes the block. Read more about re-orgs in the State finality section.
+
 ### Naive approach
 
-The naive approach to order watching is to write a worker service that simply iterates over a set of orders, and calls the [zeroEx.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0x.js/#exchange-validateOrderFillableOrThrowAsync) method on each one, discarding those that are no longer fillable. This method checks the last three conditions listed above.
+The naive approach to order watching is to write a worker service that simply iterates over a set of orders, and calls the [contractWrappers.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0x.js/#exchange-validateOrderFillableOrThrowAsync) method on each one, discarding those that are no longer fillable. This method checks the last three conditions listed above.
 
-The orderWatcher takes a more sophisticated approach to this problem by mapping each order to the underlying state that could impact its validity. Whenever the underlying state changes, it knows exactly which orders need to be re-evaluated. Since there are still edge-cases in our current approach (more details on this later), the orderWatcher also runs a naive iterator on a lengthier configurable interval in order to clean up any orders that might have been missed.
+The OrderWatcher takes a more sophisticated approach to this problem by mapping each order to the underlying state that could impact its validity. Whenever the underlying state changes, it knows exactly which orders need to be re-evaluated. Since there are still edge-cases in our current approach (more details on this later), the OrderWatcher also runs a naive iterator on a lengthier configurable interval in order to clean up any orders that might have been missed.
 
 ### State finality
 
 The order watcher works on the state layer with 1 confirmation (latest block). This means it will react to events emitted from transactions that have been mined into the latest block. These events could still be reverted if this latest block gets uncles (i.e during a block re-org). In these cases, the OrderWatcher will handle the block-reorg correctly and re-emit an event correcting the orders validity.
+
+In the event where a block re-org occurs you will also get notified with a state update for the removal of the log. For example, if a `Fill` event occured (OrderWatcher will notify with a state update) and then a block re-org occured removing this transaction, you will be notified with another state update.
 
 ### Understanding blockchain state layers
 
@@ -73,11 +160,11 @@ Let's look into order validation more deeply and optimize it. When the order is 
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/order_state_deps.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 627px;" width="80%" />
 </div>
 
-Time is the easy part. OrderWatcher simply pushes your orders onto a min heap by expiration time and emit events whenever they expire. You might want to be notified before they expire. To do so, you can configure orderWatcher to notify you X seconds before an order expires. If an order expires in 10 seconds - there is no reason to keep it on the order book, because there is a very small probability the transaction will make it into a block within 10 seconds.
+Time is the easy part. OrderWatcher simply pushes your orders onto a min heap by expiration time and emit events whenever they expire. You might want to be notified before they expire. To do so, you can configure OrderWatcher to notify you X seconds before an order expires. If an order expires in 10 seconds - there is no reason to keep it on the order book, because there is a very small probability the transaction will make it into a block within 10 seconds.
 
 Blockchain state is slightly more complex. We'd like to get notified when any of those four state fields in the above diagram change for any order. Luckily those are token balance and allowance changes. According to the ERC20 standard, any token transfer/allowance change MUST emit a corresponding event ([Transfer](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md#transfer-1) & [Approval](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md#approval) respectively). We can therefore listen for those events on the pending state level and use it as a proxy for the underlying state change.
 
-Unfortunately not every balance change is a transfer. Some tokens implement additional logic like mint/burn and there is no standard about emitting events in such cases. This means the orderWatcher might miss some state changes. That's why we've implemented a cleanup job that periodically runs over all orders and checks them iteratively. This iterative process can run much more infrequently then if it were used as the primary mechanism for order watching.
+Unfortunately not every balance change is a transfer. Some tokens implement additional logic like mint/burn and there is no standard about emitting events in such cases. This means the OrderWatcher might miss some state changes. That's why we've implemented a cleanup job that periodically runs over all orders and checks them iteratively. This iterative process can run much more infrequently then if it were used as the primary mechanism for order watching.
 
 <div align="center">
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/state_to_order_mapping.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
