@@ -15,7 +15,7 @@ In order to interact with dApps (distributed applications) a user must have Ethe
 ### Development
 
 <div align="center">
-    <a href="https://codesandbox.io/s/1qmjyp7p5j" rel="Sandbox">
+    <a href="https://codesandbox.io/s/github/0xproject/0x-codesandbox" rel="Sandbox">
         <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/sandbox.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
     </a>
 </div>
