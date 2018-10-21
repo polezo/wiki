@@ -1,4 +1,4 @@
-In this tutorial, we will show you how you can use the [@0xproject/connect](https://github.com/0xProject/0x.js/tree/development/packages/connect) package in conjunction with [0x.js](https://github.com/0xProject/0x.js/tree/development/packages/0x.js) in order to:
+In this tutorial, we will show you how you can use the [@0x/connect](https://github.com/0xProject/0x.js/tree/development/packages/connect) package in conjunction with [0x.js](https://github.com/0xProject/0x.js/tree/development/packages/0x.js) in order to:
 
 -   ask a relayer for fee information
 -   submit signed orders to a relayer with appropriate fees
@@ -6,7 +6,7 @@ In this tutorial, we will show you how you can use the [@0xproject/connect](http
 -   find the best orders in the orderbook
 -   fill orders from the orderbook using `0x.js`
 
-You can find all the `@0xproject/connect` documentation [here](https://0xproject.com/docs/connect).
+You can find all the `@0x/connect` documentation [here](https://0xproject.com/docs/connect).
 
 You can find a list of relayers that comply with the Standard Relayer API [here](https://github.com/0xProject/0x-relayer-registry)
 
@@ -52,7 +52,7 @@ yarn scenario:fill_order_sra
 
 ### Importing packages
 
-The first step to interacting with `@0xproject/connect` is to import the following relevant packages:
+The first step to interacting with `@0x/connect` is to import the following relevant packages:
 
 ```javascript
 import {
@@ -65,8 +65,8 @@ import {
     signatureUtils,
     SignerType,
 } from '0x.js';
-import { HttpClient, OrderbookRequest, OrderConfigRequest } from '@0xproject/connect';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import { HttpClient, OrderbookRequest, OrderConfigRequest } from '@0x/connect';
+import { Web3Wrapper } from '@0x/web3-wrapper';
 ```
 
 **0x.js** is a package that pulls in a number of underlying 0x packages and exposes their respective functionality. You can choose to pull these packages directly without using 0x.js. These packages allow you to interact with the 0x smart contracts (contract wrappers) and create, sign and validate orders (order utils).
@@ -296,4 +296,4 @@ Through this tutorial we learned how to:
 -   find the best orders in the orderbook
 -   fill orders from the orderbook using `0x.js`
 
-While all of these tasks were performed using Ganache and a local standard relayer api compliant HTTP server, you can start using [@0xproject/connect](https://www.npmjs.com/package/@0xproject/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v2/ for executing trades on the main Ethereum network. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).
+While all of these tasks were performed using Ganache and a local standard relayer api compliant HTTP server, you can start using [@0x/connect](https://www.npmjs.com/package/@0x/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v2/ for executing trades on the main Ethereum network. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).

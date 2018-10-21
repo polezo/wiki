@@ -19,7 +19,7 @@ Providers can have much more complex behavior however, and [ProviderEngine](http
 We at 0x have put together a package of subproviders that we've needed ourselves. Our package also re-exports the `Web3ProviderEngine` from [ProviderEngine](https://github.com/MetaMask/provider-engine) so you only need to install a single package to get started. You can install it as follows:
 
 ```
-npm install @0xproject/subproviders --save
+npm install @0x/subproviders --save
 ```
 
 We describe several of our subproviders below.
@@ -36,9 +36,9 @@ A great use case for custom providers is to support additional ways for your use
 
 Many people use browser extension wallets (e.g [Metamask](https://metamask.io/)). These services inject a web3 provider into the page so that your dApp can relay signing requests. We wrote [SignerSubprovider](https://github.com/0xProject/0x-monorepo/blob/cd08a9c1218fa7c4819e31248e50da2a4f45ee36/packages/subproviders/src/subproviders/signer.ts) so that we could route all signing requests to the injected provider, but have all other requests handled by another backing Ethereum node.
 
-#### Updating the provider used by `@0xproject/contract-wrappers`
+#### Updating the provider used by `@0x/contract-wrappers`
 
-If at some point the provider used by your dApp changes (e.g if your user wants to use their Ledger Nano S to sign orders), it is important that you update the provider used by your `@0xproject/contract-wrappers`. You can do this by calling [setProvider](https://0xproject.com/docs/contract-wrappers#ContractWrappers-setProvider).
+If at some point the provider used by your dApp changes (e.g if your user wants to use their Ledger Nano S to sign orders), it is important that you update the provider used by your `@0x/contract-wrappers`. You can do this by calling [setProvider](https://0xproject.com/docs/contract-wrappers#ContractWrappers-setProvider).
 
 ```ts
 await contractWrappers.setProvider(newProvider, networkId);

@@ -49,7 +49,7 @@ import {
     signatureUtils,
     SignerType,
 } from '0x.js';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import { Web3Wrapper } from '@0x/web3-wrapper';
 ```
 
 **0x.js** is a package that pulls in a number of underlying 0x packages and exposes their respective functionality. You can choose to pull these packages directly without using 0x.js. These packages allow you to interact with the 0x smart contracts (contract wrappers) and create, sign and validate orders (order utils).
@@ -103,7 +103,7 @@ const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(0.1), DECIMA
 
 ### Approvals and WETH Balance
 
-To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker asset is WETH (or Wrapped ETH, you can read about WETH [here](https://weth.io/).), as ETH is not an ERC20 token it must first be converted into WETH to be used by 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The `@0xproject/contract-wrappers` package has helpers for general ERC20 tokens as well as the WETH token.
+To trade on 0x, the participants (maker and taker) require a small amount of initial set up. They need to approve the 0x smart contracts to move funds on their behalf. In order to give 0x protocol smart contract access to funds, we need to set _allowances_ (you can read about allowances [here](https://tokenallowance.io/)). In this tutorial the taker asset is WETH (or Wrapped ETH, you can read about WETH [here](https://weth.io/).), as ETH is not an ERC20 token it must first be converted into WETH to be used by 0x. Concretely, "converting" ETH to WETH means that we will deposit some ETH in a smart contract acting as a ERC20 wrapper. In exchange of depositing ETH, we will get some ERC20 compliant tokens called WETH at a 1:1 conversion rate. For example, depositing 10 ETH will give us back 10 WETH and we can revert the process at any time. The `@0x/contract-wrappers` package has helpers for general ERC20 tokens as well as the WETH token.
 
 ```typescript
 // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount

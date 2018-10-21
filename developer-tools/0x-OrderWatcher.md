@@ -6,7 +6,7 @@ You can use OrderWatcher with the Ethereum node of your choice.
 
 ### OrderWatcher interface
 
-From an interface point of view - the OrderWatcher is a daemon. You can start & stop its subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0xproject/order-watcher docs](https://0xproject.com/docs/order-watcher).
+From an interface point of view - the OrderWatcher is a daemon. You can start & stop its subscription to order state changes as well as add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0x/order-watcher docs](https://0xproject.com/docs/order-watcher).
 
 Once the OrderWatcher is started and an order has been added to it, it will emit orderStateChange events every time any of the state backing an order's fillability (i.e order expirations, fills, cancels, etc...) changes. There events are emitted with all the necessary information for the subscriber to then decide with their own custom rules whether or not they consider the order still valid.
 

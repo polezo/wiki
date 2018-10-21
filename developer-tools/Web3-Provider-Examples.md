@@ -3,16 +3,16 @@ As previously described in the [Web3 Provider Explained](#Web3-Provider-Explaine
 You can install the 0x subproviders package as follows:
 
 ```
-npm install @0xproject/subproviders --save
+npm install @0x/subproviders --save
 ```
 
-The subproviders work best when they are composed together using the [Web3 Provider Engine](https://github.com/MetaMask/provider-engine). This is re-exported from `@0xproject/subproviders` so you don't need to install any additional dependencies.
+The subproviders work best when they are composed together using the [Web3 Provider Engine](https://github.com/MetaMask/provider-engine). This is re-exported from `@0x/subproviders` so you don't need to install any additional dependencies.
 
 In the first example, we will make use of a browser extension wallet (e.g [Metamask](https://metamask.io/)) composed with an Ethereum node we control. This set up allows all of the account based activity (signing of messages and sending transactions) to route to the browser extension wallet, while allowing the data fetching requests to flow through to a specific Ethereum node of our choosing.
 
 ```typescript
-import { SignerSubprovider, RPCSubprovider, Web3ProviderEngine } from '@0xproject/subproviders';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import { SignerSubprovider, RPCSubprovider, Web3ProviderEngine } from '@0x/subproviders';
+import { Web3Wrapper } from '@0x/web3-wrapper';
 
 // Create a Web3 Provider Engine
 const providerEngine = new Web3ProviderEngine();
@@ -42,8 +42,8 @@ import {
     LedgerSubprovider,
     RPCSubprovider,
     Web3ProviderEngine,
-} from '@0xproject/subproviders';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+} from '@0x/subproviders';
+import { Web3Wrapper } from '@0x/web3-wrapper';
 
 const KOVAN_NETWORK_ID = 42;
 // Create a Web3 Provider Engine
@@ -75,7 +75,7 @@ This above example works for enabling the Ledger Subprovider in Browser based ap
 import {
     ledgerEthereumNodeJsClientFactoryAsync as ledgerEthereumClientFactoryAsync,
     LedgerSubprovider,
-} from '@0xproject/subproviders';
+} from '@0x/subproviders';
 ```
 
 The Ledger Subprovider has a number of public methods and can be used directly to set various options. For example, the derivation path and the account index can be changed.
@@ -101,8 +101,8 @@ It is important to remember that UI components and UX need to be considered when
 In our last example we will add redundancy to the application by making use of the RedundantRPCSubprovider. The RedundantRPCSubprovider helps your application stay up when underlying Ethereum nodes experience network issues. To use this subprovider, simply provide it with a list of Ethereum node RPC endpoints and it will attempt each one in sequence until a successful response is returned.
 
 ```typescript
-import { RedundantSubprovider, RPCSubprovider, SignerSubprovider, Web3ProviderEngine } from '@0xproject/subproviders';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import { RedundantSubprovider, RPCSubprovider, SignerSubprovider, Web3ProviderEngine } from '@0x/subproviders';
+import { Web3Wrapper } from '@0x/web3-wrapper';
 
 // Create a Web3 Provider Engine
 const providerEngine = new Web3ProviderEngine();
