@@ -63,16 +63,17 @@ import {
     Order,
     orderHashUtils,
     signatureUtils,
-    SignerType,
 } from '0x.js';
 import { HttpClient, OrderbookRequest, OrderConfigRequest } from '@0x/connect';
 import { Web3Wrapper } from '@0x/web3-wrapper';
+import { getContractAddressesForNetworkOrThrow } from '@0x/contract-addresses';
 ```
 
 **0x.js** is a package that pulls in a number of underlying 0x packages and exposes their respective functionality. You can choose to pull these packages directly without using 0x.js. These packages allow you to interact with the 0x smart contracts (contract wrappers) and create, sign and validate orders (order utils).
 **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic.
 **HttpClient** is a Standard Relayer API client implementation that allows you to easily query any Standard Relayer API endpoint.
 **Web3Wrapper** is a package for interacting with an Ethereum node, retrieving account information. This is an optional package and you can choose to use alternatives like Web3.js or Ethers.js.
+**contract-addresses** is a package where we have our deployed contract addresses for the various networks. This also includes an address for a deployed Wrapped Ether contract.
 
 ### Instantiating a Provider and ContractWrappers
 
@@ -103,8 +104,9 @@ Since we are dealing with a few contracts, we will specify them now to reduce th
 
 ```javascript
 // Token Addresses
-const zrxTokenAddress = contractWrappers.exchange.getZRXTokenAddress();
-const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists();
+const contractAddresses = getContractAddressesForNetworkOrThrow(NETWORK_CONFIGS.networkId);
+const zrxTokenAddress = contractAddresses.zrxToken;
+const etherTokenAddress = contractAddresses.etherToken;
 ```
 
 0x Protocol uses the ABI encoding scheme for asset data. For example, the ERC20 Token address which is being traded on 0x needs to be encoded. Encoding the address informs the 0x smart contracts on which type of asset is being traded (e.g ERC20 or ERC721) and has optional parameters for different token types (e.g ERC721 token id). In this tutorial we are trading 5 ZRX (ERC20) for 0.1 WETH (ERC20).
@@ -167,7 +169,7 @@ Create a partial order (or `OrderConfigRequest`) and query the API using `getOrd
 ```javascript
 // Generate and expiration time and find the exchange smart contract address
 const randomExpiration = getRandomFutureDateInSeconds();
-const exchangeAddress = contractWrappers.exchange.getContractAddress();
+const exchangeAddress = contractAddresses.exchange;
 
 // Ask the relayer about the parameters they require for the order
 const orderConfigRequest: OrderConfigRequest = {
@@ -223,7 +225,7 @@ Now that we created an order as a **Maker**, we need to prove that we actually o
 ```javascript
 // Generate the order hash and sign it
 const orderHashHex = orderHashUtils.getOrderHashHex(order);
-const signature = await signatureUtils.ecSignOrderHashAsync(providerEngine, orderHashHex, maker, SignerType.Default);
+const signature = await signatureUtils.ecSignHashAsync(providerEngine, orderHashHex, maker);
 const signedOrder = { ...order, signature };
 ```
 
