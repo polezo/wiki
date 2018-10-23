@@ -47,14 +47,15 @@ import {
     Order,
     orderHashUtils,
     signatureUtils,
-    SignerType,
 } from '0x.js';
 import { Web3Wrapper } from '@0x/web3-wrapper';
+import { getContractAddressesForNetworkOrThrow } from '@0x/contract-addresses';
 ```
 
 **0x.js** is a package that pulls in a number of underlying 0x packages and exposes their respective functionality. You can choose to pull these packages directly without using 0x.js. These packages allow you to interact with the 0x smart contracts (contract wrappers) and create, sign and validate orders (order utils).
 **BigNumber** is a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic.
 **Web3Wrapper** is a package for interacting with an Ethereum node, retrieving account information. This is an optional package and you can choose to use alternatives like Web3.js or Ethers.js.
+**contract-addresses** is a package where we have our deployed contract addresses for the various networks. This also includes an address for a deployed Wrapped Ether contract.
 
 ### Provider and constructor
 
@@ -85,8 +86,9 @@ Since we are dealing with a few contracts, we will specify them now to reduce th
 
 ```typescript
 // Token Addresses
-const zrxTokenAddress = contractWrappers.exchange.getZRXTokenAddress();
-const etherTokenAddress = contractWrappers.etherToken.getContractAddressIfExists();
+const contractAddresses = getContractAddressesForNetworkOrThrow(NETWORK_CONFIGS.networkId);
+const zrxTokenAddress = contractAddresses.zrxToken;
+const etherTokenAddress = contractAddresses.etherToken;
 const DECIMALS = 18;
 ```
 
@@ -138,7 +140,7 @@ Users that create an order are called **Makers** and they need to specify some i
 ```typescript
 // Set up the Order and fill it
 const randomExpiration = getRandomFutureDateInSeconds();
-const exchangeAddress = contractWrappers.exchange.getContractAddress();
+const exchangeAddress = contractAddresses.exchange;
 
 // Create the order
 const order: Order = {
@@ -190,7 +192,7 @@ const orderHashHex = orderHashUtils.getOrderHashHex(order);
 Now that we have the order hash, we can sign it and append the signature to the order:
 
 ```typescript
-const signature = await signatureUtils.ecSignOrderHashAsync(providerEngine, orderHashHex, maker, SignerType.Default);
+const signature = await signatureUtils.ecSignHashAsync(providerEngine, orderHashHex, maker);
 const signedOrder = { ...order, signature };
 ```
 
