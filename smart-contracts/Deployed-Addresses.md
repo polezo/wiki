@@ -1,3 +1,5 @@
+For projects writing in Javascript/typescript, we have published the [@0x/contract-addresses](https://www.npmjs.com/package/@0x/contract-addresses) package to NPM which includes with all these addresses.
+
 #### Mainnet
 
 -   AssetProxyOwner: [0x17992e4ffb22730138e4b62aaa6367fa9d3699a6](https://etherscan.io/address/0x17992e4ffb22730138e4b62aaa6367fa9d3699a6)
