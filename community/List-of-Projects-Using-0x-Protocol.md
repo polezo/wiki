@@ -2,7 +2,7 @@ These lists are composed of projects that publicly announced their interest in u
 
 ### List of dApps that will be (or are) using the 0x protocol
 
-* [Aragon](https://aragon.one/)
+* [Aragon](https://aragon.org/)
 * [Auctus](https://auctus.org/)
 * [Augur](http://www.augur.net/)
 * [bZx](https://bzx.network/)
