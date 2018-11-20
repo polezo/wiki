@@ -3,7 +3,7 @@ In order to run 0x.js methods that interact with the Ethereum blockchain (i.e fi
 Install Ganache-cli locally:
 
 ```
-npm install -g ganache-cli
+npm install -g ganache-cli@6.1.6
 ```
 
 In order to run Ganache-cli with all the latest V2 0x protocol smart contracts available, you must first download [this Ganache-cli snapshot](https://s3.amazonaws.com/testrpc-shapshots/965d6098294beb22292090c461151274ee6f9a26.zip) and save it. Next unzip it's contents with:
@@ -30,7 +30,17 @@ Since we started Ganache-cli on port 8545, we can pass ZeroEx the following prov
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 ```
 
-0x.js will now communicate with Ganache-cli over HTTP!
+0x.js will now communicate with Ganache-cli over HTTP.
+
+To test that your setup is working, use this cURL request to fetch the byte-code for the Exchange contract:
+
+```
+curl -X POST \
+  http://localhost:8545/ \
+  -d '{"jsonrpc":"2.0","method":"eth_getCode","params":["0x0b1ba0af832d7c05fd64161e0db78e85978e8082", "latest"],"id":1}'
+```
+
+If the result key does not return `0x0`, then the contract code was successfully returned.
 
 ### Contract addresses
 
