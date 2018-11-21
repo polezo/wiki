@@ -1,4 +1,4 @@
-Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer who wants to prune their orderbook of any orders that have become unfillable. Another example is a trader who uses the standard relayer API to monitor changes to outstanding orders that relayers are seeing.
+Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer who wants to prune their orderbook of any orders that have become unfillable. Another example is a trader who wants to monitor for changes affecting the orders retrieved from a relayer.
 
 At 0x, we've implemented an OrderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms and so we've written this article to walk you through our design choices and intended usage patterns.
 
