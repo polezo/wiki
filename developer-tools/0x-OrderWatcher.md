@@ -1,6 +1,6 @@
 Many applications built on top of the 0x protocol will want to react to changes in an order's fillability. The canonical example is a relayer who wants to prune their orderbook of any orders that have become unfillable. Another example is a trader who wants to monitor for changes affecting the orders retrieved from a relayer.
 
-At 0x, we've implemented an OrderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms and so we've written this article to walk you through our design choices and intended usage patterns.
+At 0x, we've implemented an OrderWatcher to facilitate this task. It's quite an advanced tool that requires understanding the underlying mechanisms of the Ethereum blockchain, so we've written this article to walk you through our design choices and intended usage patterns.
 
 You can use OrderWatcher with an Ethereum node of your choice.
 
@@ -122,13 +122,13 @@ It is possible to receive multiple updates for an order as OrderWatcher processe
 
 ### Naive approach
 
-The naive approach to order watching is to write a worker service that simply iterates over a set of orders, calls the [contractWrappers.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0x.js/#exchange-validateOrderFillableOrThrowAsync) method on each one, and discards those that are no longer fillable. This method checks the last three conditions listed above.
+The naive approach to order watching is to write a worker service that simply iterates over a set of orders, calls the [contractWrappers.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0x.js/#ExchangeWrapper-validateOrderFillableOrThrowAsync) method on each one, and discards those that are no longer fillable. This method checks the last three conditions listed above.
 
 OrderWatcher takes a more sophisticated approach by mapping each order to the underlying state that could impact its validity. Whenever the underlying state changes, it knows exactly which orders need to be re-evaluated. Since there are still edge cases in our current approach (more details on this later), OrderWatcher also runs a naive iterator on a lengthier configurable interval to clean up orders that might have been missed.
 
 ### State finality
 
-OrderWatcher works on the state layer with one confirmation (latest block). This means it will react to events emitted from transactions that have been mined into the latest block. These events can still be reverted if the latest block gets uncles (i.e., during a block re-org). In these cases, OrderWatcher will handle the block re-org correctly and re-emit an event correcting the order's validity.
+OrderWatcher works on the state layer with one confirmation (latest block). This means it will react to events emitted from transactions that have been mined into the latest block. These events can still be reverted if the latest block gets uncled (i.e., during a block re-org). In these cases, OrderWatcher will handle the block re-org correctly and re-emit an event correcting the order's validity.
 
 In the event where a block re-org occurs you will also be notified with a state update for the removal of the log. For example, if a `Fill` event occurs (OrderWatcher will notify with a state update) followed by a block re-org removing the `Fill`, you will be notified with another state update.
 
@@ -138,7 +138,7 @@ Ethereum is a state machine with different state layers, each with its own degre
 
 JSON RPC allows the caller to specify the state layer they want to access by [specifying a block number](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_call), 'latest' or 'pending'.
 
-The easiest thing to do would be to simply validate orders at an “immutable” state layer (say 10 confirmations) and prune the order only if an order is invalid at that point. However, doing so would mean that our understanding of the market is outdated by up to 3mins. This is unacceptably latency.
+The easiest thing to do would be to simply validate orders at an “immutable” state layer (say 10 confirmations) and prune the order only if it is invalid at that point in time. However, doing so would mean that our understanding of the market is outdated by up to 3mins. This amount of latency is unacceptable.
 
 On the other hand, we can't afford to react immediately to changes in the first state layer because the transaction making an order invalid might not end up in the canonical chain due to chain re-orgs. As such, we would have discarded a valid order.
 
