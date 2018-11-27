@@ -1,14 +1,10 @@
-0x Instant is a new product from the 0x core team that offers a convenient way for people to get access to a wide variety of tokens and other crypto-assets in just a few taps.
-
-Developers can integrate the free, open source library into their applications or websites in order to both offer seamless access to crypto-assets, as well as gain a new source of revenue, with just a few lines of code.
+0x Instant is a new product from the 0x core team that offers a convenient way for people to get access to a wide variety of tokens and other crypto-assets in just a few taps. Developers can integrate the free, open source library into their applications or websites in order to both offer seamless access to crypto-assets, as well as gain a new source of revenue, with just a few lines of code.
 
 Check out a live example on [mainnet](http://0x-instant-staging.s3-website-us-east-1.amazonaws.com/) and [kovan](http://0x-instant-staging.s3-website-us-east-1.amazonaws.com/?networkId=42&assetData=0xf47261b00000000000000000000000002002d3812f58e35f0ea1ffbf80a75a38c32175fa&liquiditySource=provided).
 
 ### Libraries
 
-0x Instant has two main libraries: the _0x_ _Instant UI component_ that users will see and the *Asset Buyer *library, a JavaScript / TypeScript library that abstracts out many of the complexities of sourcing orders and performing market buys. Most developers who want to add simple token access will just use the out-of-the-box package that includes the UI and Asset Buyer, but teams may also write their own custom UI and just plug into the Asset Buyer as they see fit.
-
-Asset Buyer Docs: https://0xproject.com/docs/asset-buyer
+0x Instant has two main libraries: the `0x Instant UI component` that users will see and the `Asset Buyer` library, a JavaScript / TypeScript library that abstracts out many of the complexities of sourcing orders and performing market buys. Most developers who want to add simple token access will just use the out-of-the-box package that includes the UI and Asset Buyer, but teams may also write their own custom UI and just plug into the Asset Buyer as they see fit. Check out the `@0x/asset-buyer` documentation [here](https://0xproject.com/docs/asset-buyer).
 
 ### Orders
 
@@ -22,9 +18,7 @@ As an end host of 0x Instant, you can charge users a fee on all trades made thro
 
 ### Adding the Instant UI
 
-The 0x Instant UI and Asset Buyer are bundled together in a convenient JS package for you. You can either download and serve the package yourself, or use the CDN-hosted version from 0x.
-
-_WARNING: The src link below is not final and is subject to change_
+The 0x Instant UI and Asset Buyer are bundled together in a convenient JS package for you. You can either download and serve the package yourself, or use the CDN-hosted version from 0x. _WARNING: The src link below is not final and is subject to change_
 
 ```html
 <head>
@@ -34,21 +28,26 @@ _WARNING: The src link below is not final and is subject to change_
 </head>
 ```
 
-zeroExInstant.render({
-// options (see below)
-}, 'body');
+```javascript
+zeroExInstant.render(
+    {
+        // options (see below)
+    },
+    'body',
+);
+```
 
 ### Options Configuration
 
-0x Instant is highly customizable to fit individual developer needs. Below are the different options that can be passed into the render() function above
+0x Instant is highly customizable to fit individual developer needs. Below are the different options that can be passed into the `render()` function above
 
-_Required_
+#### Required
 
 | Option      | Description                                                                                                                                               |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | orderSource | Accepts either a [Standard Relayer API HTTP endpoint](https://0xproject.com/wiki#Faqs) or an array of signed 0x [orders](https://0xproject.com/wiki#Faqs) |
 
-_Optional_
+#### Optional
 
 | Option                     | Description                                                                                                                                                                                                                                                                                                                              |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -62,7 +61,7 @@ _Optional_
 
 ### Examples
 
-_Serving Own Liquidity_
+#### Serving Own Liquidity
 
 ```javascript
 zeroExInstant.render(
@@ -74,7 +73,8 @@ zeroExInstant.render(
 );
 ```
 
-_Using All Standard Relayer API Available Assets_
+#### Using All Standard Relayer API Available Assets
+
 Using [/asset_pairs](https://github.com/0xProject/standard-relayer-api/blob/master/http/v2.md#get-v2asset_pairs) to find all \*/WETH pairs
 
 ```javascript
@@ -86,7 +86,8 @@ zeroExInstant.render(
 );
 ```
 
-_Providing your own provider_
+#### Providing your own provider
+
 This will give you more control over what provider is passed in and where RPC calls are directed
 
 ```javascript
@@ -99,7 +100,7 @@ zeroExInstant.render(
 );
 ```
 
-_Providing a Default Token (i.e. Open straight into REP or OMG)_
+#### Providing a Default Token (i.e. Open straight into REP or OMG)
 
 ```javascript
 zeroExInstant.render(
@@ -112,7 +113,8 @@ zeroExInstant.render(
 );
 ```
 
-_Earning affiliate fees_
+#### Earning affiliate fees
+
 3% of transaction volume will de deposited into 0x50ff5828a216170cf224389f1c5b0301a5d0a230
 
 ```javascript
@@ -128,7 +130,8 @@ zeroExInstant.render(
 );
 ```
 
-_Providing a Custom Token_
+#### Providing a Custom Token
+
 Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of supported tokens. Check [here](https://0xproject.com/wiki#Faqs) for more information about the object being passed in.
 
 ```javascript
@@ -152,7 +155,7 @@ zeroExInstant.render(
 
 ## Asset Buyer
 
-Behind the scenes, the _AssetBuyer_ class is aggregating liquidity and calculating the orders that need to be filled for a given user request. For teams that require a more custom integration or advanced functionality, they can use the AssetBuyer class directly and skip the Instant UI. Below are the methods you will most likely be interacting with.
+Behind the scenes, the `AssetBuyer` class is aggregating liquidity and calculating the orders that need to be filled for a given user request. For teams that require a more custom integration or advanced functionality, they can use the AssetBuyer class directly and skip the Instant UI. Below are the methods you will most likely be interacting with.
 
 ```javascript
 /**
@@ -220,7 +223,7 @@ export interface BuyQuoteExecutionOpts {
 }
 ```
 
-*getBuyQuoteAsync *and *getBuyQuoteForERC20TokenAddressAsync\*\* *is used to retrieve a* BuyQuote* object that contains information about buying a specific amount of asset that can be displayed to the user.
+`getBuyQuoteAsync()` and `getBuyQuoteForERC20TokenAddressAsync()` are used to retrieve a `BuyQuote` object that contains information about buying a specific amount of asset that can be displayed to the user.
 
 ```javascript
 /**
@@ -254,11 +257,11 @@ export interface BuyQuoteInfo {
 }
 ```
 
-*executeBuyQuoteAsync *is used to actually issue the buy as an Ethereum transaction. It takes a _BuyQuote_ object that is obtained from *getBuyQuoteAsync *as well as the desired rate to try and execute at (this affects how much eth is required to be sent with the transaction as well as how likely the transaction will be successful, the higher the rate, the higher the probability the transaction will succeed)
+`executeBuyQuoteAsync()` is used to actually issue the buy as an Ethereum transaction. It takes a `BuyQuote` object that is obtained from `getBuyQuoteAsync()` as well as the desired rate to try and execute at (this affects how much eth is required to be sent with the transaction as well as how likely the transaction will be successful, the higher the rate, the higher the probability the transaction will succeed)
 
-There are several static *AssetBuyer *factory methods that can be used to construct instances of AssetBuyer depending on how you'd like to source liquidity (in memory SignedOrders, or SRA). Unless your situation is specific, it is unlikely that you need to use the constructor directly. Typically, you'll want to source liquidity from an SRA endpoint, in which case you'll want to use the method: *AssetBuyer.*getAssetBuyerForStandardRelayerAPIUrl*().* If you already have the orders you want to perform the buy with use *AssetBuyer.*getAssetBuyerForProvidedOrders*()*
+There are several static `AssetBuyer` factory methods that can be used to construct instances of `AssetBuyer` depending on how you'd like to source liquidity (in memory SignedOrders, or SRA). Unless your situation is specific, it is unlikely that you need to use the constructor directly. Typically, you'll want to source liquidity from an SRA endpoint, in which case you'll want to use the method: `AssetBuyer.getAssetBuyerForStandardRelayerAPIUrl()`. If you already have the orders you want to perform the buy with use `AssetBuyer.getAssetBuyerForProvidedOrders()`.
 
-A full example of using _AssetBuyer_:
+#### Full AssetBuyer Example:
 
 ```javascript
 const provider = window.ethereum;
@@ -270,4 +273,4 @@ const quote = await assetBuyer.getBuyQuoteAsync(zrxAssetData, amountToBuy);
 const txHash = await assetBuyer.executeBuyQuoteAsync(quote);
 ```
 
-As mentioned, you can also use the quote providing and fee abstraction functionality in *AssetBuyer *using your own liquidity. The interface is the same, except the factory method which no longer accepts a standard relayer API url but in memory orders.
+As mentioned, you can also use the quote providing and fee abstraction functionality in `AssetBuyer` using your own liquidity. The interface is the same, except the factory method which no longer accepts a standard relayer API url but in memory orders.
