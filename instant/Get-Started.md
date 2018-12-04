@@ -18,12 +18,12 @@ As an end host of 0x Instant, you can charge users a fee on all trades made thro
 
 ### Adding the Instant UI
 
-The 0x Instant UI and Asset Buyer are bundled together in a convenient JS package for you. You can either download and serve the package yourself, or use the CDN-hosted version from 0x. _WARNING: The src link below is not final and is subject to change_
+The 0x Instant UI and Asset Buyer are bundled together in a convenient JS package for you. You can either download and serve the package yourself, or use the CDN-hosted version from 0x.
 
 ```html
 <head>
     ...
-    <script src="http://0x-instant-staging.s3-website-us-east-1.amazonaws.com/main.bundle.js"></script>
+    <script src="https://instant.0xproject.com/instant.js"></script>
     ...
 </head>
 ```
@@ -52,6 +52,7 @@ zeroExInstant.render(
 | Option                     | Description                                                                                                                                                                                                                                                                                                                              |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | provider                   | An instance of an Ethereum [provider](https://0xproject.com/wiki#Faqs). If none is provided, 0x instant will try to grab the injected provider if one exists, otherwise it will suggest the user to install MetaMask                                                                                                                     |
+| walletDisplayName          | A display string for the wallet you are connected to. Defaults to our best guess (i.e. MetaMask, Coinbase Wallet) but should be provided if a custom provider is supplied as an optional config.                                                                                                                                         |
 | availableAssetDatas        | An array of [assetDatas](https://0xproject.com/wiki#Faqs) that can be purchased through Instant. Defaults to all token pairs from orderSource. Will throw an error if empty.                                                                                                                                                             |
 | defaultSelectedAssetData   | The asset that should be opened by default. If this is not provided, Instant will show "Select Token" if there are multiple availableAssetDatas.                                                                                                                                                                                         |
 | defaultAssetBuyAmount      | Pre-fill the amount of tokens to purchase. Defaults to 0.                                                                                                                                                                                                                                                                                |
@@ -95,6 +96,7 @@ zeroExInstant.render(
     {
         orderSource: 'https://api.relayer.com/sra/v2/',
         provider: window.ethereum,
+        walletDisplayName: 'Trust Wallet',
     },
     'body',
 );

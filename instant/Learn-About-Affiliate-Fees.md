@@ -7,7 +7,7 @@ Example: Earning affiliate fees
 ```html
 <head>
     ...
-    <script src="http://0x-instant-staging.s3-website-us-east-1.amazonaws.com/main.bundle.js"></script>
+    <script src="https://instant.0xproject.com/instant.js"></script>
     ...
 </head>
 ```
