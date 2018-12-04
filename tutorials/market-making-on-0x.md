@@ -97,5 +97,6 @@ If there is a disadvantageous price movement in the market, you can then calcula
 ### Example Projects
 
 -   [Maker's market making bot in Python](https://github.com/makerdao/market-maker-keeper)
+-   [Hummingbot -- open-source market making bot](https://www.hummingbot.io/)
 
 // TODO: Add more
