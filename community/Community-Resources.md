@@ -3,7 +3,7 @@ The communities and posts below include content that has been curated by 0x team
 ### Communities
 
 * Development Specific Communities
-  * [Rocket Chat Dev Channel](https://chat.0xproject.com/channel/dev)  
+  * [Discord Dev Questions Channel](https://discordapp.com/channels/435912040142602260/436256771175088148)  
   * [Forum](https://forum.0xproject.com)  
   * [Github](https://github.com/0xproject)  
 
@@ -11,7 +11,7 @@ The communities and posts below include content that has been curated by 0x team
   * [Twitter](https://twitter.com/0xproject)  
   * [Reddit](https://reddit.com/r/0xproject)
   * [Medium](https://blog.0xproject.com) 
-  * [Rocket Chat General Channel](https://chat.0xproject.com/channel/general) 
+  * [Discord General Channel](https://discordapp.com/channels/435912040142602260/435912040142602262) 
 
 
 ### Key 0x Blog Posts
