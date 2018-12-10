@@ -150,9 +150,10 @@ zeroExInstant.render(
             '0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e': {
                 assetProxyId: '0xf47261b0', // ERC20 Proxy Id
                 decimals: 18,
-                primaryColor: '#F2F7FF', // Optional
                 symbol: 'XXX',
                 name: 'My Custom Token',
+                primaryColor: '#F2F7FF', // Optional
+                iconUrl: 'https://cdn.icons.com/my_icon.svg', // Optional
             },
         },
     },
