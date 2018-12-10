@@ -40,7 +40,7 @@ To prevent massive price ranges, 0x Instant calculates a maximum amount of asset
 
 #### Q: What is assetMetaData?
 
-In order to provide a good user experience, Instant requires data that is not available on-chain. This includes the decimals, symbol and name of the token along with optional information like primaryColor that informs Instant how to theme itself when that token is selected. It also requires to know whether the token is ERC20 or some other standard via the assetProxyId field. At the moment, only ERC20 is supported and the value for assetProxyId should always be “0xf47261b0”.
+In order to provide a good user experience, Instant requires data that is not available on-chain. This includes the decimals, symbol and name of the token along with optional information like primaryColor that informs Instant how to theme itself when that token is selected. It also requires to know whether the token is ERC20 or some other standard via the assetProxyId field. At the moment, only ERC20 is supported and the value for assetProxyId should always be “0xf47261b0”. Check out the 0x v2 protocol specification for more information on [assetData](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetdata).
 
 ### Mobile
 

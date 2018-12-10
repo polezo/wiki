@@ -139,7 +139,7 @@ zeroExInstant.render(
 
 #### Providing a Custom Token
 
-Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of supported tokens. Check [here](https://0xproject.com/wiki#Questions-About-Instant) for more information about the object being passed in.
+Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of supported tokens. Check "What is assetMetaData?" in [the questions section](https://0xproject.com/wiki#Questions-About-Instant) for more information about the object being passed in.
 
 ```javascript
 zeroExInstant.render(
@@ -160,6 +160,7 @@ zeroExInstant.render(
     'body',
 );
 ```
+The icon referenced by `iconUrl` will go on top of a 26x26 circle that has `primaryColor` as a background. If an `iconUrl` is not provided, the specified token `symbol` ("XXX" in thise case) will be displayed over the circle in white.
 
 ## Asset Buyer
 
