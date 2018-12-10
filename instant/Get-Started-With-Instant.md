@@ -160,7 +160,7 @@ zeroExInstant.render(
     'body',
 );
 ```
-The icon referenced by `iconUrl` will go on top of a 26x26 circle that has `primaryColor` as a background. If an `iconUrl` is not provided, the specified token `symbol` ("XXX" in thise case) will be displayed over the circle in white.
+The icon referenced by `iconUrl` will go on top of a 26x26 circle that has `primaryColor` as a background. If an `iconUrl` is not provided, the specified token `symbol` ("XXX" in this case) will be displayed over the circle in white.
 
 ## Asset Buyer
 
