@@ -18,6 +18,35 @@ Check out this [article](https://0xproject.com/wiki#Web3-Provider-Explained) in 
 
 Check out the 0x v2 protocol specification for more information on [assetData](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetdata).
 
+#### Q: What is assetMetaData?
+
+In order to provide a good user experience, Instant requires data that is not available on-chain. This includes the `decimals`, `symbol` and `name` of the token along with optional information like `primaryColor`, and `iconUrl` that informs Instant how to theme itself when that token is selected. It also requires to know whether the token is ERC20 or some other standard via the assetProxyId field.
+
+**Example assetMetaDataMap**
+```js
+{
+    '0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e': {
+        assetProxyId: '0xf47261b0', // ERC20 Proxy Id
+        decimals: 18,
+        symbol: 'XXX',
+        name: 'My Custom Token',
+        primaryColor: '#F2F7FF', // Optional
+        iconUrl: 'https://cdn.icons.com/my_icon.svg', // Optional
+    },
+}
+```
+
+| Field | Description |
+|-----------|-------------|
+| assetProxyId | Only ERC20 is supported and the value for assetProxyId should always be “0xf47261b0” |
+| decimals | The number of decimal places this token requires |
+| symbol | The token symbol (ex: `ZRX`, `BAT`, etc...) |
+| name | The full name of the token (ex: `0x`, `Basic Attention Token`, etc...) |
+| primaryColor (optional) | The color Instant will theme itself when this token is selected |
+| iconUrl (optional) | The url to the icon to use for this token |
+
+ The icon referenced by `iconUrl` will go on top of a 26x26 circle that has `primaryColor` as a background. If an `iconUrl` is not provided, the specified token `symbol` will be displayed over the circle in white.
+
 #### Q: Do users need to have ZRX to pay for fees on orders?
 
 Nope! The Asset Buyer will calculate the ZRX required to pay for fees on the desired orders, and automatically purchase ZRX from your order source to cover your fees as part of the order. Note that Instant cannot use a user's existing ZRX balance and the liquidity source must be able to provide ZRX / ETH orders.
@@ -37,10 +66,6 @@ To prevent massive price ranges, 0x Instant calculates a maximum amount of asset
 #### Q: Does 0x Instant work with permissioned liquidity pools that require KYC?
 
 0x Instant currently passes all orders through a forwarding contract for wrapping ETH and filling orders and is therefore incompatible with many on-chain KYC solutions. Check with the KYC solution you're using to verify.
-
-#### Q: What is assetMetaData?
-
-In order to provide a good user experience, Instant requires data that is not available on-chain. This includes the decimals, symbol and name of the token along with optional information like primaryColor that informs Instant how to theme itself when that token is selected. It also requires to know whether the token is ERC20 or some other standard via the assetProxyId field. At the moment, only ERC20 is supported and the value for assetProxyId should always be “0xf47261b0”. Check out the 0x v2 protocol specification for more information on [assetData](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetdata).
 
 ### Mobile
 
