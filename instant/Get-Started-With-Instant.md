@@ -139,7 +139,7 @@ zeroExInstant.render(
 
 #### Providing a Custom Token
 
-Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of supported tokens. Check [here](https://0xproject.com/wiki#Questions-About-Instant) for more information about the object being passed in.
+Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of tokens supported by default. Check "What is assetMetaData?" in [the questions section](https://0xproject.com/wiki#Questions-About-Instant) for more information about the object being passed in.
 
 ```javascript
 zeroExInstant.render(
@@ -150,9 +150,10 @@ zeroExInstant.render(
             '0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e': {
                 assetProxyId: '0xf47261b0', // ERC20 Proxy Id
                 decimals: 18,
-                primaryColor: '#F2F7FF', // Optional
                 symbol: 'XXX',
                 name: 'My Custom Token',
+                primaryColor: '#F2F7FF', // Optional
+                iconUrl: 'https://cdn.icons.com/my_icon.svg', // Optional
             },
         },
     },
