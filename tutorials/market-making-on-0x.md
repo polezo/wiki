@@ -68,7 +68,7 @@ Let's say one submits an order cancellation transaction; there are no guarentees
 
 ### Fetching off-chain orders
 
-Since 0x orders live off-chain, they must be fetched from Relayers. All relayers host API's that allow you to pull orders from their orderbook. In order to make life easier for traders, many implement the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api/), allowing you to use a single client to fetch orders from multiple relayers. This is exactly what [0x Connect](https://0xproject.com/docs/connect) does for you. It is an HTTP and WebSocket client for the Standard Relayer API.
+Since 0x orders live off-chain, they must be fetched from Relayers. All relayers host API's that allow you to pull orders from their orderbook. In order to make life easier for traders, many implement the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api/), allowing you to use a single client to fetch orders from multiple relayers. We provide a client for the Standard Relayer API in [Python](https://pypi.org/project/0x-sra-client/) and [Typescript/Javascript](https://0xproject.com/docs/connect).
 
 To learn more about fetching orders from relayers, check out our [Find, submit, fill order from relayer tutorial](https://0xproject.com/wiki#Find,-Submit,-Fill-Order-From-Relayer).
 
