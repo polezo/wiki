@@ -67,6 +67,38 @@ zeroExInstant.render(
 
 ### Examples
 
+#### Opening instant
+
+Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
+
+html:
+
+```HTML
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://instant.0xproject.com/instant.js" /></script>
+    </head>
+    <body>
+        <button onClick="onClick()">Hello World</button>
+    </body>
+</html>
+```
+
+javascript:
+
+```javascript
+function onClick() {
+    zeroExInstant.render(
+        {
+            orderSource: 'https://api.relayer.com/sra/v2/',
+        },
+        'body',
+    );
+}
+```
+
 #### Serving Own Liquidity
 
 ```javascript
