@@ -24,21 +24,35 @@ As an end host of 0x Instant, you can charge users a fee on all trades made thro
 
 The 0x Instant UI and Asset Buyer are bundled together in a convenient JS package for you. You can either download and serve the package yourself, or use the CDN-hosted version from 0x.
 
-```html
-<head>
-    ...
-    <script src="https://instant.0xproject.com/instant.js"></script>
-    ...
-</head>
+Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
+
+html:
+
+```HTML
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://instant.0xproject.com/instant.js" /></script>
+    </head>
+    <body>
+        <button onClick="onClick()">Hello World</button>
+    </body>
+</html>
 ```
 
+javascript:
+
 ```javascript
-zeroExInstant.render(
-    {
-        // options (see below)
-    },
-    'body',
-);
+function onClick() {
+    zeroExInstant.render(
+        {
+            // options (see below)
+            orderSource: 'https://api.relayer.com/sra/v2/',
+        },
+        'body',
+    );
+}
 ```
 
 ### Options Configuration
@@ -66,38 +80,6 @@ zeroExInstant.render(
 | shouldDisableAnalyticsTracking | An option to turn on / off analytics used to make Instant a better experience. Defaults to false.                                                                                                                                                                                                                                                           |
 
 ### Examples
-
-#### Opening instant
-
-Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
-
-html:
-
-```HTML
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <script src="https://instant.0xproject.com/instant.js" /></script>
-    </head>
-    <body>
-        <button onClick="onClick()">Hello World</button>
-    </body>
-</html>
-```
-
-javascript:
-
-```javascript
-function onClick() {
-    zeroExInstant.render(
-        {
-            orderSource: 'https://api.relayer.com/sra/v2/',
-        },
-        'body',
-    );
-}
-```
 
 #### Serving Own Liquidity
 
