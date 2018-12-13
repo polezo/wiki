@@ -45,39 +45,35 @@ When trading on a centralized exchange, you must integrate exclusively with the 
 
 #### Ethereum node management
 
-In order to monitor the Ethereum blockchain, you must interface with an Ethereum node. You can either integrate your market maker with a hosted node service such as [Infura.io](https://infura.io/) or you can [host your own node ](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node). While developing your market maker, you might want to [Setup Ganache](https://0xproject.com/wiki#Ganache-Setup-Guide), a fake Ethereum node used for testing purposes.
+In order to monitor the Ethereum blockchain, you must interface with an Ethereum node. You can either integrate your market maker with a hosted node service such as [Infura.io](https://infura.io/) or you can [host your own node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node). While developing your market maker, you might want to [Setup Ganache](https://0xproject.com/wiki#Ganache-Setup-Guide), a fake Ethereum node used for testing purposes.
 
 #### Probablistic finality
 
-Since trades on 0x are settled by being included my miners into the next block, settlement is subject to the same probabalistic finality as any other state-transition in Ethereum. Probabilistic finality means that no trade settlement is ever 100% final. It becomes exponentially more final with every additional Ethereum block that is mined ontop of the one it was included in.
+Since trades on 0x are settled by being included my miners into a block, settlement is subject to the same probabalistic finality as any other state-transition in Ethereum. Probabilistic finality means that no trade settlement is ever 100% final. It becomes exponentially more final with every additional Ethereum block that is mined ontop of the one it was included in.
 
-<ADD IMAGE OF BLOCK DEPTH W/ PROBABILITY & UNCLED BLOOCK>
-
-What this means is that for a period of time settlement can get reverted. This happens when there is a block re-org, causing a valid next block to become "uncled" (e.g no longer part of the main chain). It does not happen often, but it is an important edge-case to handle. We built [@0x/order-watcher](https://0xproject.com/wiki#0x-OrderWatcher) to help you handle all possible state changes related to the 0x orders you care about (including state reversions).
+What this means is that for a period of time settlement can still revert. This happens when there is a block re-organization, causing a valid next block to become "uncled" (i.e. no longer part of the main chain). It does not happen often, but it is an important edge-case to handle. We built [@0x/order-watcher](https://0xproject.com/wiki#0x-OrderWatcher) to help you handle all possible state changes related to the 0x orders you care about (including state reversions).
 
 #### Block timestamps
 
-In Ethereum, the only requirement on a block's `timestamp` is that it is greater then the last timestamp. What this means is that the `timestamp` of the next block could be before or after the current unix timestamp.
+In Ethereum, the only requirement on a block's `timestamp` is that it is greater then the previous block timestamp. What this means is that the `timestamp` of the next block could be before or after the current unix timestamp.
 
-<ADD IMAGE OF TIMELINE>
-
-Because the 0x Protocol checks order expiration using block timestamps, the order will only be considered expired once a block timestamp exists that is larger then the expiry. You can use the current timestamp as an approximation, however there is still a chance the order get's filled if the block timestamp falls between the last block timestamp and the current timestamp.
+Because the 0x Protocol checks order expiration using block timestamps, the order will only be considered expired once a block timestamp exists that is larger then the order expiration. You can use the current time as an approximation of the block time, however there is still a chance the "expired" order gets filled if the next block timestamp falls between the last block timestamp and the current timestamp.
 
 #### Miner discretion
 
-In most blockchains, the miner can decide which valid transactions to include in the next block they attempt to mine. They are expected to be economically rational agents who will prioritize transactions that pay them the most fees, however they have full discretion over transaction ordering.
+In most blockchains, the miner decides which valid transactions to include in the next block they attempt to mine. They are expected to be economically rational agents who will prioritize transactions that pay them the most fees, however they have full discretion over transaction ordering.
 
-Let's say one submits an order cancellation transaction; there are no guarentees about the order in which this transaction will be included in the blockchain. You can try and incentize miners to include it sooner by increasing the gas (read: fee) paid for the transaction, but so can someone trying to fill the order (read more about this problem in our [front-running, griefing and the perils of virtual settlement](https://blog.0xproject.com/front-running-griefing-and-the-perils-of-virtual-settlement-part-1-8554ab283e97) blog post series). Because of this race-condition, we recommend you use shorter expiration times on your orders then rely heavily on cancellations. Alternatively you can use our [cancelOrdersUpTo](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelordersupto) feature to cancel multiple orders in a single transaction.
+Let's say one submits an order cancellation transaction; there are no guarentees about the order in which this transaction will be included in the blockchain. You can try and incentize miners to include it sooner by increasing the gas (read: fee) paid for the transaction, but so can someone trying to fill the order (read more about this problem in our [front-running, griefing and the perils of virtual settlement](https://blog.0xproject.com/front-running-griefing-and-the-perils-of-virtual-settlement-part-1-8554ab283e97) blog post series). Because of this race-condition, we recommend you use shorter expiration times on your orders then rely heavily on cancellations. Alternatively you can use our [cancelOrdersUpTo](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelordersupto) feature to at least cancel multiple orders in a single transaction.
 
 ### Fetching off-chain orders
 
-Since 0x orders live off-chain, they must be fetched from Relayers. All relayers host API's that allow you to pull orders from their orderbook. In order to make life easier for traders, many implement the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api/), allowing you to use a single client to fetch orders from multiple relayers. We provide a client for the Standard Relayer API in [Python](https://pypi.org/project/0x-sra-client/) and [Typescript/Javascript](https://0xproject.com/docs/connect).
+Since 0x orders live off-chain, they must be fetched from relayers. All relayers host API's that allow you to pull orders from their orderbook. In order to make life easier for traders, many implement the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api/), allowing you to use a single client to fetch orders from multiple relayers. We provide a client for the Standard Relayer API in [Python](https://pypi.org/project/0x-sra-client/) and [Typescript/Javascript](https://0xproject.com/docs/connect).
 
 To learn more about fetching orders from relayers, check out our [Find, submit, fill order from relayer tutorial](https://0xproject.com/wiki#Find,-Submit,-Fill-Order-From-Relayer).
 
 ### Creating orders
 
-In order to create a valid 0x order, you can use our [@0x/order-utils](https://0xproject.com/docs/order-utils) Typescript/Javascript library, or alternatively our [0x-order-utils.py](http://0x-order-utils-py.s3-website-us-east-1.amazonaws.com/) Python library. There libraries will help you:
+To create a valid 0x order, you can use our [@0x/order-utils](https://0xproject.com/docs/order-utils) Typescript/Javascript library, or alternatively our [0x-order-utils.py](http://0x-order-utils-py.s3-website-us-east-1.amazonaws.com/) Python library. These libraries will help you:
 
 1. Generate an order in the proper format (e.g encoding/decoding assetData)
 2. Generating a proper hash for the order contents
