@@ -12,23 +12,26 @@ Within the 0x protocol, these tasks are not all undertaken by a single entity no
 
 #### 1. Custody of user funds
 
-Trading on a CEX requires that you deposit your Ether/tokens into an Ethereum addresses the exchange controls. After that point, they have full custody over you funds, and must secure them from hackers, rogue employees and other mishaps. When trading on 0x, your funds never leave an Ethereum address you control.
+Trading on a CEX requires that you deposit your Ether/tokens into an Ethereum address the exchange controls. After that point, they have full custody over you funds, and must secure them from hackers, rogue employees and other attackers. When trading on 0x, your funds do not need to leave your Ethereum address.
 
 #### 2. Host and distribute orders
 
 Instead of there being a single entity hosting 0x orders, they can be hosted by anyone. Any entity that hosts and distributes 0x orders is called a "relayer". Currently most relayers are centralized entities hosting an API from which orders can be retrieved.
 
-A 0x order, is any data packet that contains an [order's details](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#order-message-format) together with a [valid signature](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#signature-types) (e.g., a valid elliptic curve signature generated from the traders Ethereum address) of it's contents.
+A 0x order, is any data packet that contains an [order's details](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#order-message-format) together with a [valid signature](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#signature-types) (e.g. a valid elliptic curve signature generated from the traders Ethereum address) of it's contents.
 
 #### 3. Settlement of trades
 
 When two entities agree on the terms of a trade, the 0x order is submitted to the Ethereum blockchain and settled via the 0x protocol smart contract.
 
-In order for 0x to move funds on the behalf of others, traders must give the 0x smart contract explicit permission. This is done by setting an ["allowance"](https://tokenallowance.io/) for a certain number of tokens that 0x can then transfer from their Ethereum address in the event that the trader cryptographically agrees to a trade (and not for any other purpose). These rules are all enforced by the open-source smart contracts deployed to the Ethereum blockchain. At no point does 0x protocol have control over the private key of the traders Ethereum address, and the allowance can be revoked at any time.
+In order for 0x to move funds on the behalf of others, traders must give the 0x smart contract explicit permission. This is done by setting an ["allowance"](https://tokenallowance.io/) for a certain number of tokens that 0x can then transfer from their Ethereum address in the event that the trader cryptographically agrees to a trade (and not for any other purpose). These rules are all enforced by the open-source smart contracts deployed to the Ethereum blockchain. At no point does 0x protocol have control over the private key of the traders Ethereum address, and their allowance can be revoked at any time.
 
 #### What about order matching?
 
-There are two dominant relayer strategies in existence today, [matching](https://0xproject.com/wiki#Matching) and [open orderbook](https://0xproject.com/wiki#Open-Orderbook). Open orderbook relayers host orders that anyone can fill by directly sending a transaction (with the order details and desired fill amount) to the Ethereum blockchain. Using this model, the order in which transactions are filled is determined by the same algorithm used by miners to decide which transactions to include in the next block (more on this later). Matching relayers require traders to create the inverse 0x order to the one they wish to fill and submit it back to them. The matching relayer will then submit both orders in one atomic transaction to Ethereum on the traders behalf.
+There are two dominant relayer strategies in existence today, [matching](https://0xproject.com/wiki#Matching) and [open orderbook](https://0xproject.com/wiki#Open-Orderbook). Open orderbook relayers host orders that anyone can fill by directly sending a transaction (with the order details and desired fill amount) to the Ethereum blockchain. Using this model, the order in which transactions are filled is determined by the same algorithm used by miners to decide which transactions to include in the next block (more on this later). 
+
+Matching relayers require traders to create the inverse 0x order to the one they wish to fill and submit it back to them. The matching relayer will then submit both orders in one atomic transaction to Ethereum on the traders behalf. E.g If you want to fill an order trading 2 ZRX for 0.5 WETH, you create and sign an order trading 0.5 WETH for 2 ZRX and submit it to the matching relayer. By batch-filling both orders, both traders get what they wanted.
+
 
 In both models, the relayer never has custody over a trader's funds.
 
@@ -38,7 +41,7 @@ Currently we have the best tooling support for Javascript/Typescript and are act
 
 ### Trading on Ethereum
 
-When trading on a centralized exchange, you must integrate exclusively with their trading API in order to know the state of the world (e.g orderbook, filled/cancellation state). When trading on 0x, your sources of truth are the Ethereum blockchain and the off-chain orders in existence.
+When trading on a centralized exchange, you must integrate exclusively with the CEX's trading API in order to know the state of the world (e.g orderbook, filled/cancellation state). When trading on 0x, your sources of truth are the Ethereum blockchain and the off-chain orders in existence. This section will dive deeper into the on-chain state you'll need.
 
 #### Ethereum node management
 
