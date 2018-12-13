@@ -76,7 +76,7 @@ To learn more about fetching orders from relayers, check out our [Find, submit, 
 To create a valid 0x order, you can use our [@0x/order-utils](https://0xproject.com/docs/order-utils) Typescript/Javascript library, or alternatively our [0x-order-utils.py](http://0x-order-utils-py.s3-website-us-east-1.amazonaws.com/) Python library. These libraries will help you:
 
 1. Generate an order in the proper format (e.g encoding/decoding assetData)
-2. Generating a proper hash for the order contents
+2. Generating a proper hash for the order
 3. Sign the order with your elliptic curve signature
 
 For a step-by-step walk-through on doing the above, as well as allowance setting, take a look at our [Create, validate, fill order tutorial](https://0xproject.com/wiki#Create,-Validate,-Fill-Order).
@@ -89,13 +89,13 @@ If you want to be notified whenever the order is taken by a trader, you should a
 
 There are multiple ways to cancel 0x orders, each of which is described in the [Cancelling orders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelorder) section of the protocol specification.
 
-The `cancelOrdersUpTo` approach is perhaps the least straight forward but also the most powerful for a market maker. It allows for the cancellation of a whole swath of orders for a fixed amount of gas. One suggested way of using it is to set the `salt` in orders with prices closer to the market price with a lower value then those with prices further out.
+The `cancelOrdersUpTo` approach is perhaps the least straight forward but also the most powerful for market makers. It allows for the cancellation of multiple orders for a fixed amount of gas. One suggested way of using it is to set the `salt` property in orders with prices closer to the market price with a lower value then those with prices further out.
 
 If there is a disadvantageous price movement in the market, you can then calculate how many of the orders closer to the previous market price to cancel. You can then make a single `cancelOrdersUpTo` request that will cancel all orders with a `salt` value below your chosen value.
 
 ### Example Projects
 
+Here is a short list of example market making projects built on 0x:
+
 -   [Maker's market making bot in Python](https://github.com/makerdao/market-maker-keeper)
 -   [Hummingbot -- open-source market making bot](https://www.hummingbot.io/)
-
-// TODO: Add more
