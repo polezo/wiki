@@ -24,11 +24,7 @@ As an end host of 0x Instant, you can charge users a fee on all trades made thro
 
 The 0x Instant UI and Asset Buyer are bundled together in a convenient JS package for you. You can either download and serve the package yourself, or use the CDN-hosted version from 0x.
 
-Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
-
-html:
-
-```HTML
+```html
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,24 +32,22 @@ html:
         <script src="https://instant.0xproject.com/instant.js" /></script>
     </head>
     <body>
-        <button onClick="onClick()">Hello World</button>
+        <script type='text/javascript'>
+            function renderZeroExInstant() {
+                zeroExInstant.render(
+                    {
+                        orderSource: 'https://api.relayer.com/sra/v2/',
+                    },
+                    'body',
+                );
+            }
+        </script>
+        <button onClick="renderZeroExInstant()">Hello World</button>
     </body>
 </html>
 ```
 
-javascript:
-
-```javascript
-function onClick() {
-    zeroExInstant.render(
-        {
-            // options (see below)
-            orderSource: 'https://api.relayer.com/sra/v2/',
-        },
-        'body',
-    );
-}
-```
+Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
 
 ### Options Configuration
 
