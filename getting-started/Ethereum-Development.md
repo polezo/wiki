@@ -4,7 +4,7 @@ Now that you have a basic understanding of what Ethereum is and does, let's talk
 
 ### 0x protocol
 
-The 0x Protocol extends on this functionality by performing multiple balance transfers in a single atomic operation. If Alice wants to exchange 100 units of TokenA for 200 units of TokenB with Bob, Alice would want to make sure Bob was going to keep his end of the deal. Rather than Alice sending her amount of TokenA to Bob and hoping Bob will send TokenB to Alice sometime in the future, the 0x Protocol performs this exchange in a guaranteed atomic operation. So Alice and Bob will get exactly what they expect. The 0x Protocol is designed to minimize the amount of transactions (and fees) required for Alice and Bob to successfully exchange tokens. 0x protocol uses a process involving off-chain orders with on-chain settlement. You can find more information on the 0x Protocol by reading our [whitepaper](https://0xproject.com/pdfs/0x_white_paper.pdf) or the [beginners guide to 0x](https://blog.0xproject.com/a-beginners-guide-to-0x-81d30298a5e0).
+The 0x Protocol extends on this functionality by performing multiple balance transfers in a single atomic operation. If Alice wants to exchange 100 units of TokenA for 200 units of TokenB with Bob, Alice would want to make sure Bob was going to keep his end of the deal. Rather than Alice sending her amount of TokenA to Bob and hoping Bob will send TokenB to Alice sometime in the future, the 0x Protocol performs this exchange in a guaranteed atomic operation. So Alice and Bob will get exactly what they expect. The 0x Protocol is designed to minimize the amount of transactions (and fees) required for Alice and Bob to successfully exchange tokens. 0x protocol uses a process involving off-chain orders with on-chain settlement. You can find more information on the 0x Protocol by reading our [whitepaper](https://0x.org/pdfs/0x_white_paper.pdf) or the [beginners guide to 0x](https://blog.0x.org/a-beginners-guide-to-0x-81d30298a5e0).
 
 ### Interacting with the Ethereum blockchain
 
@@ -26,10 +26,10 @@ Development and testing are aided by running in your own local test Ethereum nod
 
 Rather than spinning up your own Ethereum node infrastructure to connect to the network, many developers use [INFURA](https://infura.io/). They provide public, scalable Ethereum nodes as a service. Since Ethereum nodes were not designed to handle thousands of requests per second, Infura has built out infrastructure around the nodes to make them more performant.
 
-It can be difficult to get a sufficient amount of test Ether to deploy your contracts on test networks and begin testing them. Because of this, we have created a faucet which can dispense small amounts of Ether to your account. Navigate over to the [0x Portal](https://0xproject.com/portal/balances) with Metamask installed and click "Request" to receive some free test Ether (make sure you're connected to a testnet)!
+It can be difficult to get a sufficient amount of test Ether to deploy your contracts on test networks and begin testing them. Because of this, we have created a faucet which can dispense small amounts of Ether to your account. Navigate over to the [0x Portal](https://0x.org/portal/balances) with Metamask installed and click "Request" to receive some free test Ether (make sure you're connected to a testnet)!
 
 <div align="center">
-    <a href="https://0xproject.com/portal/balances">
+    <a href="https://0x.org/portal/balances">
         <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/network_screenshot.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 761px;" width="80%" />
     </a>
 </div>
@@ -42,4 +42,4 @@ Now that you have a high-level overview of Ethereum Blockchain development, it i
 
 ### Next steps
 
-Now that you've got a basic understanding of what is involved when developing on Ethereum, you're now ready to go onto the next step of [Building a Relayer](#Build-A-Relayer). If you'd rather jump right in, you can skip straight to learning how to [Create, Validate and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) on 0x.
+Now that you've got a basic understanding of what is involved when developing on Ethereum, you're now ready to go onto the next step of [Building a Relayer](#Build-A-Relayer). If you'd rather jump right in, you can skip straight to learning how to [Create, Validate and Fill Orders](https://0x.org/wiki#Create,-Validate,-Fill-Order) on 0x.

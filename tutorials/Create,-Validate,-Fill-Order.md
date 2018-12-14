@@ -1,4 +1,4 @@
-In this tutorial, we will show you how you can use the [0x.js](https://github.com/0xProject/0x.js) library to create, validate and fill orders via the 0x protocol. You can find all the `0x.js` documentation [here](https://0xproject.com/docs/0x.js).
+In this tutorial, we will show you how you can use the [0x.js](https://github.com/0xProject/0x.js) library to create, validate and fill orders via the 0x protocol. You can find all the `0x.js` documentation [here](https://0x.org/docs/0x.js).
 
 ### Setup
 
@@ -204,7 +204,7 @@ Now let's verify whether the order is valid if filled by `taker` for the `takerA
 await contractWrappers.exchange.validateFillOrderThrowIfInvalidAsync(signedOrder, takerAssetAmount, taker);
 ```
 
-If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method or the [0x OrderWatcher](https://0xproject.com/docs/order-watcher)).
+If something was wrong with our order, this function would throw an informative error. If it passes, then the order is currently fillable. A relayer should constantly be [pruning their orderbook](#0x-OrderWatcher) of invalid orders using this method or the [0x OrderWatcher](https://0x.org/docs/order-watcher)).
 
 ### Filling the order
 

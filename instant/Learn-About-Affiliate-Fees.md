@@ -5,7 +5,7 @@ Example: 3% of transaction volume (in ETH) will de deposited into 0x50ff5828a216
 ```html
 <head>
     ...
-    <script src="https://instant.0xproject.com/instant.js"></script>
+    <script src="https://instant.0x.org/instant.js"></script>
     ...
 </head>
 ```

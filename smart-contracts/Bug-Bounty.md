@@ -37,4 +37,4 @@ Please note that any bugs already reported are considered out of scope. Security
 
 ### Disclosures
 
-Please e-mail all submissions to team@0xProject.com with the subject "BUG BOUNTY". Your submission should include any steps required to reproduce or exploit the vulnerability. Please allow time for the vulnerability to be fixed before discussing any findings publicly. After receiving a submission, we will contact you with expected timelines for a fix to be implemented.
+Please e-mail all submissions to team@0x.org with the subject "BUG BOUNTY". Your submission should include any steps required to reproduce or exploit the vulnerability. Please allow time for the vulnerability to be fixed before discussing any findings publicly. After receiving a submission, we will contact you with expected timelines for a fix to be implemented.

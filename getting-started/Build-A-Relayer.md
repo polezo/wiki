@@ -14,9 +14,9 @@ The simplest example of a relayer is a website allowing users to create, discove
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/relayer_diagram.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 342px;" width="80%" />
 </div>
 
-To simplify the process of interacting with the 0x protocol, we have written a Javascript/Typescript library called [0x.js](http://0xproject.com/docs/0x.js). This library helps relayers interact with the 0x protocol smart contracts through a higher-level, easier to use interface. It also provides many useful utilities for hashing, signing, validating, and serializing 0x orders. Additionally, we have built the [0x-launch-kit](https://github.com/0xproject/0x-launch-kit), an open-source, free-to-use API-only 0x relayer template that you can use as a starting point for your own project.
+To simplify the process of interacting with the 0x protocol, we have written a Javascript/Typescript library called [0x.js](http://0x.org/docs/0x.js). This library helps relayers interact with the 0x protocol smart contracts through a higher-level, easier to use interface. It also provides many useful utilities for hashing, signing, validating, and serializing 0x orders. Additionally, we have built the [0x-launch-kit](https://github.com/0xproject/0x-launch-kit), an open-source, free-to-use API-only 0x relayer template that you can use as a starting point for your own project.
 
-Before getting started with [0x.js](http://0xproject.com/docs/0x.js), [0x-launch-kit](https://github.com/0xproject/0x-launch-kit) or the 0x protocol, it is helpful to introduce a few concepts. There are two parties involved in every trade, a maker and a taker. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. The maker then submits these to a relayer. Takers discover orders via a relayer and fill them by sending them directly to the 0x protocol smart contracts. The 0x protocol smart contracts performs an atomic swap, exchanging the maker and taker tokens.
+Before getting started with [0x.js](http://0x.org/docs/0x.js), [0x-launch-kit](https://github.com/0xproject/0x-launch-kit) or the 0x protocol, it is helpful to introduce a few concepts. There are two parties involved in every trade, a maker and a taker. The maker creates an order for an amount of TokenA in exchange for an amount of TokenB. The maker then submits these to a relayer. Takers discover orders via a relayer and fill them by sending them directly to the 0x protocol smart contracts. The 0x protocol smart contracts performs an atomic swap, exchanging the maker and taker tokens.
 
 ### Order
 
@@ -54,13 +54,13 @@ interface Order {
 
 It is a relayer's job to collect cryptographically signed versions of these orders into an off-chain database. This collection of orders is what we refer to as an orderbook. A relayer displays their orderbook to potential takers. The incentive here is for a relayer to collect fees from the orders they host. By specifying themselves as the fee recipient, relayers can earn fees in ZRX tokens.
 
-Check out this tutorial on how to [Create, Validate, and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order). If you want to jump straight into a working relayer codebase, check out [0x-launch-kit](https://github.com/0xProject/0x-launch-kit/).
+Check out this tutorial on how to [Create, Validate, and Fill Orders](https://0x.org/wiki#Create,-Validate,-Fill-Order). If you want to jump straight into a working relayer codebase, check out [0x-launch-kit](https://github.com/0xProject/0x-launch-kit/).
 
 If you want to take a deep-dive into the 0x protocol, take a look at the [0x Protocol Specification](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md).
 
 ### Relayer strategies
 
-The 0x protocol leaves room for some flexibility on how exactly relayers operate. There are a few different strategies relayers have employed so far, each with their respective advantages and drawbacks. You can read more about the different strategies in the [Relayer Strategies](https://0xproject.com/wiki#Matching) section of the wiki to discover the strategy that suits your needs the best.
+The 0x protocol leaves room for some flexibility on how exactly relayers operate. There are a few different strategies relayers have employed so far, each with their respective advantages and drawbacks. You can read more about the different strategies in the [Relayer Strategies](https://0x.org/wiki#Matching) section of the wiki to discover the strategy that suits your needs the best.
 
 ### Shared liquidity
 
@@ -68,8 +68,8 @@ Because all relayers represent orders using the 0x protocol order format, an ord
 
 ### Pruning your orderbooks
 
-Over time, orders may expire, partially filled, cancelled or no longer fillable. It is best to keep your orderbook free of expired or unfillable orders. Iterating over the orderbook periodically and checking each order's validity is a simple way to accomplish this. For a more advanced and efficient approach, you could use an [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher). [0x-launch-kit](https://github.com/0xProject/0x-launch-kit/) is built using OrderWatcher out-of-the-box.
+Over time, orders may expire, partially filled, cancelled or no longer fillable. It is best to keep your orderbook free of expired or unfillable orders. Iterating over the orderbook periodically and checking each order's validity is a simple way to accomplish this. For a more advanced and efficient approach, you could use an [OrderWatcher](https://0x.org/wiki#0x-OrderWatcher). [0x-launch-kit](https://github.com/0xProject/0x-launch-kit/) is built using OrderWatcher out-of-the-box.
 
 ### Next steps
 
-Now that you have a high level idea of what a relayer does, it's time to get started learning how they work. Check out [0x-launch-kit](https://github.com/0xProject/0x-launch-kit/) for a fully-working relayer example, or dive into the [Create, Validate, and Fill Orders](https://0xproject.com/wiki#Create,-Validate,-Fill-Order) tutorial to master the basics of dealing with 0x orders. You may also want to decide on a [Relayer Strategy](https://0xproject.com/wiki#Open-Orderbook). We recommend the open orderbook strategy. If you're looking for more orders to add to your orderbook, take a look at the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api) and [0x Connect](https://0xproject.com/docs/connect). There are several relayers that have already implemented it and are broadcasting orders. Remember to keep your orderbook free of stale orders by using an [OrderWatcher](https://0xproject.com/wiki#0x-OrderWatcher).
+Now that you have a high level idea of what a relayer does, it's time to get started learning how they work. Check out [0x-launch-kit](https://github.com/0xProject/0x-launch-kit/) for a fully-working relayer example, or dive into the [Create, Validate, and Fill Orders](https://0x.org/wiki#Create,-Validate,-Fill-Order) tutorial to master the basics of dealing with 0x orders. You may also want to decide on a [Relayer Strategy](https://0x.org/wiki#Open-Orderbook). We recommend the open orderbook strategy. If you're looking for more orders to add to your orderbook, take a look at the [Standard Relayer API](https://github.com/0xProject/standard-relayer-api) and [0x Connect](https://0x.org/docs/connect). There are several relayers that have already implemented it and are broadcasting orders. Remember to keep your orderbook free of stale orders by using an [OrderWatcher](https://0x.org/wiki#0x-OrderWatcher).
