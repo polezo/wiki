@@ -36,7 +36,7 @@ In both models, the relayer never has custody over a trader's assets.
 
 ### Creating orders
 
-0x orders only exist off-chain and are completely free to create. In order to create a valid 0x order, you can use the [@0x/order-utils](https://0xproject.com/docs/order-utils) Typescript/Javascript library, or alternatively the [0x-order-utils.py](http://0x-order-utils-py.s3-website-us-east-1.amazonaws.com/) Python library. There libraries will help you:
+0x orders only exist off-chain and are completely free to create. In order to create a valid 0x order, you can use the [@0x/order-utils](https://0xproject.com/docs/order-utils) Typescript/Javascript library, or alternatively the [0x-order-utils.py](http://0x-order-utils-py.s3-website-us-east-1.amazonaws.com/) Python library. These libraries will help you:
 
 1. Generate an order in the proper format (e.g encoding/decoding [`assetData`](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetdata))
 2. Generating a proper hash for the order contents
@@ -56,7 +56,7 @@ There are multiple ways to cancel 0x orders, each of which is described in the [
 
 The `cancelOrdersUpTo` approach is perhaps the least straight forward but also the most powerful for a market maker. It allows for the cancellation of an arbitrary number of orders for a fixed amount of gas. By creating orders where the `salt` field is equal to the current unix timestamp in milliseconds, you can cancel all orders that were created at or before a certain time in a single `cancelOrdersUpTo` call (a fixed size transaction). Note that any future orders created with a `salt` that is below the largest `salt` argument of a `cancelOrdersUpTo` call by your address will automatically be invalid.
 
-Explicitly cancelling orders always requires an on-chain transaction. However, you may create short lived orders and replace the expired orders completely off-chain. Due to the variability of transaction inclusion times in blocks, it it not recommended to set extremely agressive expiration times for orders (empirically, most market makers set order expirations to ~5 minutes).
+Explicitly cancelling orders always requires an on-chain transaction. However, you may create short lived orders and replace the expired orders completely off-chain. Due to the variability of transaction inclusion times in blocks, it is not recommended to set extremely agressive expiration times for orders (empirically, most market makers set order expirations to ~5 minutes).
 
 ### Fetching off-chain orders
 
@@ -94,23 +94,23 @@ Let's say a trader submits an order cancellation transaction; there are no guara
 
 #### What is the state of 0x developer tooling?
 
-Currently we have the best tooling support for Javascript/Typescript and are actively improving our support for Python. Visit the [Developers section](https://0xproject.com/docs) of our site for a full-list of developer tools avaiable.
+Currently we have the best tooling support for Javascript/Typescript and are actively improving support for Python. Visit the [developers section](https://0xproject.com/docs) of our site for a full-list of developer tools avaiable.
 
 If you plan on implementing custom infrastructure, you will need the following functionality at a bare minimum:
 
-1. Interacting with relayers over Websockets or HTTP
-1. Encoding the [`assetData`](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetdata) of an order using [ABIv2](https://solidity.readthedocs.io/en/latest/abi-spec.html)
-1. Hashing orders
-1. Cryptographically signing orders with the address you wish to trade with
+-   Interacting with relayers over Websockets or HTTPS
+-   Encoding the [`assetData`](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetdata) of an order using [ABIv2](https://solidity.readthedocs.io/en/latest/abi-spec.html)
+-   Hashing orders
+-   Cryptographically signing orders with the address you wish to trade with
 
 In addition, it is highly recommended to be connected to an Ethereum node so that you can:
 
-1. Read the state of orders
-1. Be notified when the state of an order is changed (by subscribing to the relevant events)
-1. Set allowances to the 0x smart contracts for assets you wish to sell
-1. Fill or cancel orders
+-   Read the state of orders
+-   Be notified when the state of an order changes (by subscribing to the relevant events)
+-   Set allowances to the 0x smart contracts for assets you wish to sell
+-   Fill or cancel orders
 
-#### Example Projects
+#### Example projects
 
 Here is a short list of example market making projects built on 0x:
 
