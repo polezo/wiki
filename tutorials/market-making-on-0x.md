@@ -50,9 +50,45 @@ Once you have a valid 0x order, it can be submitted to a relayer. You can use th
 
 If you want to be notified whenever the order is filled by a trader, you should also submit the order to an [OrderWatcher](https://0xproject.com/docs/order-watcher) instance you are running.
 
+### Filling orders
+
+Orders may be filled by calling various methods on the [Exchange contract](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#exchange), as described in the [filling orders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#filling-orders) section of the protocol specification. In general, these methods can be broken down into 3 categories:
+
+#### Single order fills
+
+These methods are useful for filling single orders. All of these methods have slightly different failure conditions:
+
+-   [fillOrder](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#fillorder)
+-   [fillOrKillOrder](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#fillorkillorder)
+-   [fillOrderNoThrow](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#fillordernothrow)
+
+#### Multiple order fills
+
+These methods are useful for filling multiple orders in a single transaction. Each method has different conditions around transaction failures and execution:
+
+-   [batchFillOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#batchfillorders)
+-   [batchFillOrKillOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#batchfillorkillorders)
+-   [batchFillOrdersNoThrow](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#batchfillordersnothrow)
+-   [marketSellOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#marketsellorders)
+-   [marketSellOrdersNoThrow](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#marketsellordersnothrow)
+-   [marketBuyOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#marketbuyorders)
+-   [marketBuyOrdersNoThrow](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#marketbuyordersnothrow)
+
+#### Matching order fills
+
+A special case exists when filling a buy and sell order of ther same asset pair where the price of the sell order is less than or equal to the price of the buy order. These 2 orders can be simultaneously filled with no capital requirements by calling the [matchOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#matchorders) function.
+
+#### Interacting with different relayer models
+
+Note that the process for filling orders differs when interacting with an [open orderbook](https://0xproject.com/wiki#Open-Orderbook) relayer or a [matching](https://0xproject.com/wiki#Matching) relayer. These orders can be differentiated by the looking at an order's [senderAddress](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#senderaddress) and [takerAddress](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#order-message-format) fields.
+
+When both fields are set to 0 (as in the open orderbook model), the order can be filled directly by calling the desired fill function on the Exchange contract. The taker filling an order in this way benefits from [Ethereum transaction atomicity](#transaction-atomicity) and more granular control over [transaction failures](#transaction-failures). However, the the onus of paying gas and choosing which specific orders to be matched with falls on the taker in this scenario.
+
+In the matching model, the taker first submits a signed order to the matcher (where either the order's `senderAddress` or `takerAddress` are set to the address of the matcher). The matcher than chooses which order(s) to match against the taker's signed order and fills the orders simultaneously (usually by calling `batchFillOrKillOrders` or `matchOrders`). In this scenario, the matcher is responsible for paying gas and choosing the specific orders to be matched.
+
 ### Cancelling orders
 
-There are multiple ways to cancel 0x orders, each of which is described in the [cancelling orders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelling-orders) section of the protocol specification.
+There are multiple ways to cancel 0x orders by interacting with the [Exchange contract](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#exchange), each of which is described in the [cancelling orders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelling-orders) section of the protocol specification.
 
 The `cancelOrdersUpTo` approach is perhaps the least straight forward but also the most powerful for a market maker. It allows for the cancellation of an arbitrary number of orders for a fixed amount of gas. By creating orders where the `salt` field is equal to the current unix timestamp in milliseconds, you can cancel all orders that were created at or before a certain time in a single `cancelOrdersUpTo` call (a fixed size transaction). Note that any future orders created with a `salt` that is below the largest `salt` argument of a `cancelOrdersUpTo` call by your address will automatically be invalid.
 
@@ -89,6 +125,10 @@ Because the 0x Protocol checks order expiration using block timestamps, the orde
 In most blockchains, the miner decides which valid transactions to include in the next block they attempt to mine. They are expected to be economically rational agents who will prioritize transactions that pay them the most fees, however they have full discretion over transaction ordering.
 
 Let's say a trader submits an order cancellation transaction; there are no guarantees about the order in which this transaction will be included in the blockchain. You can try and incentize miners to include it sooner by increasing the `gasPrice` (read: fee) paid for the transaction, but so can any other trader attempting to fill the order (read more about this problem in our [front-running, griefing and the perils of virtual settlement](https://blog.0xproject.com/front-running-griefing-and-the-perils-of-virtual-settlement-part-1-8554ab283e97) blog post series). Because of this race-condition, we recommend you use shorter expiration times on your orders rather than relying heavily on on-chain cancellations. Alternatively, you can use our [cancelOrdersUpTo](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelordersupto) feature to cancel multiple orders in a single transaction.
+
+#### Transaction atomicity
+
+#### Transaction failures
 
 ### Developer tooling
 
