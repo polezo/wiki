@@ -76,7 +76,7 @@ These methods are useful for filling multiple orders in a single transaction. Ea
 
 #### Matching order fills
 
-A special case exists when filling a buy and sell order of ther same asset pair where the price of the sell order is less than or equal to the price of the buy order. These 2 orders can be simultaneously filled with no capital requirements by calling the [matchOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#matchorders) function.
+A special case exists when filling both a buy and sell order of the same asset pair where the price of the sell order is less than or equal to the price of the buy order. These 2 orders can be simultaneously filled with no capital requirements by calling the [matchOrders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#matchorders) function.
 
 #### Interacting with different relayer models
 
@@ -92,7 +92,7 @@ There are multiple ways to cancel 0x orders by interacting with the [Exchange co
 
 The `cancelOrdersUpTo` approach is perhaps the least straight forward but also the most powerful for a market maker. It allows for the cancellation of an arbitrary number of orders for a fixed amount of gas. By creating orders where the `salt` field is equal to the current unix timestamp in milliseconds, you can cancel all orders that were created at or before a certain time in a single `cancelOrdersUpTo` call (a fixed size transaction). Note that any future orders created with a `salt` that is below the largest `salt` argument of a `cancelOrdersUpTo` call by your address will automatically be invalid.
 
-Explicitly cancelling orders always requires an on-chain transaction. However, you may create short lived orders and replace the expired orders completely off-chain. Due to the variability of transaction inclusion times in blocks, it is not recommended to set extremely agressive expiration times for orders (empirically, most market makers set order expirations to ~5 minutes).
+Explicitly cancelling orders always requires an on-chain transaction. However, you may create short lived orders and replace the expired orders without any on-chain transactions. Due to the variability of transaction inclusion times in blocks, it is not recommended to set extremely aggressive expiration times for orders (empirically, most market makers set order expirations to ~5 minutes). Many relayers using the matching model also offer "soft" cancels. In this case, since the matcher is the only address that can fill the order, the matcher can promise not to fill the order without creating any on-chain transactions. Traders should always be aware that these orders can still technically be filled by the matcher without the trader's permission and should consider periodically "hard" cancelling orders that have previously been cancelled in this way.
 
 ### Fetching off-chain orders
 
@@ -106,9 +106,9 @@ When trading on a centralized exchange, you must integrate exclusively with the 
 
 #### Ethereum node management
 
-In order to monitor the Ethereum blockchain, you must interface with an Ethereum node. You can either integrate your market maker with a hosted node service such as [Infura.io](https://infura.io/) or you can [host your own node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node). While developing your market maker, you might want to [Setup Ganache](https://0xproject.com/wiki#Ganache-Setup-Guide), a fake Ethereum node used for testing purposes.
+In order to monitor the Ethereum blockchain, you must interface with an Ethereum node. You can either integrate your market maker with a hosted node service such as [Infura.io](https://infura.io/) or you can [host your own node](https://0xproject.com/wiki#How-To-Deploy-A-Parity-Node). While developing your market maker, you might want to [setup Ganache](https://0xproject.com/wiki#Ganache-Setup-Guide), a fake Ethereum node used for testing purposes.
 
-#### Probablistic finality
+#### Probabilistic finality
 
 Since trades on 0x are settled by being included my miners into a block, settlement is subject to the same probabalistic finality as any other state-transition in Ethereum. Probabilistic finality means that no trade settlement is ever 100% final. It becomes exponentially more final with every additional Ethereum block that is mined ontop of the one it was included in.
 
@@ -126,9 +126,42 @@ In most blockchains, the miner decides which valid transactions to include in th
 
 Let's say a trader submits an order cancellation transaction; there are no guarantees about the order in which this transaction will be included in the blockchain. You can try and incentize miners to include it sooner by increasing the `gasPrice` (read: fee) paid for the transaction, but so can any other trader attempting to fill the order (read more about this problem in our [front-running, griefing and the perils of virtual settlement](https://blog.0xproject.com/front-running-griefing-and-the-perils-of-virtual-settlement-part-1-8554ab283e97) blog post series). Because of this race-condition, we recommend you use shorter expiration times on your orders rather than relying heavily on on-chain cancellations. Alternatively, you can use our [cancelOrdersUpTo](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#cancelordersupto) feature to cancel multiple orders in a single transaction.
 
+#### Transaction failures
+
+In general, an Ethereum transaction will either execute or fail entirely. This allows the transactor to update blockchain state knowing that the state changes will be reverted unless some later condition is met within the same transaction.
+
 #### Transaction atomicity
 
-#### Transaction failures
+All function calls that occur within a single Ethereum transaction are executed sequentially and atomically. This allows a transactor to take advantage of how [transaction failures](#transaction-failures) occur and call multiple functions within a transaction without taking the risk that only a part of the transaction will succeed. This is very useful for arbitraging or purchasing/consuming tokens simultaneously.
+
+### Managing risk
+
+Market makers may hedge risk when an order is filled by taking opposing positions in the same or correlated asset using either centralized and decentralized exchanges.
+
+#### Shorting, derivatives, and margin trading
+
+The following non-comprehensive list of protocols may be used for borrowing, lending, shorting, margin trading, and creating synthetic assets or derivatives. It is highly recommended to only use these protocols with a full understanding of their mechanics and risks:
+
+-   [Augur](https://www.augur.net/)
+-   [dYdX](https://dydx.exchange/)
+-   [Maker](https://makerdao.com/)
+-   [Dharma](https://dharma.io/)
+-   [Compound](https://compound.finance/)
+-   [bZx](https://bzx.network/)
+
+#### Hedging asynchronicity
+
+While taking orders benefits from the [atomicity](#transaction-atomicity) of Ethereum transactions, hedging one of your own orders that has been taken will always be asynchronous. Because Ethereum transactions currently have [probabilistic finality](#probabilistic-finality), market makers should be careful to monitor the state of their own filled orders before and after executing the hedge. For example, the following scenario is possible (though unlikely):
+
+1. A market maker sees a pending fill of her own order in the mempool.
+1. The market maker hedges by taking the opposite position of the same asset on a CEX.
+1. The original fill fails due to an insufficient balance or allowance of the taker, and the maker is left with only the hedge leg of their position.
+
+Similar scenarios can arise due to block re-orgs. There are ways to reduce the risk of this by using specialized smart contracts if executing hedges on other DEX platforms. For example, the smart contract can conditionally execute a hedge only if a given order has been filled. This would mean that the hedge would not execute if the original fill failed, and the resulting state would even be reverted in the case of a block re-org that excluded the initial fill transaction.
+
+#### Capital allocation
+
+The 0x protocol expects a user's assets to be located in their own wallet, rather than deposited in a DEX-specific contract. This allows market makers to place orders accross multiple 0x relayers without needing to split their capital in multiple different locations.
 
 ### Developer tooling
 
@@ -156,9 +189,4 @@ Here is a short list of example market making projects built on 0x:
 
 -   [Maker's market making bot in Python](https://github.com/makerdao/market-maker-keeper)
 -   [Hummingbot -- open-source market making bot](https://www.hummingbot.io/)
-
-TODO:
-
--   Filling orders
--   Explanation of atomicity
--   Hedging and inventory considerations
+-   [RadarRelay bot example](https://github.com/RadarRelay/sdk-bot-example)
