@@ -1,4 +1,4 @@
-When instantiating a [new instance of the 0x.js library](https://0xproject.com/docs/0x.js#zeroEx), we require that you pass in a Web3 provider. This Web3 provider allows your application to communicate with an Ethereum Node. Since there doesn't seem to be great documentation on what exactly a Web3 Provider is, we thought we'd fill the gap.
+When instantiating a [new instance of the 0x.js library](https://0x.org/docs/0x.js#zeroEx), we require that you pass in a Web3 provider. This Web3 provider allows your application to communicate with an Ethereum Node. Since there doesn't seem to be great documentation on what exactly a Web3 Provider is, we thought we'd fill the gap.
 
 A provider can be any module or class instance that implements the `sendAsync` method (simply `send` in web3 V1.0 Beta). That's it. What this `sendAsync` method does is take JSON RPC payload requests and handles them. [Web3.js](https://github.com/ethereum/web3.js/) is an example of a javascript module that contains a Web3 HTTP Provider.
 
@@ -38,7 +38,7 @@ Many people use browser extension wallets (e.g [Metamask](https://metamask.io/))
 
 #### Updating the provider used by `@0x/contract-wrappers`
 
-If at some point the provider used by your dApp changes (e.g if your user wants to use their Ledger Nano S to sign orders), it is important that you update the provider used by your `@0x/contract-wrappers`. You can do this by calling [setProvider](https://0xproject.com/docs/contract-wrappers#ContractWrappers-setProvider).
+If at some point the provider used by your dApp changes (e.g if your user wants to use their Ledger Nano S to sign orders), it is important that you update the provider used by your `@0x/contract-wrappers`. You can do this by calling [setProvider](https://0x.org/docs/contract-wrappers#ContractWrappers-setProvider).
 
 ```ts
 await contractWrappers.setProvider(newProvider, networkId);

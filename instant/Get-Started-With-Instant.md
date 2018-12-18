@@ -8,11 +8,11 @@ Check out a live example on [mainnet](http://0x-instant-staging.s3-website-us-ea
 
 ### Libraries
 
-0x Instant has two main libraries: the `0x Instant UI component` that users will see and the `Asset Buyer` library, a JavaScript / TypeScript library that abstracts out many of the complexities of sourcing orders and performing market buys. Most developers who want to add simple token access will just use the out-of-the-box package that includes the UI and Asset Buyer, but teams may also write their own custom UI and just plug into the Asset Buyer as they see fit. Check out the `@0x/asset-buyer` documentation [here](https://0xproject.com/docs/asset-buyer).
+0x Instant has two main libraries: the `0x Instant UI component` that users will see and the `Asset Buyer` library, a JavaScript / TypeScript library that abstracts out many of the complexities of sourcing orders and performing market buys. Most developers who want to add simple token access will just use the out-of-the-box package that includes the UI and Asset Buyer, but teams may also write their own custom UI and just plug into the Asset Buyer as they see fit. Check out the `@0x/asset-buyer` documentation [here](https://0x.org/docs/asset-buyer).
 
 ### Orders
 
-Additionally, 0x Instant requires a source of SignedOrders that users can fill. Most teams will opt to provide a [Standard Relayer API HTTP endpoint](https://0xproject.com/wiki#Questions-About-Instant), but teams may optionally source liquidity themselves and pass in specific [SignedOrders](https://0xproject.com/wiki#Questions-About-Instant) for users to fill.
+Additionally, 0x Instant requires a source of SignedOrders that users can fill. Most teams will opt to provide a [Standard Relayer API HTTP endpoint](https://0x.org/wiki#Questions-About-Instant), but teams may optionally source liquidity themselves and pass in specific [SignedOrders](https://0x.org/wiki#Questions-About-Instant) for users to fill.
 
 ### Affiliate Fees
 
@@ -29,7 +29,7 @@ The 0x Instant UI and Asset Buyer are bundled together in a convenient JS packag
 <html>
     <head>
         <meta charset="utf-8" />
-        <script src="https://instant.0xproject.com/instant.js" /></script>
+        <script src="https://instant.0x.org/instant.js" /></script>
     </head>
     <body>
         <script type='text/javascript'>
@@ -55,23 +55,23 @@ Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
 
 #### Required
 
-| Option      | Description                                                                                                                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| orderSource | Accepts either a [Standard Relayer API HTTP endpoint](https://0xproject.com/wiki#Questions-About-Instant) or an array of signed 0x [orders](https://0xproject.com/wiki#Questions-About-Instant) |
+| Option      | Description                                                                                                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| orderSource | Accepts either a [Standard Relayer API HTTP endpoint](https://0x.org/wiki#Questions-About-Instant) or an array of signed 0x [orders](https://0x.org/wiki#Questions-About-Instant) |
 
 #### Optional
 
-| Option                         | Description                                                                                                                                                                                                                                                                                                                                                 |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| provider                       | An instance of an Ethereum [provider](https://0xproject.com/wiki#Questions-About-Instant). If none is provided, 0x instant will try to grab the injected provider if one exists, otherwise it will suggest the user to install MetaMask                                                                                                                     |
-| walletDisplayName              | A display string for the wallet you are connected to. Defaults to our best guess (i.e. MetaMask, Coinbase Wallet) but should be provided if a custom provider is supplied as an optional config.                                                                                                                                                            |
-| availableAssetDatas            | An array of [assetDatas](https://0xproject.com/wiki#Questions-About-Instant) that can be purchased through Instant. Defaults to all token pairs from orderSource. Will throw an error if empty.                                                                                                                                                             |
-| defaultSelectedAssetData       | The asset that should be opened by default. If this is not provided, Instant will show "Select Token" if there are multiple availableAssetDatas.                                                                                                                                                                                                            |
-| defaultAssetBuyAmount          | Pre-fill the amount of tokens to purchase. Defaults to 0.                                                                                                                                                                                                                                                                                                   |
-| additionalAssetMetaDataMap     | An object with keys that are assetData strings and values that are objects that adhere to the [AssetMetaData schema](https://0xproject.com/wiki#Questions-About-Instant). The values represent the meta data for that asset. There is an internal mapping for popular tokens that cannot be overriden and only appended to using this configuration option. |
-| networkId                      | Id of Ethereum network to connect to. Defaults to 1 (mainnet).                                                                                                                                                                                                                                                                                              |
-| affiliateInfo                  | An object specifying what % ETH fee should be added to orders and where the fee should be sent. Max feePercentage is .05 (See examples below)                                                                                                                                                                                                               |
-| shouldDisableAnalyticsTracking | An option to turn on / off analytics used to make Instant a better experience. Defaults to false.                                                                                                                                                                                                                                                           |
+| Option                         | Description                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| provider                       | An instance of an Ethereum [provider](https://0x.org/wiki#Questions-About-Instant). If none is provided, 0x instant will try to grab the injected provider if one exists, otherwise it will suggest the user to install MetaMask                                                                                                                     |
+| walletDisplayName              | A display string for the wallet you are connected to. Defaults to our best guess (i.e. MetaMask, Coinbase Wallet) but should be provided if a custom provider is supplied as an optional config.                                                                                                                                                     |
+| availableAssetDatas            | An array of [assetDatas](https://0x.org/wiki#Questions-About-Instant) that can be purchased through Instant. Defaults to all token pairs from orderSource. Will throw an error if empty.                                                                                                                                                             |
+| defaultSelectedAssetData       | The asset that should be opened by default. If this is not provided, Instant will show "Select Token" if there are multiple availableAssetDatas.                                                                                                                                                                                                     |
+| defaultAssetBuyAmount          | Pre-fill the amount of tokens to purchase. Defaults to 0.                                                                                                                                                                                                                                                                                            |
+| additionalAssetMetaDataMap     | An object with keys that are assetData strings and values that are objects that adhere to the [AssetMetaData schema](https://0x.org/wiki#Questions-About-Instant). The values represent the meta data for that asset. There is an internal mapping for popular tokens that cannot be overriden and only appended to using this configuration option. |
+| networkId                      | Id of Ethereum network to connect to. Defaults to 1 (mainnet).                                                                                                                                                                                                                                                                                       |
+| affiliateInfo                  | An object specifying what % ETH fee should be added to orders and where the fee should be sent. Max feePercentage is .05 (See examples below)                                                                                                                                                                                                        |
+| shouldDisableAnalyticsTracking | An option to turn on / off analytics used to make Instant a better experience. Defaults to false.                                                                                                                                                                                                                                                    |
 
 ### Examples
 
@@ -147,7 +147,7 @@ zeroExInstant.render(
 
 #### Providing a Custom Token
 
-Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of tokens supported by default. Check "What is assetMetaData?" in [the questions section](https://0xproject.com/wiki#Questions-About-Instant) for more information about the object being passed in.
+Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of tokens supported by default. Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.
 
 ```javascript
 zeroExInstant.render(

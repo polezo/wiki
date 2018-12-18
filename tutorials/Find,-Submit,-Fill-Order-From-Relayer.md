@@ -6,7 +6,7 @@ In this tutorial, we will show you how you can use the [@0x/connect](https://git
 -   find the best orders in the orderbook
 -   fill orders from the orderbook using `0x.js`
 
-You can find all the `@0x/connect` documentation [here](https://0xproject.com/docs/connect).
+You can find all the `@0x/connect` documentation [here](https://0x.org/docs/connect).
 
 You can find a list of relayers that comply with the Standard Relayer API [here](https://github.com/0xProject/0x-relayer-registry)
 
@@ -263,7 +263,7 @@ if (response.asks.total === 0) {
 
 ### Filling an order
 
-`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a [`PaginatedCollection`](https://0xproject.com/docs/connect#types-PaginatedCollection) of [`APIOrder`](https://0xproject.com/docs/connect#types-APIOrder)s where for each order, the `makerAssetData` field is equal to the `quoteAssetData` provided by the `OrderbookRequest` and the `takerAssetData` field is equal to `baseAssetData`. `Asks` is the opposite of `bids`. For each order, the `makerAssetData` field is equal to the `baseAssetData` and the `takerAssetData` field is equal to `quoteAssetData`.
+`OrderbookResponse` contains two fields, `bids` and `asks`. `Bids` is a [`PaginatedCollection`](https://0x.org/docs/connect#types-PaginatedCollection) of [`APIOrder`](https://0x.org/docs/connect#types-APIOrder)s where for each order, the `makerAssetData` field is equal to the `quoteAssetData` provided by the `OrderbookRequest` and the `takerAssetData` field is equal to `baseAssetData`. `Asks` is the opposite of `bids`. For each order, the `makerAssetData` field is equal to the `baseAssetData` and the `takerAssetData` field is equal to `quoteAssetData`.
 
 The Standard Relayer API guarantees that the orders are sorted by price, and then by _taker fee price_ which is defined as the `takerFee` divided by `takerAmount`. After _taker fee price_, orders are to be sorted by expiration in ascending order.
 
@@ -298,4 +298,4 @@ Through this tutorial we learned how to:
 -   find the best orders in the orderbook
 -   fill orders from the orderbook using `0x.js`
 
-While all of these tasks were performed using Ganache and a local standard relayer api compliant HTTP server, you can start using [@0x/connect](https://www.npmjs.com/package/@0x/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v2/ for executing trades on the main Ethereum network. For more information on how to use `0x.js`, go [here](https://0xproject.com/docs/0x.js).
+While all of these tasks were performed using Ganache and a local standard relayer api compliant HTTP server, you can start using [@0x/connect](https://www.npmjs.com/package/@0x/connect) in conjunction with Radar Relay's standard relayer api HTTP url: https://api.radarrelay.com/0x/v2/ for executing trades on the main Ethereum network. For more information on how to use `0x.js`, go [here](https://0x.org/docs/0x.js).

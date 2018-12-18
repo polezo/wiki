@@ -6,7 +6,7 @@ You can use OrderWatcher with an Ethereum node of your choice.
 
 ### OrderWatcher interface
 
-From an interface point of view, the OrderWatcher is a daemon. You can start and stop it from subscribing to order state changes, add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0x/order-watcher docs](https://0xproject.com/docs/order-watcher).
+From an interface point of view, the OrderWatcher is a daemon. You can start and stop it from subscribing to order state changes, add orders you would like to track and remove orders that are no longer relevant. You can find the full interface description on the [@0x/order-watcher docs](https://0x.org/docs/order-watcher).
 
 Once the OrderWatcher is started and an order has been added to it, it will emit orderStateChange events every time there is a change in the state backing an order's fillability (i.e order expirations, fills, cancels, etc...). These events are emitted with useful information which subscribers can use when designing custom order validation rules.
 
@@ -55,9 +55,9 @@ Below are the contract events that the OrderWatcher handles by default:
 | Deposit            | WETH       |
 | Withdraw           | WETH       |
 
-If any of the above events result in an change in order state you will receive a callback. [OrderState](https://0xproject.com/docs/order-watcher#types-OrderState) indicates whether the order is [valid](https://0xproject.com/docs/order-watcher#types-OrderStateValid) or [invalid](https://0xproject.com/docs/order-watcher#types-OrderStateInvalid), as well as the current [relevant state of the order](https://0xproject.com/docs/order-watcher#types-OrderRelevantState).
+If any of the above events result in an change in order state you will receive a callback. [OrderState](https://0x.org/docs/order-watcher#types-OrderState) indicates whether the order is [valid](https://0x.org/docs/order-watcher#types-OrderStateValid) or [invalid](https://0x.org/docs/order-watcher#types-OrderStateInvalid), as well as the current [relevant state of the order](https://0x.org/docs/order-watcher#types-OrderRelevantState).
 
-In the case where an event caused the order to remain [valid](https://0xproject.com/docs/order-watcher#types-OrderStateValid), but changed the amount fillable (e.g., a `Fill` or `Transfer` event) the order state will contain the current calculated relevant state:
+In the case where an event caused the order to remain [valid](https://0x.org/docs/order-watcher#types-OrderStateValid), but changed the amount fillable (e.g., a `Fill` or `Transfer` event) the order state will contain the current calculated relevant state:
 
 ```typescript
 isValid: true,
@@ -83,7 +83,7 @@ transactionHash: undefined|string,
 
 Note: In some circumstances `filledTakerAssetAmount + remainingFillableTakerAssetAmount` may be lower than the order's total `takerAssetAmount`. This is because OrderWatcher calculates how much is remaining to be filled given the maker's balance and allowance for the asset (as well as fees, if any).
 
-Sometimes an event occurs which causes the order to become [invalid](https://0xproject.com/docs/order-watcher#types-OrderStateInvalid). Here are a few common causes:
+Sometimes an event occurs which causes the order to become [invalid](https://0x.org/docs/order-watcher#types-OrderStateInvalid). Here are a few common causes:
 
 -   Order has expired
 -   Order has been fully filled
@@ -100,7 +100,7 @@ orderHash: string,
 transactionHash: undefined|string,
 ```
 
-The [errors](https://0xproject.com/docs/order-watcher#types-ExchangeContractErrs) which can invalidate the order include:
+The [errors](https://0x.org/docs/order-watcher#types-ExchangeContractErrs) which can invalidate the order include:
 
 | Exchange State               | Description                                                |
 | ---------------------------- | ---------------------------------------------------------- |
@@ -122,7 +122,7 @@ It is possible to receive multiple updates for an order as OrderWatcher processe
 
 ### Naive approach
 
-The naive approach to order watching is to write a worker service that simply iterates over a set of orders, calls the [contractWrappers.exchange.validateOrderFillableOrThrowAsync](https://0xproject.com/docs/0x.js/#ExchangeWrapper-validateOrderFillableOrThrowAsync) method on each one, and discards those that are no longer fillable. This method checks the last three conditions listed above.
+The naive approach to order watching is to write a worker service that simply iterates over a set of orders, calls the [contractWrappers.exchange.validateOrderFillableOrThrowAsync](https://0x.org/docs/0x.js/#ExchangeWrapper-validateOrderFillableOrThrowAsync) method on each one, and discards those that are no longer fillable. This method checks the last three conditions listed above.
 
 OrderWatcher takes a more sophisticated approach by mapping each order to the underlying state that could impact its validity. Whenever the underlying state changes, it knows exactly which orders need to be re-evaluated. Since there are still edge cases in our current approach (more details on this later), OrderWatcher also runs a naive iterator on a lengthier configurable interval to clean up orders that might have been missed.
 
