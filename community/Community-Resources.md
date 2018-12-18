@@ -11,23 +11,23 @@ The communities and posts below include content that has been curated by 0x team
 -   General Communities
     -   [Twitter](https://twitter.com/0xproject)
     -   [Reddit](https://reddit.com/r/0xproject)
-    -   [Medium](https://blog.0x.org)
+    -   [Medium](https://blog.0xproject.com)
     -   [Discord Chat](https://discord.gg/d3FTX3M)
 
 ### Key 0x Blog Posts
 
--   [Mission and Values](https://blog.0x.org/the-0x-mission-and-values-181a58706f9f)
--   [Governance in 0x Protocol](https://blog.0x.org/governance-in-0x-protocol-86779ae5809e)
--   [The Role of the 0x Core Team in the 0x Ecosystem](https://blog.0x.org/the-role-of-the-0x-core-team-in-the-0x-ecosystem-2d8b50354166)
--   [18 Ideas for 0x Relayers in 2018](https://blog.0x.org/18-ideas-for-0x-relayers-in-2018-80a1498b955f)
--   [Compliant Peer-to-Peer Trading](https://blog.0x.org/compliant-peer-to-peer-trading-4dab8e5c3162)
--   [Introducing 0x Protocol V2](https://blog.0x.org/introducing-0x-protocol-v2-9f5bda04d38d)
+-   [Mission and Values](https://blog.0xproject.com/the-0x-mission-and-values-181a58706f9f)
+-   [Governance in 0x Protocol](https://blog.0xproject.com/governance-in-0x-protocol-86779ae5809e)
+-   [The Role of the 0x Core Team in the 0x Ecosystem](https://blog.0xproject.com/the-role-of-the-0x-core-team-in-the-0x-ecosystem-2d8b50354166)
+-   [18 Ideas for 0x Relayers in 2018](https://blog.0xproject.com/18-ideas-for-0x-relayers-in-2018-80a1498b955f)
+-   [Compliant Peer-to-Peer Trading](https://blog.0xproject.com/compliant-peer-to-peer-trading-4dab8e5c3162)
+-   [Introducing 0x Protocol V2](https://blog.0xproject.com/introducing-0x-protocol-v2-9f5bda04d38d)
 
 ### User Onboarding and Learning Resources
 
 -   [The 0x Portal](https://0x.org/portal)
--   [Welcome to the 0x Community](https://blog.0x.org/welcome-to-the-0x-community-9d99dfe0a52b)
--   [Beginners Guide to 0x](https://blog.0x.org/a-beginners-guide-to-0x-81d30298a5e0)
+-   [Welcome to the 0x Community](https://blog.0xproject.com/welcome-to-the-0x-community-9d99dfe0a52b)
+-   [Beginners Guide to 0x](https://blog.0xproject.com/a-beginners-guide-to-0x-81d30298a5e0)
 -   [Why Decentralized Exchange Protocols Matter](https://medium.com/@FEhrsam/why-decentralized-exchange-protocols-matter-58fb5e08b320)
 -   [Radar Relay Learning Sites](https://radarrelay.com/learn)
     -   [Wallet-to-Wallet Trading Explained](https://wallet2wallet.io/)
