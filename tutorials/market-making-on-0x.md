@@ -80,9 +80,9 @@ A special case exists when filling both a buy and sell order of the same asset p
 
 #### Interacting with different relayer models
 
-Note that the process for filling orders differs when interacting with an [open orderbook](https://0xproject.com/wiki#Open-Orderbook) relayer or a [matching](https://0xproject.com/wiki#Matching) relayer. These orders can be differentiated by the looking at an order's [senderAddress](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#senderaddress) and [takerAddress](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#order-message-format) fields.
+Note that the process for filling orders differs when interacting with an [open orderbook](https://0xproject.com/wiki#Open-Orderbook) relayer or a [matching](https://0xproject.com/wiki#Matching) relayer. These orders can be differentiated by looking at an order's [senderAddress](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#senderaddress) and [takerAddress](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#order-message-format) fields.
 
-When both fields are set to 0 (as in the open orderbook model), the order can be filled directly by calling the desired fill function on the Exchange contract. The taker filling an order in this way benefits from [Ethereum transaction atomicity](#transaction-atomicity) and more granular control over [transaction failures](#transaction-failures). However, the the onus of paying gas and choosing which specific orders to be matched with falls on the taker in this scenario.
+When both fields are set to 0 (as in the open orderbook model), the order can be filled directly by calling the desired fill function on the Exchange contract. The taker filling an order in this way benefits from [Ethereum transaction atomicity](#transaction-atomicity) and more granular control over [transaction failures](#transaction-failures). However, the onus of paying gas and choosing which specific orders to be matched with falls on the taker in this scenario.
 
 In the matching model, the taker first submits a signed order to the matcher (where either the order's `senderAddress` or `takerAddress` are set to the address of the matcher). The matcher than chooses which order(s) to match against the taker's signed order and fills the orders simultaneously (usually by calling `batchFillOrKillOrders` or `matchOrders`). In this scenario, the matcher is responsible for paying gas and choosing the specific orders to be matched.
 
@@ -136,18 +136,18 @@ All function calls that occur within a single Ethereum transaction are executed 
 
 ### Managing risk
 
-Market makers may hedge risk when an order is filled by taking opposing positions in the same or correlated asset using either centralized and decentralized exchanges.
+Market makers may hedge risk when an order is filled by taking opposing positions in the same or correlated asset using either centralized or decentralized exchanges.
 
 #### Shorting, derivatives, and margin trading
 
 The following non-comprehensive list of protocols may be used for borrowing, lending, shorting, margin trading, and creating synthetic assets or derivatives. It is highly recommended to only use these protocols with a full understanding of their mechanics and risks:
 
 -   [Augur](https://www.augur.net/)
+-   [bZx](https://bzx.network/)
+-   [Compound](https://compound.finance/)
+-   [Dharma](https://dharma.io/)
 -   [dYdX](https://dydx.exchange/)
 -   [Maker](https://makerdao.com/)
--   [Dharma](https://dharma.io/)
--   [Compound](https://compound.finance/)
--   [bZx](https://bzx.network/)
 
 #### Hedging asynchronicity
 
