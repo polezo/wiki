@@ -8,6 +8,7 @@ These lists are composed of projects that publicly announced their interest in u
 * [bZx](https://bzx.network/)
 * [Blocknet](https://blocknet.co/)
 * [ChronoBank](https://chronobank.io/)
+* [Emoon](https://www.emoon.io)
 * [Dharma](https://dharma.io/)
 * [District0x](https://district0x.io/)
 * [dYdX](https://dydx.exchange/)
