@@ -44,7 +44,7 @@ In both models, the relayer never has custody over a trader's assets.
 
 For a step-by-step walk-through on the above steps, as well as allowance setting, take a look at the [Create, validate, fill order tutorial](https://0xproject.com/wiki#Create,-Validate,-Fill-Order).
 
-Note that the `salt` field of an order should be set to the current unix timestamp in milliseconds for full compatibility with the `[cancelOrdersUpTo`](#cancelling-orders) function. For low level details of how an order is created, please reference the [orders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#orders) section of the protocol specification.
+Note that the `salt` field of an order should be set to the current unix timestamp in milliseconds for full compatibility with the [`cancelOrdersUpTo`](#cancelling-orders) function. For low level details of how an order is created, please reference the [orders](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#orders) section of the protocol specification.
 
 Once you have a valid 0x order, it can be submitted to a relayer. You can use the [POST /v2/order](https://github.com/0xProject/standard-relayer-api/blob/master/http/v2.md#post-v2order) endpoint of the Standard Relayer API for this purpose (see: [submitOrderAsync in 0x Connect](https://0xproject.com/docs/connect#HttpClient-submitOrderAsync)).
 
