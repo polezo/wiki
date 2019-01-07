@@ -5,9 +5,12 @@ These lists are composed of projects that publicly announced their interest in u
 * [Aragon](https://aragon.org/)
 * [Auctus](https://auctus.org/)
 * [Augur](http://www.augur.net/)
+* [Balance](https://www.balance.io)
 * [bZx](https://bzx.network/)
 * [Blocknet](https://blocknet.co/)
 * [ChronoBank](https://chronobank.io/)
+* [Coinbase Wallet](https://wallet.coinbase.com)
+* [CoinGecko](https://coingecko.com)
 * [Emoon](https://www.emoon.io)
 * [Dharma](https://dharma.io/)
 * [District0x](https://district0x.io/)
@@ -18,16 +21,17 @@ These lists are composed of projects that publicly announced their interest in u
 * [Lendroid](https://lendroid.com/)
 * [Maker](https://makerdao.com/)
 * [MelonPort](https://melonport.com/)
+* [MyCrypto](https://mycrypto.com/)
 * [OpenANX](https://www.openanx.org/)
 * [Paradigm Protocol](https://paradigm.market/)
 * [Request Network](https://request.network/)
 * [Set](https://setprotocol.com/)
+* [Settle Finance](https://settle.finance)
 
 ### List of relayers that will be (or are) using the 0x protocol
 
 * [Amadeus](http://amadeusrelay.org)
 * [Bamboo Relay](https://www.bamboorelay.com/)
-* [DDEX](https://ddex.io/)
 * [Dextroid](https://www.dextroid.io/)
 * [ERC dEX](http://ercdex.com)
 * [Ethfinex](https://www.ethfinex.com/)
@@ -48,6 +52,4 @@ These lists are composed of projects that publicly announced their interest in u
 
 ### List of 0x trade explorers
 
-* [0x Remote Hr](http://0x.remote.hr)
-* [0x Trade Viewer](http://0xtrades.info)
 * [0x Tracker](http://0xtracker.com)
