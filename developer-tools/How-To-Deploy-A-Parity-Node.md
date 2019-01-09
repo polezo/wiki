@@ -99,7 +99,7 @@ docker run -d \
 --log-opt max-file=20 \
 --name parity-kovan \
 -v /home/ubuntu/parity-data:/mnt \
- parity/parity \
+ parity/parity:stable \
 --chain kovan \
 --jsonrpc-interface 0.0.0.0 \
 --jsonrpc-cors '*' \
