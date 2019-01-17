@@ -14,6 +14,24 @@ The Standard relayer API is an HTTP specification that facilitates discovering a
 
 Check out this [article](https://0x.org/wiki#Web3-Provider-Explained) in the 0x wiki for explanation of web3 providers. A dApp developer typically grabs this object from window.ethereum or window.web3.currentProvider. For advanced usage of providers check out this [article](https://0x.org/wiki#Web3-Provider-Examples) for some examples of how to create your own providers
 
+#### Q: How can I check liquidity of an asset prior to rendering Instant?
+
+There is a helper method available at `zeroExInstant.hasLiquidityForAssetDataAsync` which takes in an assetData string and order source (Standard Relayer API url or an array of signed orders) and returns a Promise which resolves a boolean value indicating if there is an liquidity available for a given assetData.
+
+See below for an example of how to check liquidity on Radar Relay for a given ERC20 token address:
+
+```
+<div id="liquidityContainer">Loading...</div>
+<script>
+    const erc20TokenAddress = '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07';
+    const assetData = zeroExInstant.assetDataForERC20TokenAddress(erc20TokenAddress);
+
+    zeroExInstant.hasLiquidityForAssetDataAsync(assetData, 'https://api.radarrelay.com/0x/v2/').then(l => {
+        document.getElementById('liquidityContainer').innerHTML = `Radar has liquidity: ${l ? 'Yes' : 'No'}`;
+    });
+</script>
+```
+
 #### Q: What is assetData?
 
 As we now support multiple [token transfer proxies](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#assetproxy), the identifier of which proxy to use for the token transfer must be encoded, along with the token information. Each proxy in 0x v2 has a unique identifier. If you're using 0x.js there will be helper methods for this [encoding](https://0x.org/docs/0x.js#assetDataUtils-encodeERC20AssetData) and [decoding](https://0x.org/docs/0x.js#assetDataUtils-decodeAssetProxyId).
@@ -40,6 +58,8 @@ Encoding the ERC721 token contract (address: `0x371b13d97f4bf77d724e78c16b7dc740
 ```
 0x02571792000000000000000000000000371b13d97f4bf77d724e78c16b7dc74099f40e840000000000000000000000000000000000000000000000000000000000000063
 ```
+
+For convenience, zeroExInstant exposes a `zeroExInstant.assetDataForERC20TokenAddress` method, which returns the `assetData` for a given ERC20 address.
 
 For more information see [the Asset Proxy](https://github.com/0xProject/0x-protocol-specification/blob/master/v2/v2-specification.md#erc20proxy) section of the v2 spec and the [Ethereum ABI Spec](https://solidity.readthedocs.io/en/develop/abi-spec.html).
 
@@ -75,6 +95,8 @@ The keys in this mapping are the `assetData` (see "What is assetData?" above) fo
 | iconUrl (optional)      | The url to the icon to use for this token                                            |
 
 The icon referenced by `iconUrl` will go on top of a 26x26 circle that has `primaryColor` as a background. If an `iconUrl` is not provided, the specified token `symbol` will be displayed over the circle in white.
+
+We provide assetMetaData for a subset of ERC20 tokens. You can call the helper function `zeroExInstant.hasMetaDataForAssetData` which returns a boolean indiciating whether or not we have assetMetaData for a given assetData string.
 
 #### Q: Do users need to have ZRX to pay for fees on orders?
 
