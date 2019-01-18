@@ -26,11 +26,13 @@ See below for an example of how to check liquidity on Radar Relay for a given ER
     const erc20TokenAddress = '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07';
     const assetData = zeroExInstant.assetDataForERC20TokenAddress(erc20TokenAddress);
 
-    zeroExInstant.hasLiquidityForAssetDataAsync(assetData, 'https://api.radarrelay.com/0x/v2/').then(l => {
-        document.getElementById('liquidityContainer').innerHTML = `Radar has liquidity: ${l ? 'Yes' : 'No'}`;
+    zeroExInstant.hasLiquidityForAssetDataAsync(assetData, 'https://api.relayer.com/sra/v2/').then(l => {
+        document.getElementById('liquidityContainer').innerHTML = `Relayer has liquidity: ${l ? 'Yes' : 'No'}`;
     });
 </script>
 ```
+
+Codepen [example](https://codepen.io/steveklebanoff/pen/dwExJz)
 
 #### Q: What is assetData?
 
