@@ -8,7 +8,7 @@ The 0x Protocol extends on this functionality by performing multiple balance tra
 
 ### Interacting with the Ethereum blockchain
 
-As web browsers do not natively support interacting with the Ethereum Blockchain, a browser extension called [Metamask](https://metamask.io/) is one way to fill that gap. Metamask will handle the users private keys and allow them to submit transactions to the network via an Ethereum node. Metamask communicates with the sites a user visits by injecting a Javascript object through which the site can communicate with the wallet and blockchain. For mobile users there are applications like [Toshi](https://www.toshi.org/) and [Cipher Browser](https://www.cipherbrowser.com/) that do the same thing on mobile.
+As web browsers do not natively support interacting with the Ethereum Blockchain, a browser extension called [Metamask](https://metamask.io/) is one way to fill that gap. Metamask will handle the users private keys and allow them to submit transactions to the network via an Ethereum node. Metamask communicates with the sites a user visits by injecting a Javascript object through which the site can communicate with the wallet and blockchain. For mobile users there are applications like [Coinbase Wallet](https://wallet.coinbase.com/) and [Cipher Browser](https://www.cipherbrowser.com/) that do the same thing on mobile.
 
 In order to interact with dApps (distributed applications) a user must have Ether in a wallet they control. The user cannot interact with dApps from an exchange such as Coinbase. They must control the private keys associated with their Ethereum address.
 
@@ -22,7 +22,7 @@ In order to interact with dApps (distributed applications) a user must have Ethe
 
 #### Test networks
 
-Development and testing are aided by running in your own local test Ethereum node. This allows you to quickly deploy and interact with contracts without spending real ETH. [Ganache](https://github.com/trufflesuite/ganache) simulates an Ethereum node locally and provides the same JSON RPC interface as a real node. Since there can still be small differences between it and a real Ethereum node (e.g [Geth](https://github.com/ethereum/go-ethereum) or [Parity](https://github.com/paritytech/parity)) so we recommend you also test your application on a live testnet (i.e Kovan, Rinkeby, or Ropsten) before deploying on to the main Ethereum network.
+Development and testing are aided by running in your own local test Ethereum node. This allows you to quickly deploy and interact with contracts without spending real ETH. [Ganache](https://github.com/trufflesuite/ganache) simulates an Ethereum node locally and provides the same JSON RPC interface as a real node. Since there can still be small differences between it and a real Ethereum node (e.g [Geth](https://github.com/ethereum/go-ethereum) or [Parity](https://github.com/paritytech/parity-ethereum)) so we recommend you also test your application on a live testnet (i.e Kovan, Rinkeby, or Ropsten) before deploying on to the main Ethereum network.
 
 Rather than spinning up your own Ethereum node infrastructure to connect to the network, many developers use [INFURA](https://infura.io/). They provide public, scalable Ethereum nodes as a service. Since Ethereum nodes were not designed to handle thousands of requests per second, Infura has built out infrastructure around the nodes to make them more performant.
 
