@@ -71,7 +71,7 @@ providerEngine.start();
 const contractWrappers = new ContractWrappers(providerEngine, { networkId: NETWORK_CONFIGS.networkId });
 ```
 
-### Retreiving Accounts from the Provider
+### Retrieving Accounts from the Provider
 
 We will use Web3Wrapper to retrieve accounts from the provider. The first account will be the maker, and the second account will be the taker for the purposes of this tutorial.
 
