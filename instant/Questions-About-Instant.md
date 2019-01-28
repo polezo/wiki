@@ -130,7 +130,7 @@ For apps using React Native or apps that have a web view, the asset buyer engine
 
 #### Q: How can 0x be used to trade NFTs?
 
-The 0x Instant UI currently only supports trading of ERC20 tokens.  You can use [asset-buyer](https://0x.org/docs/asset-buyer#introduction), the backend library that powers Instant, to develop a custom interface that allow users to easily purchase NFTs with a single tap — no need to purchase wrap ETH or set an allowance!
+The 0x Instant UI currently only supports trading of ERC20 tokens.  You can use [asset-buyer](https://0x.org/docs/asset-buyer#introduction), the library that powers Instant, to develop a custom interface that allow users to easily purchase NFTs with a single tap — no need to purchase wrap ETH or set an allowance!
 
 ### Affiliates
 
