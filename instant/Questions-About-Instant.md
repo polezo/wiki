@@ -26,7 +26,7 @@ See below for an example of how to check liquidity on Radar Relay for a given ER
     const erc20TokenAddress = '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07';
     const assetData = zeroExInstant.assetDataForERC20TokenAddress(erc20TokenAddress);
 
-    zeroExInstant.hasLiquidityForAssetDataAsync(assetData, 'https://api.relayer.com/sra/v2/').then(l => {
+    zeroExInstant.hasLiquidityForAssetDataAsync(assetData, 'https://example.donotusethis.com/sra/v2/').then(l => {
         document.getElementById('liquidityContainer').innerHTML = `Relayer has liquidity: ${l ? 'Yes' : 'No'}`;
     });
 </script>
@@ -130,7 +130,7 @@ For apps using React Native or apps that have a web view, the asset buyer engine
 
 #### Q: How can 0x be used to trade NFTs?
 
-The 0x Instant UI currently only supports trading of ERC20 tokens.  You can use [asset-buyer](https://0x.org/docs/asset-buyer#introduction), the library that powers Instant, to develop a custom interface that allow users to easily purchase NFTs with a single tap — no need to purchase wrap ETH or set an allowance!
+The 0x Instant UI currently only supports trading of ERC20 tokens. You can use [asset-buyer](https://0x.org/docs/asset-buyer#introduction), the library that powers Instant, to develop a custom interface that allow users to easily purchase NFTs with a single tap — no need to purchase wrap ETH or set an allowance!
 
 ### Affiliates
 
