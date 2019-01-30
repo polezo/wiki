@@ -36,7 +36,7 @@ The 0x Instant UI and Asset Buyer are bundled together in a convenient JS packag
             function renderZeroExInstant() {
                 zeroExInstant.render(
                     {
-                        orderSource: 'https://example.donotusethis.com/sra/v2/',
+                        orderSource: 'https://api.radarrelay.com/0x/v2/',
                     },
                     'body',
                 );
@@ -94,7 +94,7 @@ Using [/asset_pairs](https://github.com/0xProject/standard-relayer-api/blob/mast
 ```javascript
 zeroExInstant.render(
     {
-        orderSource: 'https://example.donotusethis.com/sra/v2/',
+        orderSource: 'https://api.radarrelay.com/0x/v2/',
     },
     'body',
 );
@@ -107,7 +107,7 @@ This will give you more control over what provider is passed in and where RPC ca
 ```javascript
 zeroExInstant.render(
     {
-        orderSource: 'https://example.donotusethis.com/sra/v2/',
+        orderSource: 'https://api.radarrelay.com/0x/v2/',
         provider: window.ethereum,
         walletDisplayName: 'Trust Wallet',
     },
@@ -120,7 +120,7 @@ zeroExInstant.render(
 ```javascript
 zeroExInstant.render(
     {
-        orderSource: 'https://example.donotusethis.com/sra/v2/',
+        orderSource: 'https://api.radarrelay.com/0x/v2/',
         availableAssetDatas: ['0xf47261b04c32345ced77393b3530b1eed0f346429d'],
         defaultSelectedAssetData: '0xf47261b04c32345ced77393b3530b1eed0f346429d',
     },
@@ -135,7 +135,7 @@ zeroExInstant.render(
 ```javascript
 zeroExInstant.render(
     {
-        orderSource: 'https://example.donotusethis.com/sra/v2/',
+        orderSource: 'https://api.radarrelay.com/0x/v2/',
         affiliateInfo: {
             feeRecipient: '0x50ff5828a216170cf224389f1c5b0301a5d0a230',
             feePercentage: 0.03,
@@ -281,7 +281,7 @@ There are several static `AssetBuyer` factory methods that can be used to constr
 
 ```javascript
 const provider = window.ethereum;
-const sraUrl = 'https://example.donotusethis.com/sra/v2/';
+const sraUrl = 'https://api.radarrelay.com/0x/v2/';
 const zrxAssetData = '0xf47261b0000000000000000000000000e41d2489571d322189246dafa5ebde1f4699f498';
 const assetBuyer = AssetBuyer.getAssetBuyerForStandardRelayerAPIUrl(provider, sraUrl);
 const amountToBuy = new BigNumber(10000000);

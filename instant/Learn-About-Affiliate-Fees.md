@@ -13,7 +13,7 @@ Example: 3% of transaction volume (in ETH) will de deposited into 0x50ff5828a216
 ```javascript
 zeroExInstant.render(
     {
-        orderSource: 'https://example.donotusethis.com/sra/v2/',
+        orderSource: 'https://api.radarrelay.com/0x/v2/',
         affiliateInfo: {
             feeRecipient: '0x50ff5828a216170cf224389f1c5b0301a5d0a230',
             feePercentage: 0.03,
