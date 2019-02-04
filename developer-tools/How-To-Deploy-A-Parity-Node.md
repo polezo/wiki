@@ -1,9 +1,9 @@
-This article will walk you through deploying a [Parity](https://github.com/paritytech/parity) Ethereum node on [Amazon AWS](https://aws.amazon.com) using [Docker Machine](https://docs.docker.com/machine/overview/).
+This article will walk you through deploying a [Parity](https://github.com/paritytech/parity-ethereum) Ethereum node on [Amazon AWS](https://aws.amazon.com) using [Docker Machine](https://docs.docker.com/machine/overview/).
 
 This tutorial assumes that you:
 
 * Have [Docker](https://docs.docker.com/install/) and [Docker Machine](https://docs.docker.com/machine/install-machine/) installed
-* Have setup an AWS account, and have the associated access key and secret, and have the AWS Command Line Interface [installed](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration).
+* Have setup an AWS account, and have the associated access key and secret, and have the AWS Command Line Interface [installed](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration).
 
 Before we can go ahead and spin up an EC2 instance, we need to have two things: a Virtual Private Cloud (VPC) and a Security Group.
 
