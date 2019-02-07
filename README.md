@@ -1,6 +1,6 @@
 ## 0x Protocol Wiki
 
-Welcome to the 0x Protocol wiki!
+Welcome to the 0x Protocol wiki
 
 This repo contains the raw markdown files that are rendered on the [wiki section](https://0x.org/wiki) of our website. Feel free to peruse the contents here and to submit PR's with typo fixes, logical corrections or extensions to the covered topics.
 
