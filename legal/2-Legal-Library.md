@@ -111,5 +111,4 @@
     -   [Application of FinCEN's Regulations to Persons Administering, Exchanging, or Using Virtual Currencies](https://www.fincen.gov/sites/default/files/shared/FIN-2013-G001.pdf) (Mar. 18, 2013)
         -   Initial guidance from FinCEN addressing who within the virtual currency industry is considered a money transmitter.
 -   #### Commentary & Analysis
-        -   [The Bank Secrecy Act, Cryptocurrencies and New Tokens: What is Known and What Remains Ambiguous](https://coincenter.org/files/2017-05/report-bsa-crypto-token1.pdf) by Peter Van Valkenburgh - Coin Center (May 2017)
-    Libr
+    - [The Bank Secrecy Act, Cryptocurrencies and New Tokens: What is Known and What Remains Ambiguous](https://coincenter.org/files/2017-05/report-bsa-crypto-token1.pdf) by Peter Van Valkenburgh - Coin Center (May 2017)
