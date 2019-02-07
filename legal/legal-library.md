@@ -43,7 +43,7 @@
         -   [SEC FinHub](https://www.sec.gov/finhub) landing page
 
 -   #### Commentary & Analysis
-    -   [Submission by Kik to the SEC](http://kinecosystem.org/wells_response.pdf)
+    -   [Submission by Kik Interactive Inc. to the SEC](http://kinecosystem.org/wells_response.pdf)
     -   [What Are Token Securities? Some Questions from the Perplexed](https://corpgov.law.harvard.edu/2018/12/20/when-are-tokens-securities-some-questions-from-the-perplexed/) by James J. Park - UCLA School of Law (Dec. 20, 2018)
     -   [What can the EtherDelta settlement tell us about how decentralized exchanges are regulated?](https://coincenter.org/entry/what-can-the-etherdelta-settlement-tell-us-about-how-decentralized-exchanges-are-regulated) by Peter Van Valkenburgh - Coin Center (Nov. 8, 2018)
     -   [Securities Law & Crypto - Unqualified Opinions #14](https://messari.substack.com/p/securities-law-and-crypto-unqualified) by Katherine Wu - Messari (Oct. 11, 2018)
@@ -96,6 +96,7 @@
 -   #### Statements & Administrative Rulings
     -   [Prepared Remarks of FinCEN Director Kenneth A. Blanco](https://www.fincen.gov/news/speeches/prepared-remarks-fincen-director-kenneth-blanco-delivered-2018-chicago-kent-block) (Aug. 9, 2018)
         -   Speech summarizing FinCEN's approach to virtual currency.
+    -   [Department of Treasury Letter to Senator Ron Wyden](https://coincenter.org/files/2018-03/fincen-ico-letter-march-2018-coin-center.pdf) (Feb. 13, 2018)
     -   FinCEN Administrative Rulings
         -   [Application of FinCEN’s Regulations to a Virtual Currency Trading Platform](https://www.fincen.gov/sites/default/files/administrative_ruling/FIN-2014-R011.pdf) (Oct. 29, 2014)
             -   Traditional centralized exchange model involving matching buyers and sellers directly constitutes money transmission despite argument that the exchange does not sit in the middle of a transaction.
