@@ -6,10 +6,10 @@ Install Ganache-cli locally:
 npm install -g ganache-cli@6.1.6
 ```
 
-In order to run Ganache-cli with all the latest V2 0x protocol smart contracts available, you must first download [this Ganache-cli snapshot](https://s3.amazonaws.com/testrpc-shapshots/965d6098294beb22292090c461151274ee6f9a26.zip) and save it. Next unzip it's contents with:
+In order to run Ganache-cli with all the latest V2 0x protocol smart contracts available, you must first download [this Ganache-cli snapshot](http://ganache-snapshots.0x.org.s3.amazonaws.com/0x_ganache_snapshot-2.4.0.zip) and save it. Next unzip it's contents with:
 
 ```bash
-unzip ./965d6098294beb22292090c461151274ee6f9a26.zip -d ./0x_ganache_snapshot
+unzip ./0x_ganache_snapshot-2.4.0.zip -d ./0x_ganache_snapshot
 ```
 
 You can now start Ganache-cli as follows:
