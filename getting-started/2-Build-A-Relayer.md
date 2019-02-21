@@ -41,7 +41,7 @@ interface Order {
     makerAssetData: string;
     // The identifying data about the asset the Maker is requesting in return
     takerAssetData: string;
-    // A salt to guarentee OrderHash uniqueness. Usually a milisecond timestamp of when order was made
+    // A salt to guarantee OrderHash uniqueness. Usually a milisecond timestamp of when order was made
     salt: BigNumber;
     // The address of the 0x protocol exchange smart contract
     exchangeAddress: string;
