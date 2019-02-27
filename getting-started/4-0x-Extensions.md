@@ -10,7 +10,7 @@ Wrapping ETH into ERC-20 compliant wETH has been a large barrier to adoption for
 
 Users send ETH and a set of orders to the Forwarder contract and these funds are used to trade on 0x. The Forwarder deposits the incoming ETH into wrapped ETH. It then calls fill order with the supplied orders, using the wrapped ETH as its source of funding. Finally it transfers all traded tokens back to the user.
 
-The Forwarder extends the behaviour of trading on 0x. It presents a different interface where the user can specify the amount of tokens they wish to buy and use ETH to buy them. This is an improved user experience to interacting with the lower level 0x Exchange contract. From a user's perspective it appears as if they are buying tokens using ETH directly.
+The Forwarder extends the behavior of trading on 0x. It presents a different interface where the user can specify the amount of tokens they wish to buy and use ETH to buy them. This is an improved user experience to interacting with the lower level 0x Exchange contract. From a user's perspective it appears as if they are buying tokens using ETH directly.
 
 <img width="575" alt="screen shot 2019-02-26 at 5 42 25 pm" src="https://user-images.githubusercontent.com/27389/53459986-8dd25800-3a09-11e9-87ce-14eff3464b28.png">
 
@@ -127,6 +127,6 @@ The Whitelist template is a simple example of validating addresses before allowi
 
 ### Differences to an Asset Proxy
 
-While both an Extension contract and an Asset Proxy change the behaviour of exchange on the 0x protocol, they are quite different. Extension contracts cannot change the behaviour of settlement. For example, it is not possible to add new token standards with an extension contract.
+While both an Extension contract and an Asset Proxy change the behavior of exchange on the 0x protocol, they are quite different. Extension contracts cannot change the behavior of settlement. For example, it is not possible to add new token standards with an extension contract.
 
 Since Asset Proxies calculate and finalize settlements, they are written and deployed by the 0x core team. New additions of Asset Proxies undergo security audits and the community votes on the addition to the protocol. If you have a problem that can only be solved via an Asset Proxy, we welcome proposals to the ZEIP repository.
