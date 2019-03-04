@@ -121,8 +121,8 @@ zeroExInstant.render(
 zeroExInstant.render(
     {
         orderSource: 'https://api.radarrelay.com/0x/v2/',
-        availableAssetDatas: ['0xf47261b04c32345ced77393b3530b1eed0f346429d'],
-        defaultSelectedAssetData: '0xf47261b04c32345ced77393b3530b1eed0f346429d',
+        availableAssetDatas: ['0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e],
+        defaultSelectedAssetData: '0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e',
     },
     'body',
 );
