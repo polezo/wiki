@@ -54,6 +54,8 @@ If the result key does not return `0x0`, then the contract code was successfully
 -   Forwarder.sol: `0x6000eca38b8b5bba64986182fe2a69c57f6b5414`
 -   OrderValidator.sol: `0x32eecaf51dfea9618e9bc94e9fbfddb1bbdcba15`
 -   DutchAuction.sol: `0x7e3f4e1deb8d3a05d9d2da87d9521268d0ec3239`
+-   Coordinator.sol: `0x4d3d5c850dd5bd9d6f4adda3dd039a3c8054ca29`
+-   CoordinatorRegistry.sol: `0xaa86dda78e9434aca114b6676fc742a18d15a1cc`
 
 ##### Dummy tokens for testing
 
