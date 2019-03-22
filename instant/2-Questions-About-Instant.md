@@ -6,7 +6,7 @@
 
 A SignedOrder is a basic primitive of the 0x protocol. You can think of the SignedOrder as a set of parameters that define the terms of a trade, plus a signature that proves that the creator (also known as the 'maker') of an order has approved the trade. For example, a SignedOrder can specify: address A wants to trade 5 REP tokens in exchange for 1 WETH token. The order also includes signature produced by address A's private key and a hash of the order parameters. For exact JavaScript / TypeScript definition of a SignedOrder, refer to our [docs](https://0x.org/docs/0x.js#types-SignedOrder).
 
-#### Q: What is the Standard Relayer API
+#### Q: What is the Standard Relayer API?
 
 The Standard relayer API is an HTTP specification that facilitates discovering and publishing SignedOrders. As an integrator of 0x Instant you will want to grab an API url from the [Relayer Registry](https://github.com/0xProject/0x-relayer-registry/blob/master/relayers.json). Check out the exact specification of the API in the [documentation](http://sra-spec.s3-website-us-east-1.amazonaws.com/).
 
@@ -119,6 +119,14 @@ To prevent massive price ranges, 0x Instant calculates a maximum amount of asset
 #### Q: Does 0x Instant work with permissioned liquidity pools that require KYC?
 
 0x Instant currently passes all orders through a forwarding contract for wrapping ETH and filling orders and is therefore incompatible with many on-chain KYC solutions. Check with the KYC solution you're using to verify.
+
+### Q: Can Instant be used to sell tokens that are not available on a relayer?
+
+Even if an ERC20 token is not listed on a relayer, 0x Instant can be configured to source liquidity from a static set of orders, by providing an array of [`SignedOrder`](https://0x.org/docs/order-utils#types-SignedOrder)s as the `orderSource`.
+
+### Q: How can I get help integrating Instant?
+
+Join us on [Discord](https://discord.gg/d3FTX3M) and join the #instant channel to receive help from our dev team.
 
 ### Mobile
 
