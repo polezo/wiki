@@ -122,7 +122,7 @@ To prevent massive price ranges, 0x Instant calculates a maximum amount of asset
 
 ### Q: Can Instant be used to sell tokens that are not available on a relayer?
 
-Even if an ERC20 token is not listed on a relayer, 0x Instant can be configured to source liquidity from a static set of orders, by providing an array of `SignedOrders` as the `orderSource`.
+Even if an ERC20 token is not listed on a relayer, 0x Instant can be configured to source liquidity from a static set of orders, by providing an array of [`SignedOrder`](https://0x.org/docs/order-utils#types-SignedOrder)s as the `orderSource`.
 
 ### Q: How can I get help integrating Instant?
 
