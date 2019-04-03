@@ -29,7 +29,7 @@ The 0x Instant UI and Asset Buyer are bundled together in a convenient JS packag
 <html>
     <head>
         <meta charset="utf-8" />
-        <script src="https://instant.0x.org/instant.js" /></script>
+        <script src="https://instant.0x.org/instant.js" ></script>
     </head>
     <body>
         <script type='text/javascript'>
