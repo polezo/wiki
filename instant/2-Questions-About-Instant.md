@@ -114,7 +114,7 @@ To prevent massive price ranges, 0x Instant calculates a maximum amount of asset
 
 #### Q: Can I pay for assets through 0x Instant using an ERC-20 token like WETH or DAI?
 
-0x Instant currently only supports purchasing ERC-20 and ERC-721 assets using ETH for now, but we're looking into adding ERC-20 to ERC-20 purchasing in the future.
+0x Instant currently only supports purchasing ERC-20 using ETH for now, but we're looking into adding ERC-20 to ERC-20 purchasing in the future.
 
 #### Q: Does 0x Instant work with permissioned liquidity pools that require KYC?
 
