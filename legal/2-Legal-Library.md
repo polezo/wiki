@@ -4,7 +4,7 @@
 
     _Regarding Crypto Assets_
 
-    -   [SEC v. Blockvest, LLC](https://scholar.google.com/scholar_case?case=1459130009709320147) (S.D. Cal. 2018)
+    -   [SEC v. Blockvest, LLC](https://www.sec.gov/litigation/litreleases/2019/order24400.pdf) (S.D. Cal. 2019)
 
     _Important Howey Test Cases_
 
@@ -17,6 +17,11 @@
 
 -   #### SEC Statements & Settlement Orders
 
+    -   [Framework for Investment Contract Analysis of Digital Assets](https://www.sec.gov/corpfin/framework-investment-contract-analysis-digital-assets)
+        -   Proposed framework from SEC's FinHub as to how to analyze whether the sale or offering of a digital asset constitutes a security in the form of an investment contract.
+    -   [SEC Settlement Order re: Gladius Network LLC](https://www.sec.gov/litigation/admin/2019/33-10608.pdf) (Feb. 20, 2019)
+        -   Settlement for unregistered securities offering resulting in no penalty due to self disclosure and cooperation.
+    -   [Speech by Commissioner Hester Peirce: Regulation: A View from Inside the Machine](https://www.sec.gov/news/speech/peirce-regulation-view-inside-machine) (Feb. 8, 2019)
     -   [Statement on Digital Asset Securities Issuance and Trading](https://www.sec.gov/news/public-statement/digital-asset-securites-issuuance-and-trading) (Nov. 16, 2018)
         -   Statement from multiple SEC divisions highlighting recent enforcement actions and providing some guidance on the SEC's interpretation about the intersection of securities law and token offerings and trading.
     -   [SEC Settlement Order re: AirFox](https://www.sec.gov/litigation/admin/2018/33-10575.pdf) (Nov. 16, 2018)
@@ -43,7 +48,8 @@
         -   [SEC FinHub](https://www.sec.gov/finhub) landing page
 
 -   #### Commentary & Analysis
-    -   [Submission by Kik Interactive Inc. to the SEC](http://kinecosystem.org/wells_response.pdf)
+    -   [Electronic Frontier Foundation letter to the SEC re: EtherDelta settlement](https://www.eff.org/files/2019/02/12/correspondence_from_eff_re_in_the_matter_of_zachary_coburn_file_no._3-18888-2.pdf) (Feb. 12, 2019) 
+    -   [Submission by Kik Interactive Inc. to the SEC](http://kinecosystem.org/wells_response.pdf) (Dec. 10, 2018)
     -   [What Are Token Securities? Some Questions from the Perplexed](https://corpgov.law.harvard.edu/2018/12/20/when-are-tokens-securities-some-questions-from-the-perplexed/) by James J. Park - UCLA School of Law (Dec. 20, 2018)
     -   [What can the EtherDelta settlement tell us about how decentralized exchanges are regulated?](https://coincenter.org/entry/what-can-the-etherdelta-settlement-tell-us-about-how-decentralized-exchanges-are-regulated) by Peter Van Valkenburgh - Coin Center (Nov. 8, 2018)
     -   [Securities Law & Crypto - Unqualified Opinions #14](https://messari.substack.com/p/securities-law-and-crypto-unqualified) by Katherine Wu - Messari (Oct. 11, 2018)
@@ -58,6 +64,7 @@
     -   [CFTC v. My Big Coin Pay, Inc.](https://www.cftc.gov/sites/default/files/2018-10/enfmybigcoinpayincmemorandum092618_0.pdf) (D. Mass. 2018)
     -   [CFTC v. McDonnell](https://scholar.google.com/scholar_case?case=16464466787559233193), 287 F.Supp.3d 213 (E.D.N.Y. 2018)
 -   #### CFTC Statements & Settlement Orders
+    -   [How the CFTC can take a pro-innovation posture while maintaining orderly markets](https://coincenter.org/entry/how-the-cftc-can-take-a-pro-innovation-posture-while-maintaining-orderly-markets) - Article by Commissioner Brian Quintenz (Feb. 12, 2019)
     -   [Remarks of Commissioner Brian Quintenz at the 38th Annual GITEX Technology Week Conference](https://www.cftc.gov/PressRoom/SpeechesTestimony/opaquintenz16) regarding smart contract regulation (Oct. 16, 2018)
     -   Proposed Interpretation on Virtual Currency “Actual Delivery” in Retail Transactions
         -   [CFTC announcement](https://www.cftc.gov/PressRoom/PressReleases/7664-17) (Dec. 15, 2017)
