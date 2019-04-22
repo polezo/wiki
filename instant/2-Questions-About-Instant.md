@@ -134,11 +134,11 @@ Join us on [Discord](https://discord.gg/d3FTX3M) and join the #instant channel t
 
 For apps using React Native or apps that have a web view, the asset buyer engine will work out of the box with your application. For apps that are written in a native language like Java or Swift, you will need to wrap the asset-buyer logic in a JS interpreter.
 
-### NFTs
+### NFTs / ERC721
 
 #### Q: How can 0x be used to trade NFTs?
 
-The 0x Instant UI currently only supports trading of ERC20 tokens. You can use [asset-buyer](https://0x.org/docs/asset-buyer#introduction), the library that powers Instant, to develop a custom interface that allow users to easily purchase NFTs with a single tap — no need to purchase wrap ETH or set an allowance!
+The 0x Instant UI supports the trading of NFTs, but requires the integrator to provide the `name`, `imageUrl`, and `primaryColor` for the NFT. For the `orderSource` it will require either an array of [`SignedOrder`](https://0x.org/docs/order-utils#types-SignedOrder)s selling the NFTs in question, or an [SRA endpoint](https://github.com/0xProject/standard-relayer-api/blob/master/http/v2.md) that contains liquidity for the NFT. You can also use [asset-buyer](https://0x.org/docs/asset-buyer#introduction), the library that powers Instant, to develop a custom interface that allow users to easily purchase NFTs with a single tap — no need to purchase wrap ETH or set an allowance!
 
 ### Affiliates
 
