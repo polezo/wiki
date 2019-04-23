@@ -150,13 +150,16 @@ zeroExInstant.render(
 Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of tokens supported by default. Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.
 
 ```javascript
+const erc20TokenAddress = '0xe41d2489571d322189246dafa5ebde1f4699f498';
+const erc20TokenAssetData = zeroExInstant.assetDataForERC20TokenAddress(erc20TokenAddress);
+
 zeroExInstant.render(
     {
         // these can contain makerAssetDatas that are not supported by default
         orderSource: [signedOrder1, signedOrder2],
         additionalAssetMetaDataMap: {
-            '0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e': {
-                assetProxyId: '0xf47261b0', // ERC20 Proxy Id
+            [erc20TokenAssetData]: {
+                assetProxyId: zeroExInstant.ERC20_PROXY_ID,
                 decimals: 18,
                 symbol: 'XXX',
                 name: 'My Custom Token',
@@ -174,13 +177,17 @@ zeroExInstant.render(
 Instant does not come bundled with any NFT data, so you must provide the `additionalAssetMetaDataMap` parameter to make the integration work (Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.) You must also provide the `defaultSelectedAssetData` parameter to open instant with the NFT you are selling.
 
 ```javascript
+const erc721TokenAddress = '0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d';
+const erc721TokenId = 31097;
+const erc721AssetData = zeroExInstant.assetDataForERC721TokenAddress(erc721TokenAddress, erc721TokenId);
+
 zeroExInstant.render(
     {
         orderSource: [signedOrder1],
-        defaultSelectedAssetData: '0x02571792000000000000000000000000f5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d0000000000000000000000000000000000000000000000000000000000007979',
+        defaultSelectedAssetData: erc721AssetData,
         additionalAssetMetaDataMap: {
-            '0x02571792000000000000000000000000f5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d0000000000000000000000000000000000000000000000000000000000007979': {
-                assetProxyId: '0x02571792', // ERC721 Proxy Id
+            [erc721AssetData]: {
+                assetProxyId: zeroExInstant.ERC721_PROXY_ID,
                 name: 'Axie #31097',
                 primaryColor: '#769edb',
                 imageUrl: 'https://storage.opensea.io/0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d/31097-1555918548.png', 
