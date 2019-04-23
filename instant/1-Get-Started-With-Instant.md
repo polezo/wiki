@@ -1,4 +1,4 @@
-0x Instant is a new product from the 0x core team that offers a convenient way for people to get access to a wide variety of tokens and other crypto-assets in just a few taps. Developers can integrate the free, open source library into their applications or websites in order to both offer seamless access to crypto-assets, as well as gain a new source of revenue, with just a few lines of code.
+0x Instant is a product from the 0x core team that offers a convenient way for people to get access to a wide variety of tokens and other crypto-assets in just a few taps. Developers can integrate the free, open source library into their applications or websites in order to both offer seamless access to crypto-assets, as well as gain a new source of revenue, with just a few lines of code.
 
 <div align="center">
     <img src="https://s3.eu-west-2.amazonaws.com/0x-wiki-images/instant_screenshot.png" style="padding-bottom: 20px; padding-top: 20px; max-width: 342px;" width="80%" />
@@ -57,7 +57,7 @@ Codepen [example](https://codepen.io/bmillman19/pen/qQzQQK)
 
 | Option      | Description                                                                                                                                                                       |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| orderSource | Accepts either a [Standard Relayer API HTTP endpoint](https://0x.org/wiki#Questions-About-Instant) or an array of signed 0x [orders](https://0x.org/wiki#Questions-About-Instant) |
+| orderSource | Accepts either a [Standard Relayer API HTTP endpoint](https://github.com/0xProject/standard-relayer-api/blob/master/http/v2.md) or an array of signed 0x [orders](https://0x.org/docs/order-utils#types-SignedOrder) |
 
 #### Optional
 
@@ -147,21 +147,50 @@ zeroExInstant.render(
 
 #### Providing a Custom Token
 
-Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of tokens supported by default. Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.
+Your token may not be currently supported by Instant by default. Check [here](https://github.com/0xProject/0x-monorepo/blob/development/packages/instant/src/data/asset_meta_data_map.ts) for a list of tokens supported by default. Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in. For the `orderSource` parameter you will likely need to pass in an array of [`SignedOrder`](https://0x.org/docs/order-utils#types-SignedOrder)s, unless you are running your own relayer, or know of a relayer that has liquidity for your custom token.
 
 ```javascript
+const erc20TokenAddress = '0xe41d2489571d322189246dafa5ebde1f4699f498';
+const erc20TokenAssetData = zeroExInstant.assetDataForERC20TokenAddress(erc20TokenAddress);
+
 zeroExInstant.render(
     {
         // these can contain makerAssetDatas that are not supported by default
         orderSource: [signedOrder1, signedOrder2],
         additionalAssetMetaDataMap: {
-            '0xf47261b0000000000000000000000000744d70fdbe2bc4cf95131626614a1764df805b9e': {
-                assetProxyId: '0xf47261b0', // ERC20 Proxy Id
+            [erc20TokenAssetData]: {
+                assetProxyId: zeroExInstant.ERC20_PROXY_ID,
                 decimals: 18,
                 symbol: 'XXX',
                 name: 'My Custom Token',
                 primaryColor: '#F2F7FF', // Optional
                 iconUrl: 'https://cdn.icons.com/my_icon.svg', // Optional
+            },
+        },
+    },
+    'body',
+);
+```
+
+#### Providing a NFT / ERC721
+
+Instant does not come bundled with any NFT data, so you must provide the `additionalAssetMetaDataMap` parameter to make the integration work (Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.) You must also provide the `defaultSelectedAssetData` parameter to open instant with the NFT you are selling. For the `orderSource` parameter you will likely need to pass in an array of [`SignedOrder`](https://0x.org/docs/order-utils#types-SignedOrder)s, unless you are running your own relayer, or know of a relayer that has liquidity for your custom token.
+
+```javascript
+const erc721TokenAddress = '0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d';
+const erc721TokenId = 31097;
+const erc721AssetData = zeroExInstant.assetDataForERC721TokenAddress(erc721TokenAddress, erc721TokenId);
+
+zeroExInstant.render(
+    {
+        orderSource: [signedOrder1],
+        defaultSelectedAssetData: erc721AssetData,
+        additionalAssetMetaDataMap: {
+            [erc721AssetData]: {
+                assetProxyId: zeroExInstant.ERC721_PROXY_ID,
+                name: 'Axie #31097',
+                primaryColor: '#769edb',
+                imageUrl: 'https://storage.opensea.io/0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d/31097-1555918548.png', 
             },
         },
     },
