@@ -171,12 +171,13 @@ zeroExInstant.render(
 
 #### Providing a NFT / ERC721
 
-Instant does not come bundled with any NFT data, so you must provide the `additionalAssetMetaDataMap` parameter to make the integration work (Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.)
+Instant does not come bundled with any NFT data, so you must provide the `additionalAssetMetaDataMap` parameter to make the integration work (Check "What is assetMetaData?" in [the questions section](https://0x.org/wiki#Questions-About-Instant) for more information about the object being passed in.) You must also provide the `defaultSelectedAssetData` parameter to open instant with the NFT you are selling.
 
 ```javascript
 zeroExInstant.render(
     {
         orderSource: [signedOrder1],
+        defaultSelectedAssetData: '0x02571792000000000000000000000000f5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d0000000000000000000000000000000000000000000000000000000000007979',
         additionalAssetMetaDataMap: {
             '0x02571792000000000000000000000000f5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d0000000000000000000000000000000000000000000000000000000000007979': {
                 assetProxyId: '0x02571792', // ERC721 Proxy Id
