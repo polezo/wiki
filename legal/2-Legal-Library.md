@@ -101,6 +101,8 @@
         -   [FinCEN Assessment of Civil Money Penalty](https://www.fincen.gov/sites/default/files/shared/Ripple_Assessment.pdf)
     -   [US v. Faiella](https://scholar.google.com/scholar_case?case=11943246728627907201), 39 F.Supp.3d 544 (S.D.N.Y. 2014)
 -   #### Statements & Administrative Rulings
+    -   [Application of FinCEN’s Regulations to Certain Business Models Involving Convertible Virtual Currencies](https://www.fincen.gov/sites/default/files/2019-05/FinCEN%20CVC%20Guidance%20FINAL.pdf) (May 9, 2019)
+        -   Comprehensive guidance from FinCEN on the application of the Bank Secrecy Act to various crypto asset business models, including those involved in decentralized exchange.
     -   [Prepared Remarks of FinCEN Director Kenneth A. Blanco](https://www.fincen.gov/news/speeches/prepared-remarks-fincen-director-kenneth-blanco-delivered-2018-chicago-kent-block) (Aug. 9, 2018)
         -   Speech summarizing FinCEN's approach to virtual currency.
     -   [Department of Treasury Letter to Senator Ron Wyden](https://coincenter.org/files/2018-03/fincen-ico-letter-march-2018-coin-center.pdf) (Feb. 13, 2018)
